@@ -1,7 +1,9 @@
-<script>
-export default {
-  components: {},
-};
+<script setup>
+import {useUserStore} from "../stores/user.js";
+const userStore = useUserStore()
+
+
+
 </script>
 
 <template>
@@ -15,15 +17,17 @@ export default {
     <div class="flex flex-col items-center gap-10">
       <router-link to="/">Inicio</router-link>
       <router-link to="/Calculo">Calculo</router-link>
-      <router-link to="/Contacto">Contacto</router-link>
+      <button to="/Historial" @click="userStore.signOutUser" type="submit" >Historial</button>
     </div>
 
     <hr class="border w-1/2" />
 
     <div class="flex flex-col items-center gap-10 uppercase">
-      <p>Ayuda</p>
-      <p>Configuración</p>
-      <p>Cerrar Sesión</p>
+      <button to="/Configuracion" @click="userStore.signOutUser" type="submit" >Configuracion</button>
+      <button to="/Ayuda" @click="userStore.signOutUser" type="submit" >Ayuda</button>
+      <button to="/Inicio" @click="userStore.signOutUser" type="submit" >Cerrar Sesion</button>
+
+
     </div>
   </aside>
 </template>

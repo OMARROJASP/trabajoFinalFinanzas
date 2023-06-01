@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+import {useUserStore} from "../stores/user.js";
+
 import HomeView from "../views/HomeView.vue";
 import Header from "../views/Header.vue";
 import Menu from "../views/Menu.vue";
@@ -12,13 +14,26 @@ import Contacto from "../views/Contacto.vue";
 import Ayuda from "../views/Ayuda.vue";
 import Configuracion from "../views/Configuracion.vue";
 
+const requireAuth = async (to, from ,next) => {
+  const userStore = useUserStore();
+
+  userStore.loadingSession = true;
+  const user = await userStore.currentUser();
+  if (user){
+    next()
+  }else{
+    next("/login")
+  }
+}
+
+
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: "/",
       name: "home",
-      component: HomeView,
+      component: HomeView, beforeEnter: requireAuth ,
     },
     {
       path: "/header",
@@ -28,7 +43,7 @@ const router = createRouter({
     {
       path: "/menu",
       name: "menu",
-      component: Menu,
+      component: Menu,// beforeEnter: requireAuth
     },
     {
       path: "/calculo",
@@ -81,6 +96,7 @@ const router = createRouter({
       component: Ayuda,
     },
   ],
+
 });
 
 export default router;

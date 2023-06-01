@@ -44,8 +44,8 @@ import { ref } from "vue";
 import { useUserStore } from "../stores/user";
 
 const userStore = useUserStore();
-const email = ref("");
-const password = ref("");
+const email = ref("maximo2611@gmail.com");
+const password = ref("123123");
 
 const register = () => {
   router.push(`/registrarse`);

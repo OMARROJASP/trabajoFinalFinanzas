@@ -1,6 +1,5 @@
 <template>
   <h2 class="font-bold my-3 uppercase text-2xl text-center">Resultados</h2>
-  <h3>{{ as1 }}</h3>
 
   <!--
  <RouterLink to="/home/prestamo/calculo/calculoII" type="button" class="text-white bg-info mt-3 w-25 ">Calcular</RouterLink>
@@ -12,6 +11,15 @@
     >
       Calcular
     </button>
+
+
+    <button
+        @click="cambiarSolesDolares()"
+        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
+    >Convertir a Dolares
+
+    </button>
+
 
     <table class="w-full bg-blue-100 mt-5 table-auto">
       <thead className="bg-blue-600 text-white capitalize">
@@ -34,6 +42,16 @@
           <td class="p-1 text-center">{{ item.amort }}</td>
           <td class="p-1 text-center">{{ item.saldoF }}</td>
         </tr>
+      </tbody>
+      <tbody>
+      <tr v-for="item in list1">
+        <td class="p-1 text-center">{{ item.id }}</td>
+        <td class="p-1 text-center">{{ item.saldoI }}</td>
+        <td class="p-1 text-center">{{ item.inter }}</td>
+        <td class="p-1 text-center">{{ item.cou }}</td>
+        <td class="p-1 text-center">{{ item.amort }}</td>
+        <td class="p-1 text-center">{{ item.saldoF }}</td>
+      </tr>
       </tbody>
     </table>
   </main>
@@ -58,7 +76,8 @@ const FrecuenciaDePagos = ref(datos.value.at(3));
 const numeroAnos = ref(datos.value.at(4));
 const NdePeriodos = ref(datos.value.at(5));
 const TEA = ref(datos.value.at(6));
-
+console.log( datos.value.at(0))
+console.log( datos.value.at(0).value)
 const CI = ref();
 const prestamos = ref();
 const NPxA = ref();
@@ -128,7 +147,7 @@ const list2 = ref([]);
 const calcularConFor = () => {
   for (let j = 1; j <= NdePeriodos.value; j++) {
     hallosInterest();
-    list2.value.push({
+    list1.value.push({
       id: j,
       saldoI: saldoInicialClass.value.toFixed(2),
       inter: InteresClass.value.toFixed(2),
@@ -138,6 +157,44 @@ const calcularConFor = () => {
     });
   }
 };
+
+const cambiarSolesDolares=()=>{
+   precioDeVenta.value = datos.value.at(0).value/3.67;
+  console.log( precioDeVenta.value)
+   coutaInicial.value = datos.value.at(1).value/3.67;
+  console.log( coutaInicial.value)
+   prestamo.value = datos.value.at(2).value;
+  console.log( prestamo.value)
+   FrecuenciaDePagos.value = datos.value.at(3).value;
+  console.log( FrecuenciaDePagos.value)
+   numeroAnos.value = datos.value.at(4).value;
+  console.log( numeroAnos.value)
+   NdePeriodos.value = datos.value.at(5).value;
+  console.log( NdePeriodos.value)
+   TEA.value = datos.value.at(6).value
+  console.log( TEA.value)
+   aux.value = 1;
+
+  for (let j = 1; j <= NdePeriodos.value; j++) {
+    hallosInterest();
+    list2.value.push({
+      id: j,
+      saldoI: saldoInicialClass.value.toFixed(2),
+      inter: InteresClass.value.toFixed(2),
+      cou: CoutaClass.value.toFixed(2),
+      amort: AmortizacionClass.value.toFixed(2),
+      saldoF: SaldoFinalCLass.value.toFixed(2),
+    });
+  }
+
+}
+
+const cambiarDolaresSoles=()=>{
+
+
+}
+
 </script>
+
 
 <style scoped></style>

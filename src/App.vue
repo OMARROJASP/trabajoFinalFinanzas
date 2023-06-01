@@ -1,9 +1,11 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
+import {useUserStore} from "./stores/user.js";
 import Header from "./views/Header.vue";
 import Menu from "./views/Menu.vue";
 import Calculo from "./views/Calculo.vue";
 //import Inicio from "./views/Inicio.vue";
+
 </script>
 
 <template>
