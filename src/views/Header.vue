@@ -1,20 +1,12 @@
 <template>
-  <div>
-
-    <div className="flex justify-between bg-gray-200 p-4">
-      <div className="text-gray-700 font-bold">Mi Vivienda2.0</div>
-      <div className="text-gray-700 font-bold">Perfil</div>
-    </div>
-
-
+  <div
+    class="bg-[#acacac] flex justify-between px-[8%] py-6 uppercase text-white font-bold"
+  >
+    <h2>Mi Vivienda 2.0</h2>
+    <h2>Perfil</h2>
   </div>
-
 </template>
 
-<script setup>
+<script setup></script>
 
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>
