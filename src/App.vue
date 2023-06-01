@@ -3,14 +3,13 @@ import { RouterLink, RouterView } from "vue-router";
 import Header from "./views/Header.vue";
 import Menu from "./views/Menu.vue";
 import Calculo from "./views/Calculo.vue";
-//import Inicio from "./views/Inicio.vue";
 </script>
 
 <template>
   <div class="p-3 gap-3 bg-blue-950 flex h-screen">
     <Menu />
 
-    <div class="w-3/4 bg-white">
+    <div class="w-3/4 bg-white overflow-y-auto pb-5">
       <Header />
       <router-view></router-view>
     </div>
