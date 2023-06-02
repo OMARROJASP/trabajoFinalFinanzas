@@ -102,11 +102,18 @@ export const useDatabaseStore = defineStore("database", {
 
     async leerDatos(){
       this.loadingDoc = true;
+      console.log(auth.currentUser.uid)
       try {
         const docRef = doc(db,"users", auth.currentUser.uid);
         const docSnap = await getDoc(docRef);
 
-        return docSnap.data().cliente;
+        //return docSnap.data();
+        if (docSnap.exists()) {
+          console.log("Document data:", docSnap.data());
+        } else {
+          // docSnap.data() will be undefined in this case
+          console.log("No such document!");
+        }
       }catch (error)
       {
         console.log(error);
