@@ -25,7 +25,8 @@ export const useUserStore = defineStore("users", {
           password
         );
         this.userData = { email: user.email, uid: user.uid };
-        router.push("/");
+        router.push("/datos");
+        console.log(email)
       } catch (error) {
         console.log(error.code);
       } finally {
@@ -42,7 +43,7 @@ export const useUserStore = defineStore("users", {
           password
         );
         this.userData = { email: user.email, uid: user.uid };
-        router.push("/");
+        router.push("/home");
         console.log(email);
       } catch (error) {
         console.log(error);
@@ -56,24 +57,26 @@ export const useUserStore = defineStore("users", {
       const databaseStore = useDatabaseStore();
       try {
         await signOut(auth);
-        router.push("/login");
+        router.push("/");
         console.log("se cerro la cesion");
       } catch (error) {
-        console.log(error);
+        console.log(error);        console.log("se cerro la cesiondd");
       } finally {
         this.loading = false;
+          this.loadingSession = false;
         this.userData = null;
         databaseStore.$reset();
+        console.log("se entro o no");
       }
     },
-    /*
+
         currentUser(){
             return new Promise((resolve,reject) => {
                 const unsubcribe =  onAuthStateChanged(auth,
                     (user)=>{
                         const databaseStore = useDatabaseStore()
                         if(user){
-                            this.userData={
+                     this.userData={
                                 email: user.email,
                                 uid: user.uid
                             };
@@ -88,6 +91,6 @@ export const useUserStore = defineStore("users", {
                 unsubcribe();
             });
         },
-         */
+
   },
 });

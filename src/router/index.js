@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+import {useUserStore} from "../stores/user.js";
+
 import HomeView from "../views/HomeView.vue";
 import Header from "../views/Header.vue";
 import Menu from "../views/Menu.vue";
@@ -7,18 +9,32 @@ import Resultado from "../views/Resultado.vue";
 import Historial from "../views/Historial.vue";
 import Inicio from "../views/Inicio.vue";
 import Registrarse from "../views/registrarse.vue";
+import Datos from "../views/Datos.vue";
 import Acerca from "../views/Acerca.vue";
-import Contacto from "../views/Contacto.vue";
+import Perfil from "../views/Perfil.vue";
 import Ayuda from "../views/Ayuda.vue";
 import Configuracion from "../views/Configuracion.vue";
 
+const requireAuth = async (to, from ,next) => {
+  const userStore = useUserStore();
+
+  userStore.loadingSession = true;
+  const user = await userStore.currentUser();
+  if (user){
+    next()
+  }else{
+    next("/")
+  }
+}
+
+
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
-      path: "/",
+      path: "/home",
       name: "home",
-      component: HomeView,
+      component: HomeView, beforeEnter: requireAuth ,
     },
     {
       path: "/header",
@@ -28,7 +44,7 @@ const router = createRouter({
     {
       path: "/menu",
       name: "menu",
-      component: Menu,
+      component: Menu,// beforeEnter: requireAuth
     },
     {
       path: "/calculo",
@@ -51,7 +67,7 @@ const router = createRouter({
       component: Resultado,
     },
     {
-      path: "/inicio",
+      path: "/",
       name: "inicio",
       component: Inicio,
     },
@@ -66,9 +82,9 @@ const router = createRouter({
       component: Acerca,
     },
     {
-      path: "/contacto",
-      name: "contacto",
-      component: Contacto,
+      path: "/perfil",
+      name: "perfil",
+      component: Perfil,
     },
     {
       path: "/configuracion",
@@ -80,7 +96,13 @@ const router = createRouter({
       name: "ayuda",
       component: Ayuda,
     },
+    {
+      path: "/datos",
+      name: "datos",
+      component: Datos,
+    },
   ],
+
 });
 
 export default router;
