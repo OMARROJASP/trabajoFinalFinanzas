@@ -89,6 +89,7 @@ export const useDatabaseStore = defineStore("database", {
         console.log(error);
       } finally {
         this.loadingDoc = false;
+        // cone st
       }
     },
   },
