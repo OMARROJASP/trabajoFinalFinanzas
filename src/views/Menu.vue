@@ -15,17 +15,17 @@ const userStore = useUserStore()
     </div>
 
     <div class="flex flex-col items-center gap-10">
-      <router-link to="/">Inicio</router-link>
+      <router-link to="/home">Inicio</router-link>
       <router-link to="/Calculo">Calculo</router-link>
-      <button to="/Historial" @click="userStore.signOutUser" type="submit" >Historial</button>
+      <router-link to="/Historial" type="submit" >Historial</router-link>
     </div>
 
     <hr class="border w-1/2" />
 
     <div class="flex flex-col items-center gap-10 uppercase">
-      <button to="/Configuracion" @click="userStore.signOutUser" type="submit" >Configuracion</button>
-      <button to="/Ayuda" @click="userStore.signOutUser" type="submit" >Ayuda</button>
-      <button to="/Inicio" @click="userStore.signOutUser" type="submit" >Cerrar Sesion</button>
+      <router-link to="/Configuracion"  type="submit" >Configuracion</router-link>
+      <router-link to="/Ayuda"  type="submit" >Ayuda</router-link>
+      <button to="/" @click="userStore.signOutUser" type="submit" >Cerrar Sesion</button>
 
 
     </div>

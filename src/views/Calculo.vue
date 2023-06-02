@@ -239,16 +239,12 @@
       </div>
     </div>
     <div class="flex justify-around">
-      <button
-        type="submit"
-        @click="add(lista)"
-        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
-      >
-        Agregar
-      </button>
+
       <RouterLink
         to="/Resultado"
-        type="button"
+        type="submit"
+        @click="add(lista)"
+
         class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
         >Calcular</RouterLink
       >

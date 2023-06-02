@@ -9,8 +9,9 @@ import Resultado from "../views/Resultado.vue";
 import Historial from "../views/Historial.vue";
 import Inicio from "../views/Inicio.vue";
 import Registrarse from "../views/registrarse.vue";
+import Datos from "../views/Datos.vue";
 import Acerca from "../views/Acerca.vue";
-import Contacto from "../views/Contacto.vue";
+import Perfil from "../views/Perfil.vue";
 import Ayuda from "../views/Ayuda.vue";
 import Configuracion from "../views/Configuracion.vue";
 
@@ -22,7 +23,7 @@ const requireAuth = async (to, from ,next) => {
   if (user){
     next()
   }else{
-    next("/login")
+    next("/")
   }
 }
 
@@ -31,7 +32,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
+      path: "/home",
       name: "home",
       component: HomeView, beforeEnter: requireAuth ,
     },
@@ -66,7 +67,7 @@ const router = createRouter({
       component: Resultado,
     },
     {
-      path: "/inicio",
+      path: "/",
       name: "inicio",
       component: Inicio,
     },
@@ -81,9 +82,9 @@ const router = createRouter({
       component: Acerca,
     },
     {
-      path: "/contacto",
-      name: "contacto",
-      component: Contacto,
+      path: "/perfil",
+      name: "perfil",
+      component: Perfil,
     },
     {
       path: "/configuracion",
@@ -94,6 +95,11 @@ const router = createRouter({
       path: "/ayuda",
       name: "ayuda",
       component: Ayuda,
+    },
+    {
+      path: "/datos",
+      name: "datos",
+      component: Datos,
     },
   ],
 
