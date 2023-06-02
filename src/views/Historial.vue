@@ -1,3 +1,4 @@
+
 <template>
   <div class="contenedor ">
     <div class="menu1 ">
@@ -174,5 +175,4 @@ const userStore = useUserStore();
 .col1{
   margin-left: 0;
 }
-
 </style>
