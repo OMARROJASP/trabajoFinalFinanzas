@@ -1,162 +1,125 @@
 <template>
-
-
-      <h4 class="mt-0 p-0"><b>Credito Hipotecario</b></h4>
-
-      <form @submit.prevent="handleSubmit">
-        <div class="container text-center">
-          <div class="row">
-            <div class="col border border-primary">
-
-              <h5 class=" mt-0 p-0"> Datos del prestamo</h5>
-
-
-              <div class="form-group row p-0 m-0 ">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0 ">Precio de Venta</label>
-                <div class="col-sm-5">
-                  <input type="number" step="0.01" min="0" class="form-control col-sm-1 h-100  p-0 m-0 " id="input" v-model="precioDeVenta" >
-                </div>
-              </div>
-
-              <div class="form-group row p-0 m-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0 ">Frecuencia de Pagos</label>
-                <div class="col-sm-5">
-                  <input type="number" step="0.00000001" min="0"  class="form-control col-sm-1 h-100 p-0 m-0" id="input" v-model="FrecuenciaDePagos" >
-                </div>
-              </div>
-
-
-              <div class="form-group row p-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0 ">Couta Inicial %</label>
-                <div class="col-sm-5">
-                  <input type="number" step="0.00000001" min="0"  class="form-control col-sm-1 h-100 p-0 m-0" id="input" v-model="coutaInicial" >
-                </div>
-              </div>
-
-              <div class="form-group row p-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-labelp-0 m-0">Bono MiVivienda</label>
-                <div class="col-sm-5">
-                  <input type="number" step="0.00000001" min="0"  class="form-control col-sm-1 h-100 p-0 m-0" id="input" v-model="BonoVivienda" >
-                </div>
-              </div>
-
-
-
-
-
-
-            </div>
-
-
-            <div class="col border border-primary">
-
-              <h5  class=" mt-0 p-0"><b>Costes/gastos Iniciales</b></h5>
-              <div class="form-group row p-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0">Costos Notariales</label>
-                <div class="col-sm-5">
-                  <input type="number" step="0.00000001" min="0"  class="form-control col-sm-1 h-100 p-0 m-0" id="input" v-model="CostosNotariales" >
-                </div>
-              </div>
-
-              <div class="form-group row p-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0">Costos Registrales</label>
-                <div class="col-sm-5">
-                  <input type="number" step="0.01" min="0"  class="form-control col-sm-1 h-100 p-0 m-0" id="input" v-model="CostosRegistrales" >
-                </div>
-              </div>
-
-              <div class="form-group row p-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0">Tasacion</label>
-                <div class="col-sm-5">
-                  <input type="number" step="0.01" min="0"  class="form-control col-sm-1 h-100 p-0 m-0" id="input" v-model="Tasacion" >
-                </div>
-              </div>
-
-
-              <!--
-                <div class="form-group row p-0">
-                 <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0">Comision de estudio</label>
-                 <div class="col-sm-5">
-                   <input type="number" step="0.01" min="0"  class="form-control col-sm-1 h-100 p-0 m-0" id="input" v-model="ComisionDeEstudio" >
-                 </div>
-               </div>
-
-               <div class="form-group row p-0">
-                 <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0">Comision de act
-                 </label>
-                 <div class="col-sm-5">
-                   <input type="number" step="0.01" min="0"  class="form-control col-sm-1 h-100 p-0 m-0" id="input" v-model="ComisionDeActivacion" >
-                 </div>
-               </div>
-
-               -->
-
-
-
-
-            </div>
-
+  <form
+    @submit.prevent="handleSubmit"
+    class="w-11/12 mx-auto flex flex-col h-[85%] justify-between"
+  >
+    <h2 class="font-bold my-3 uppercase text-2xl text-center">
+      Credito Hipotecario
+    </h2>
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-[#acacac] p-3 rounded-xl">
+        <h2 class="uppercase font-bold">Datos del prestamo</h2>
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Precio de Venta</label>
+          <div>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              id="input"
+              v-model="precioDeVenta"
+            />
           </div>
-          <!--
-           <div class="row border border-primary">
-            <div>
-              <div class="form-group row p-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0">Comision periodica</label>
-                <div class="col-sm-3">
-                  <input type="number" step="0.01" min="0"  class="form-control col-sm-1  h-100 p-0 m-0" id="input" v-model="ComisionPeriodica" >
-                </div>
-              </div>
-
-              <div class="form-group row p-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0">Portes</label>
-                <div class="col-sm-3">
-                  <input type="number" step="0.01" min="0"  class="form-control col-sm-1  h-100 p-0 m-0" id="input" v-model="Portes" >
-                </div>
-              </div>
-
-              <div class="form-group row p-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0">Gastos de Administracion</label>
-                <div class="col-sm-5">
-                  <input type="number" step="0.01" min="0"  class="form-control col-sm-1  h-100 p-0 m-0" id="input" v-model="GastosAdministrativos" >
-                </div>
-              </div>
-
-              <div class="form-group row p-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0">Gastos de Administracion</label>
-                <div class="col-sm-5">
-                  <input type="number" step="0.01" min="0"  class="form-control col-sm-1  h-100 p-0 m-0" id="input" v-model="ComisionDeActivacion" >
-                </div>
-              </div>
-
-              <div class="form-group row p-0">
-                <label for="inputPRECIO" class="col-sm-5 col-form-label p-0 m-0">%de seguro riesgo
-                </label>
-                <div class="col-sm-5">
-                  <input type="number" step="0.01" min="0"  class="form-control col-sm-1  h-100 p-0 m-0" id="input" v-model="seguroDeRiesgo" >
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-           -->
-
-
         </div>
-        <button  type="submit" class="btn btn-outline-primary mb-2"
-                 @click="add(lista)"
-        >Agregar
-        </button>
 
-      </form>
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Frecuencia de Pagos</label>
+          <div>
+            <input
+              type="number"
+              step="0.00000001"
+              min="0"
+              id="input"
+              v-model="FrecuenciaDePagos"
+            />
+          </div>
+        </div>
 
-  <RouterLink to="/Resultado" type="button"
-              class="btn btn-lg text-white bg-info mt-3 w-25  ">Calcular</RouterLink>
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Couta Inicial %</label>
+          <div>
+            <input
+              type="number"
+              step="0.00000001"
+              min="0"
+              id="input"
+              v-model="coutaInicial"
+            />
+          </div>
+        </div>
 
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Bono MiVivienda</label>
+          <div>
+            <input
+              type="number"
+              step="0.00000001"
+              min="0"
+              id="input"
+              v-model="BonoVivienda"
+            />
+          </div>
+        </div>
+      </div>
 
+      <div class="bg-[#acacac] p-3 rounded-xl">
+        <h2 class="uppercase font-bold">Costes/gastos Iniciales</h2>
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Costos Notariales</label>
+          <div>
+            <input
+              type="number"
+              step="0.00000001"
+              min="0"
+              id="input"
+              v-model="CostosNotariales"
+            />
+          </div>
+        </div>
 
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Costos Registrales</label>
+          <div>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              id="input"
+              v-model="CostosRegistrales"
+            />
+          </div>
+        </div>
 
-
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Tasacion</label>
+          <div>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              id="input"
+              v-model="Tasacion"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-around">
+      <button
+        type="submit"
+        @click="add(lista)"
+        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
+      >
+        Agregar
+      </button>
+      <RouterLink
+        to="/Resultado"
+        type="button"
+        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
+        >Calcular</RouterLink
+      >
+    </div>
+  </form>
 </template>
 
 <script setup>
@@ -167,13 +130,13 @@ const useCalculo = useCalculosStore();
 
 const { add } = useCalculo;
 
-const precioDeVenta =         ref(1800000);
-const FrecuenciaDePagos =     ref(0.20);
-const coutaInicial =          ref(1440000);
-const BonoVivienda =          ref(180);
-const CostosNotariales =      ref(4);
-const CostosRegistrales =     ref(8);
-const Tasacion =              ref(9);
+const precioDeVenta = ref(1800000);
+const FrecuenciaDePagos = ref(0.2);
+const coutaInicial = ref(1440000);
+const BonoVivienda = ref(180);
+const CostosNotariales = ref(4);
+const CostosRegistrales = ref(8);
+const Tasacion = ref(9);
 const ComisionDeEstudio = ref(9);
 const ComisionDeActivacion = ref(10);
 const ComisionPeriodica = ref(11);
@@ -199,6 +162,4 @@ const lista = ref([
 ]);
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
