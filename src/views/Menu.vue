@@ -1,14 +1,10 @@
-<<<<<<< HEAD
 
-
-<script setup>
-=======
 <script setup>
 import {useUserStore} from "../stores/user.js";
 const userStore = useUserStore()
 
 
->>>>>>> develop
+
 
 </script>
 
