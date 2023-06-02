@@ -23,19 +23,6 @@
         </div>
 
         <div class="flex items-center justify-between my-3">
-          <label for="inputPRECIO">Frecuencia de Pagos</label>
-          <div>
-            <input
-              type="number"
-              step="0.00000001"
-              min="0"
-              id="input"
-              v-model="FrecuenciaDePagos"
-            />
-          </div>
-        </div>
-
-        <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Couta Inicial %</label>
           <div>
             <input
@@ -43,20 +30,33 @@
               step="0.00000001"
               min="0"
               id="input"
-              v-model="coutaInicial"
+              v-model="cuotaInicial"
             />
           </div>
         </div>
 
         <div class="flex items-center justify-between my-3">
-          <label for="inputPRECIO">Bono MiVivienda</label>
+          <label for="inputPRECIO">N° de Años</label>
           <div>
             <input
               type="number"
               step="0.00000001"
               min="0"
               id="input"
-              v-model="BonoVivienda"
+              v-model="nDeanoas"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Dias Periodo</label>
+          <div>
+            <input
+              type="number"
+              step="0.00000001"
+              min="0"
+              id="input"
+              v-model="diasXperiodo"
             />
           </div>
         </div>
@@ -65,27 +65,79 @@
       <div class="bg-[#acacac] p-3 rounded-xl">
         <h2 class="uppercase font-bold">Costes/gastos Iniciales</h2>
         <div class="flex items-center justify-between my-3">
-          <label for="inputPRECIO">Costos Notariales</label>
+          <label for="inputPRECIO">Dias por Año</label>
           <div>
             <input
               type="number"
               step="0.00000001"
               min="0"
               id="input"
-              v-model="CostosNotariales"
+              v-model="diasXanoas"
             />
           </div>
         </div>
 
         <div class="flex items-center justify-between my-3">
-          <label for="inputPRECIO">Costos Registrales</label>
+          <label for="inputPRECIO">Bono fondo mi Vivienda</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="bonoMiVivienda"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">TEA</label>
           <div>
             <input
               type="number"
               step="0.01"
               min="0"
               id="input"
-              v-model="CostosRegistrales"
+              v-model="TEA"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Costes Notariales</label>
+          <div>
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              id="input"
+              v-model="costosNotariales"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Costes Registrales</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="costosRegistrales"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Estudio de titulos</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="estudioDeTitulos"
             />
           </div>
         </div>
@@ -94,27 +146,105 @@
           <label for="inputPRECIO">Tasacion</label>
           <div>
             <input
-              type="number"
-              step="0.01"
-              min="0"
-              id="input"
-              v-model="Tasacion"
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="tasacion"
             />
           </div>
         </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Comision de Activacion</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="comisionDeActivacion"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Comision Periodica</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="comisionPeridica"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Portes</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="portes"
+            />
+          </div>
+        </div>
+
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Gastos Administrativos</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="gastosAdministrativos"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">%Seguro desgv. mensual</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="seguroDesgravamenMen"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">%Riesgo desgv. mensual</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="seguroRiesgoMen"
+            />
+          </div>
+        </div>
+
+
+
       </div>
     </div>
     <div class="flex justify-around">
-      <button
-        type="submit"
-        @click="add(lista)"
-        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
-      >
-        Agregar
-      </button>
+
       <RouterLink
         to="/Resultado"
-        type="button"
+        type="submit"
+        @click="add(lista)"
+
         class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
         >Calcular</RouterLink
       >
@@ -131,34 +261,45 @@ const useCalculo = useCalculosStore();
 const { add } = useCalculo;
 
 const precioDeVenta = ref(1800000);
-const FrecuenciaDePagos = ref(0.2);
-const coutaInicial = ref(1440000);
-const BonoVivienda = ref(180);
-const CostosNotariales = ref(4);
-const CostosRegistrales = ref(8);
-const Tasacion = ref(9);
-const ComisionDeEstudio = ref(9);
-const ComisionDeActivacion = ref(10);
-const ComisionPeriodica = ref(11);
-const Portes = ref(12);
-const GastosAdministrativos = ref(13);
-const seguroDeRiesgo = ref(14);
+const cuotaInicial = ref(0.2);
+const nDeanoas = ref(1440000);
+const diasXperiodo = ref(180);
+const diasXanoas = ref(4);
+const bonoMiVivienda = ref(4);
+const TEA = ref(12);
+const costosNotariales= ref(13);
+const costosRegistrales = ref(8);
+const estudioDeTitulos = ref(9);
+const tasacion = ref(9);
+const comisionDeActivacion = ref(10);
+const comisionPeridica = ref(14);
+const portes = ref(14);
+const gastosAdministrativos = ref(14);
+const seguroDesgravamenMen = ref(11);
+const seguroRiesgoMen = ref(9);
+
+
+
 
 // falta 1
 const lista = ref([
   precioDeVenta,
-  FrecuenciaDePagos,
-  coutaInicial,
-  BonoVivienda,
-  CostosNotariales,
-  CostosRegistrales,
-  Tasacion,
-  ComisionDeEstudio,
-  ComisionDeActivacion,
-  ComisionPeriodica,
-  Portes,
-  GastosAdministrativos,
-  seguroDeRiesgo,
+  cuotaInicial,
+  nDeanoas,
+  diasXperiodo,
+  diasXanoas,
+  bonoMiVivienda,
+  TEA,
+  costosNotariales,
+  costosRegistrales,
+  estudioDeTitulos,
+  tasacion,
+  comisionDeActivacion,
+  comisionPeridica,
+  portes,
+  gastosAdministrativos,
+  seguroDesgravamenMen,
+  seguroRiesgoMen
 ]);
 </script>
 

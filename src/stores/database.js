@@ -16,7 +16,10 @@ import router from "../router";
 export const useDatabaseStore = defineStore("database", {
   state: () => ({
     documents: [],
+    documentsUsers: [],
     loadingDoc: false,
+
+
   }),
 
   actions: {
@@ -74,7 +77,7 @@ export const useDatabaseStore = defineStore("database", {
         // const q = query(collection(db,"urls"))
         const docRef = await addDoc(collection(db, "datos"), docObjeto);
 
-        this.documents.push({
+        this.documentsUsers.push({
           id: docRef.id,
           precioDeVenta: _precioDeVenta,
           coutaInicial: _coutaInicial,
@@ -92,5 +95,56 @@ export const useDatabaseStore = defineStore("database", {
         // cone st
       }
     },
+
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+    async leerDatos(){
+      this.loadingDoc = true;
+      try {
+        const docRef = doc(db,"users", auth.currentUser.uid);
+        const docSnap = await getDoc(docRef);
+
+        return docSnap.data().cliente;
+      }catch (error)
+      {
+        console.log(error);
+      }finally {
+        this.loadingDoc = false;
+      }
+    },
+
+
+    async addUsers(_name, _apellido) {
+      this.loadingDoc = true;
+      try {
+        const docObjeto = {
+          email: auth.currentUser.email,
+          name: _name,
+          apellido: _apellido,
+          user: auth.currentUser.uid,
+        };
+
+        // const q = query(collection(db,"urls"))
+        const docRef = await addDoc(collection(db, "users"), docObjeto);
+
+        this.documents.push({
+          id: docRef.id,
+          email: auth.currentUser.email,
+          name: _name,
+          apellido: _apellido,
+          user: auth.currentUser.uid,
+        });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.loadingDoc = false;
+        console.log("se agrego el perfil")
+        router.push("/home");
+      }
+    },
+
+
   },
 });

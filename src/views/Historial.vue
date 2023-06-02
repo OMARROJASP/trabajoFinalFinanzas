@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 <template>
   <div class="contenedor ">
@@ -92,6 +93,14 @@ const userStore = useUserStore();
 
 
 
+=======
+<template>
+
+  hiatorial
+</template>
+
+<script>
+>>>>>>> develop
 
 </script>
 

@@ -3,14 +3,6 @@
     <div class="menu2">
       <div class="col border-primary formulario">
         <form @submit.prevent="handleSubmit" class="m-2 p-4 rounded">
-          <div>
-            <input
-              class="text-center border-2 py-2 md:px-20 lg:px-32 md:w-full rounded-full my-5"
-              type="text"
-              placeholder="Enter your email"
-              v-model.trim="name"
-            />
-          </div>
 
           <div>
             <input
@@ -59,24 +51,29 @@
 <script setup>
 import { ref } from "vue";
 import { useUserStore } from "../stores/user";
+import {useDatabaseStore} from "../stores/database";
 import router from "../router";
 
 const userStore = useUserStore();
+const dataBaseStore = useDatabaseStore();
 
-const name = ref("");
+
 const email = ref("");
 const password = ref("");
 const rePassword = ref("");
 
 const handleSubmit = async () => {
   if (!email.value || password.value.length < 6) {
-    return alert("llena los campos");
-  }
+  return alert("llena los campos");
+}
 
-  if (password.value !== rePassword.value) {
-    return alert("las contraseñas son diferentes");
-  }
-  await userStore.registerUser(email.value, password.value);
+if (password.value !== rePassword.value) {
+  return alert("las contraseñas son diferentes");
+}
+await userStore.registerUser(email.value, password.value);
+//await dataBaseStore.addUsers(name.value, email.value);
+
+
 };
 </script>
 
