@@ -1,9 +1,12 @@
 
 <script setup>
+import {useUserStore} from "../stores/user.js";
 import {useDatabaseStore} from "../stores/database.js";
 
 import { ref } from "vue";
+import router from "../router";
 const  databaseStore = useDatabaseStore();
+const userStore = useUserStore()
 
 const email = ref("");
 const name = ref("");
@@ -14,9 +17,19 @@ const handleSubmit = async () => {
   if (!name.value) {
     alert("llena los campos");
   }
+  const error = await userStore.updateUser(
+      name.value
+// aqui se va a agregar una foto
+  );
 
-  await databaseStore.addUsers(name.value, apellido.value);
+
+  router.push("/home");
+
+  /*
+   await databaseStore.addUsers(name.value, apellido.value);
   console.log(name.value);
+   */
+
 
 };
 
@@ -32,19 +45,11 @@ const handleSubmit = async () => {
             <input
                 class="bg-green-400 "
                 type="text"
-                placeholder="Ingrese tu nombre"
+                placeholder="Ingrese tu nombre y apellido"
                 v-model.trim="name"
             />
           </div>
 
-          <div>
-            <input
-                class="bg-green-400 "
-                type="text"
-                placeholder="Ingrese tu apellido"
-                v-model.trim="apellido"
-            />
-          </div>
 
           <div>
             <button

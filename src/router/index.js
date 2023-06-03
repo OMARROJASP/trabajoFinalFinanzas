@@ -84,7 +84,7 @@ const router = createRouter({
     {
       path: "/perfil",
       name: "perfil",
-      component: Perfil,
+      component: Perfil ,beforeEnter: requireAuth ,
     },
     {
       path: "/configuracion",

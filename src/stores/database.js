@@ -100,6 +100,34 @@ export const useDatabaseStore = defineStore("database", {
 
 ///////////////////////////////////////////////////////////////////////////////////
 
+    async getUrls(){
+      this.loadingDoc = true;
+
+      this.documents = [];
+      const q = query(
+          collection(db, "urls"),
+          where("user", "==", auth.currentUser.uid)
+      );
+      try {
+        const q = query(collection(db, "urls"),
+            where("user","==" ,auth.currentUser.uid));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc)=>{
+          this.documents.push({
+            id: doc.id,
+            ...doc.data(),
+          })
+          console.log(doc.data())
+          console.log("sd")
+        })
+      }catch (error){
+        console.log(error)
+      }finally {
+        this.loadingDoc = false;
+      }
+    },
+
+
     async leerDatos(){
       this.loadingDoc = true;
       console.log(auth.currentUser.uid)
@@ -143,6 +171,7 @@ export const useDatabaseStore = defineStore("database", {
           apellido: _apellido,
           user: auth.currentUser.uid,
         });
+     console.log(docRef.id);
       } catch (error) {
         console.log(error);
       } finally {
