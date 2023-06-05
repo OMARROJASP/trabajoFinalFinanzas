@@ -11,9 +11,9 @@
           />
         </div>
 
-        <div class="d-flex justify-content-around">
+        <div class="d-flex justify-content-around ">
           <input
-            class="text-center"
+            class="text-center bg-red-500"
             type="password"
             placeholder="Enter your password"
             v-model.trim="password"

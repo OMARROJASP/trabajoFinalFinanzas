@@ -21,6 +21,7 @@ const costumer = ref()
     <h2> email : {{userStore.userData.email}}</h2>
     <h2> nombre : {{userStore.userData.displayName}}</h2>
 
+
   </div>
 </template>
 

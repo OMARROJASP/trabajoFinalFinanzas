@@ -99,7 +99,8 @@ export const useUserStore = defineStore("users", {
         console.log(error);
         this.userData = {};
       } finally {
-        this.loadingUser = false;
+          loadingUser: false
+          loadingSession: false
       }
     },
     async signOutUser() {
