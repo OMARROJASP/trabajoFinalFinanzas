@@ -1,27 +1,23 @@
 <template>
   <h2 class="font-bold my-3 uppercase text-2xl text-center">Resultados</h2>
-
-  <!--
- <RouterLink to="/home/prestamo/calculo/calculoII" type="button" class="text-white bg-info mt-3 w-25 ">Calcular</RouterLink>
-  -->
   <main class="px-5">
-    <button
-      @click="calcularConFor()"
-      class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
-    >
-      Calcular
-    </button>
+    <div class="flex justify-between">
+      <button
+        @click="calcularConFor()"
+        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-colors"
+      >
+        Calcular
+      </button>
 
-
-    <button
+      <button
         @click="cambiarSolesDolares()"
-        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
-    >Convertir a Dolares
+        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-colors"
+      >
+        Convertir a Dolares
+      </button>
+    </div>
 
-    </button>
-
-
-    <table class="w-full bg-blue-100 mt-5 table-auto">
+    <table class="w-full bg-blue-100 table-auto">
       <thead className="bg-blue-600 text-white capitalize">
         <tr>
           <th scope="col" class="p-2">#</th>
@@ -37,13 +33,12 @@
           <th scope="col" class="p-2">saldo final</th>
           <th scope="col" class="p-2">Flujo</th>
           <th scope="col" class="p-2">Flujo TEA</th>
-
         </tr>
       </thead>
 
       <tbody>
         <tr v-for="item in list2">
-          <td class="p-1 text-center"> {{ item.id }}</td>
+          <td class="p-1 text-center">{{ item.id }}</td>
           <td class="p-1 text-center">s/{{ item.saldoI }}</td>
           <td class="p-1 text-center">s/{{ item.inter }}</td>
           <td class="p-1 text-center">s/{{ item.cou }}</td>
@@ -51,9 +46,7 @@
           <td class="p-1 text-center">s/{{ item.saldoF }}</td>
         </tr>
       </tbody>
-      <tbody>
-
-      </tbody>
+      <tbody></tbody>
     </table>
   </main>
 </template>
@@ -77,8 +70,8 @@ const FrecuenciaDePagos = ref(datos.value.at(3));
 const numeroAnos = ref(datos.value.at(4));
 const NdePeriodos = ref(datos.value.at(5));
 const TEA = ref(datos.value.at(6));
-console.log( datos.value.at(0))
-console.log( datos.value.at(0).value)
+console.log(datos.value.at(0));
+console.log(datos.value.at(0).value);
 const CI = ref();
 const prestamos = ref();
 const NPxA = ref();
@@ -159,24 +152,24 @@ const calcularConFor = () => {
   }
 };
 
-const cambiarSolesDolares=()=>{
-  list2.value.splice(0, list2.value.length)
-  console.log(list2.value.length)
-   precioDeVenta.value = datos.value.at(0).value/3.67;
-  console.log( precioDeVenta.value)
-   coutaInicial.value = datos.value.at(1).value/3.67;
-  console.log( coutaInicial.value)
-   prestamo.value = datos.value.at(2).value;
-  console.log( prestamo.value)
-   FrecuenciaDePagos.value = datos.value.at(3).value;
-  console.log( FrecuenciaDePagos.value)
-   numeroAnos.value = datos.value.at(4).value;
-  console.log( numeroAnos.value)
-   NdePeriodos.value = datos.value.at(5).value;
-  console.log( NdePeriodos.value)
-   TEA.value = datos.value.at(6).value
-  console.log( TEA.value)
-   aux.value = 1;
+const cambiarSolesDolares = () => {
+  list2.value.splice(0, list2.value.length);
+  console.log(list2.value.length);
+  precioDeVenta.value = datos.value.at(0).value / 3.67;
+  console.log(precioDeVenta.value);
+  coutaInicial.value = datos.value.at(1).value / 3.67;
+  console.log(coutaInicial.value);
+  prestamo.value = datos.value.at(2).value;
+  console.log(prestamo.value);
+  FrecuenciaDePagos.value = datos.value.at(3).value;
+  console.log(FrecuenciaDePagos.value);
+  numeroAnos.value = datos.value.at(4).value;
+  console.log(numeroAnos.value);
+  NdePeriodos.value = datos.value.at(5).value;
+  console.log(NdePeriodos.value);
+  TEA.value = datos.value.at(6).value;
+  console.log(TEA.value);
+  aux.value = 1;
 
   for (let j = 1; j <= NdePeriodos.value; j++) {
     hallosInterest();
@@ -189,16 +182,9 @@ const cambiarSolesDolares=()=>{
       saldoF: SaldoFinalCLass.value.toFixed(2),
     });
   }
+};
 
-
-}
-
-const cambiarDolaresSoles=()=>{
-
-
-}
-
+const cambiarDolaresSoles = () => {};
 </script>
-
 
 <style scoped></style>
