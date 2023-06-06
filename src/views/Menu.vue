@@ -1,11 +1,6 @@
-
 <script setup>
-import {useUserStore} from "../stores/user.js";
-const userStore = useUserStore()
-
-
-
-
+import { useUserStore } from "../stores/user.js";
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -19,17 +14,17 @@ const userStore = useUserStore()
     <div class="flex flex-col items-center gap-10">
       <router-link to="/home">Inicio</router-link>
       <router-link to="/Calculo">Calculo</router-link>
-      <router-link to="/Historial" type="submit" >Historial</router-link>
+      <router-link to="/Historial" type="submit">Historial</router-link>
     </div>
 
     <hr class="border w-1/2" />
 
     <div class="flex flex-col items-center gap-10 uppercase">
-      <router-link to="/Configuracion"  type="submit" >Configuracion</router-link>
-      <router-link to="/Ayuda"  type="submit" >Ayuda</router-link>
-      <button to="/" @click="userStore.signOutUser" type="submit" >Cerrar Sesion</button>
-
-
+      <router-link to="/Configuracion" type="submit">Configuracion</router-link>
+      <router-link to="/Ayuda" type="submit">Ayuda</router-link>
+      <button to="/" @click="userStore.signOutUser" type="submit">
+        Cerrar Sesion
+      </button>
     </div>
   </aside>
 </template>

@@ -54,13 +54,13 @@ export const useUserStore = defineStore("users", {
 
       },
 //     async updateUser(displayName, imagen){
-      async updateUser(displayName){
+      async updateUser(displayName, imagen){
         this.loadingUser.true;
         try{
             await updateProfile(auth.currentUser,{
-                displayName
-                /*
-                cuando pongamos imagen
+                displayName,imagen,
+            });
+               // cuando pongamos imagen
                  if (imagen) {
               const storageRef = ref(
                   storage,
@@ -72,9 +72,9 @@ export const useUserStore = defineStore("users", {
                   photoURL,
               });
 
-                 */
 
-            });
+
+            }
             this.setUser(auth.currentUser);
         }catch (error) {
             console.log(error);

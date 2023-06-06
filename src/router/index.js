@@ -14,6 +14,7 @@ import Acerca from "../views/Acerca.vue";
 import Perfil from "../views/Perfil.vue";
 import Ayuda from "../views/Ayuda.vue";
 import Configuracion from "../views/Configuracion.vue";
+import Editar from "../views/Editar.vue"
 
 const requireAuth = async (to, from ,next) => {
   const userStore = useUserStore();
@@ -100,6 +101,11 @@ const router = createRouter({
       path: "/datos",
       name: "datos",
       component: Datos,
+    },
+    {
+      path: "/editar",
+      name: "editar",
+      component: Editar,
     },
   ],
 
