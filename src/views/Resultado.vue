@@ -63,13 +63,13 @@ const { datos } = storeToRefs(useCalculo);
 const list1 = ref([]);
 // aqui se realizaron ejemplo previos
 
-const precioDeVenta = ref(datos.value.at(0));
+const precioDeVenta1 = ref(datos.value.at(0));
 const coutaInicial = ref(datos.value.at(1));
 const prestamo = ref(datos.value.at(2));
 const FrecuenciaDePagos = ref(datos.value.at(3));
 const numeroAnos = ref(datos.value.at(4));
 const NdePeriodos = ref(datos.value.at(5));
-const TEA = ref(datos.value.at(6));
+const TEA1 = ref(datos.value.at(6));
 console.log(datos.value.at(0));
 console.log(datos.value.at(0).value);
 const CI = ref();
@@ -87,9 +87,106 @@ const CoutaClass = ref();
 const AmortizacionClass = ref();
 const SaldoFinalCLass = ref();
 
+// aqui esta las variables q usaremos
+
+const precioDeVenta          = ref(datos.value.at(0));
+const cuotaInicial           = ref(datos.value.at(1));
+const nDeanios               = ref(datos.value.at(2));
+const diasXperiodo           = ref(datos.value.at(3));
+const diasXanios             = ref(datos.value.at(4));
+const bonoMiVivienda         = ref(datos.value.at(5));
+const TEA                    = ref(datos.value.at(6));
+const costosNotariales       = ref(datos.value.at(7));
+const costosRegistrales      = ref(datos.value.at(8));
+const estudioDeTitulos       = ref(datos.value.at(9));
+const tasacion               = ref(datos.value.at(10));
+const comisionDeActivacion   = ref(datos.value.at(11));
+const comisionPeridica       = ref(datos.value.at(12));
+const portes                 = ref(datos.value.at(13));
+const gastosAdministrativos  = ref(datos.value.at(14));
+const seguroDesgravamenMen   = ref(datos.value.at(15));
+const seguroRiesgoMen        = ref(datos.value.at(16));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const CoutaInicial = ref();
+const SaldoInicial = ref();
+const Credito = ref();
+const NPeriodosxAnios = ref();
+const NTotalPeriodos = ref();
+const TNMajustadaAlPlazo = ref();
+const TNAajustadaAlPlazo = ref();
+const ValorCouta = ref();
+const ValorActualDelSaldo=ref();
+const ValorActualExtra = ref();
+
+const Interes = ref();
+const Amortizacion = ref();
+const SeguroDeDesgravamen = ref();
+const SeguroContraTodoRiesgo = ref();
+const CostesGastos = ref();
+const DesembolsoTotal = ref();
+
+const TasaDeDescuentoDiaria = ref();
+const TCEAdeInteresDiaria = ref();
+const TCEAdeLaOperacion = ref();
+const VANoperacion = ref();
+
+
+// empezamos con las operaciones
+CoutaInicial.value = (cuotaInicial.value/100)*precioDeVenta.value;
+SaldoInicial.value = precioDeVenta.value - CoutaInicial.value;
+Credito.value = SaldoInicial.value;
+NPeriodosxAnios.value = 360/diasXperiodo.value;
+NTotalPeriodos.value = NPeriodosxAnios.value*nDeanios.value;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////
 const calculosIniciales = () => {
-  CI.value = coutaInicial.value * 100 * precioDeVenta.value;
-  prestamos.value = precioDeVenta.value - CI.value;
+  CI.value = coutaInicial.value * 100 * precioDeVenta1.value;
+  prestamos.value = precioDeVenta1.value - CI.value;
 
   NPxA.value = 360 / FrecuenciaDePagos.value;
   N.value = NPxA.value + numeroAnos.value;
@@ -102,7 +199,7 @@ const hallosInterest = () => {
 
     //calculo del TEA a TES
     TES.value =
-      Math.pow(1 + TEA.value / 100, FrecuenciaDePagos.value / 360) - 1;
+      Math.pow(1 + TEA1.value / 100, FrecuenciaDePagos.value / 360) - 1;
 
     // hallando el Interes
     InteresClass.value = TES.value * saldoInicialClass.value;
@@ -120,7 +217,7 @@ const hallosInterest = () => {
   } else if (saldoInicialClass.value == 0) {
     //calculo del TEA a TES
     TES.value =
-      Math.pow(1 + TEA.value / 100, FrecuenciaDePagos.value / 360) - 1;
+      Math.pow(1 + TEA1.value / 100, FrecuenciaDePagos.value / 360) - 1;
 
     // hallando el Interes
     InteresClass.value = TES.value * prestamo.value;

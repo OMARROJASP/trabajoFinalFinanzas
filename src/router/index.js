@@ -16,6 +16,9 @@ import Ayuda from "../views/Ayuda.vue";
 import Configuracion from "../views/Configuracion.vue";
 import Editar from "../views/Editar.vue"
 
+
+
+
 const requireAuth = async (to, from ,next) => {
   const userStore = useUserStore();
 
