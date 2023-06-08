@@ -109,22 +109,6 @@ const seguroRiesgoMen        = ref(datos.value.at(16));
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const CoutaInicial = ref();
 const SaldoInicial = ref();
 const Credito = ref();
@@ -148,6 +132,18 @@ const TCEAdeInteresDiaria = ref();
 const TCEAdeLaOperacion = ref();
 const VANoperacion = ref();
 
+// variables del cronograma
+const SaldoInicialCrono   = ref();
+const InteresCrono        = ref()
+const CoutaCrono          = ref();
+const AmortCrono          = ref();
+const SegDesgravamenCrono = ref();
+const segRiesgoCrono      = ref();
+const CostesRiesgos       = ref();
+const SaldoFinalCrono     = ref();
+const FlujoCrono          = ref();
+const FlujoTEACrono       = ref();
+const ValorActualCrono    = ref();
 
 // empezamos con las operaciones
 CoutaInicial.value = (cuotaInicial.value/100)*precioDeVenta.value;
@@ -155,6 +151,29 @@ SaldoInicial.value = precioDeVenta.value - CoutaInicial.value;
 Credito.value = SaldoInicial.value;
 NPeriodosxAnios.value = 360/diasXperiodo.value;
 NTotalPeriodos.value = NPeriodosxAnios.value*nDeanios.value;
+// hacer q lo revisen
+TNAajustadaAlPlazo.value = NPeriodosxAnios.value*(Math.sqrt(1+TEA.value,1/NTotalPeriodos.value) - 1)
+TNMajustadaAlPlazo.value = (TNAajustadaAlPlazo.value/360)*30;
+ValorCouta.value = Credito.value*TNMajustadaAlPlazo.value*
+    ((1+TNMajustadaAlPlazo.value)**NTotalPeriodos.value) /
+    ((1+TNMajustadaAlPlazo.value)**(NTotalPeriodos.value-1));
+// comienza el cronograma
+
+for(var i =0; i <= NTotalPeriodos.value; i++){
+  if(i!=0){
+      SaldoInicialCrono.value = SaldoInicial.value;
+      InteresCrono.value=-SaldoInicialCrono.value*TNMajustadaAlPlazo.value;
+      CoutaCrono.value = ValorCouta.value;
+      AmortCrono.value = SaldoInicialCrono.value-CoutaCrono.value;
+
+  }else if(i==0){
+    CostesGastos.value;
+  }else{
+    console.log("Hay error")
+  }
+}
+
+
 
 
 
