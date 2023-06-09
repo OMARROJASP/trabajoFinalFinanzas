@@ -104,8 +104,8 @@ const comisionDeActivacion   = ref(datos.value.at(11));
 const comisionPeridica       = ref(datos.value.at(12));
 const portes                 = ref(datos.value.at(13));
 const gastosAdministrativos  = ref(datos.value.at(14));
-const seguroDesgravamenMen   = ref(datos.value.at(15));
-const seguroRiesgoMen        = ref(datos.value.at(16));
+const seguroDesgravamenPer   = ref(datos.value.at(15));
+const seguroRiesgoPer        = ref(datos.value.at(16));
 
 
 
@@ -114,7 +114,7 @@ const SaldoInicial = ref();
 const Credito = ref();
 const NPeriodosxAnios = ref();
 const NTotalPeriodos = ref();
-const TNMajustadaAlPlazo = ref();
+const TNPajustadaAlPlazo = ref();
 const TNAajustadaAlPlazo = ref();
 const ValorCouta = ref();
 const ValorActualDelSaldo=ref();
@@ -153,20 +153,28 @@ NPeriodosxAnios.value = 360/diasXperiodo.value;
 NTotalPeriodos.value = NPeriodosxAnios.value*nDeanios.value;
 // hacer q lo revisen
 TNAajustadaAlPlazo.value = NPeriodosxAnios.value*(Math.sqrt(1+TEA.value,1/NTotalPeriodos.value) - 1)
-TNMajustadaAlPlazo.value = (TNAajustadaAlPlazo.value/360)*30;
-ValorCouta.value = Credito.value*TNMajustadaAlPlazo.value*
-    ((1+TNMajustadaAlPlazo.value)**NTotalPeriodos.value) /
-    ((1+TNMajustadaAlPlazo.value)**(NTotalPeriodos.value-1));
+TNPajustadaAlPlazo.value = (TNAajustadaAlPlazo.value/360)*30;
+ValorCouta.value = Credito.value*TNPajustadaAlPlazo.value*
+    ((1+TNPajustadaAlPlazo.value)**NTotalPeriodos.value) /
+    ((1+TNPajustadaAlPlazo.value)**(NTotalPeriodos.value-1));
 // comienza el cronograma
 
 for(var i =0; i <= NTotalPeriodos.value; i++){
-  if(i!=0){
+  if(i!==0){
       SaldoInicialCrono.value = SaldoInicial.value;
-      InteresCrono.value=-SaldoInicialCrono.value*TNMajustadaAlPlazo.value;
-      CoutaCrono.value = ValorCouta.value;
-      AmortCrono.value = SaldoInicialCrono.value-CoutaCrono.value;
+      InteresCrono.value=SaldoInicialCrono.value*TNPajustadaAlPlazo.value;
 
-  }else if(i==0){
+      arriba.value =TES.value * Math.pow(1 + TNPajustadaAlPlazo.value, NPeriodosxAnios.value - i + 1);
+      abajo.value =Math.pow(1 + TNPajustadaAlPlazo.value, NPeriodosxAnios.value - i + 1) - 1;
+
+      CoutaCrono.value = SaldoInicialCrono.value * (arriba.value / abajo.value);
+      AmortCrono.value = CoutaCrono.value-InteresCrono.value;
+      SegDesgravamenCrono.value = SaldoInicialCrono.value*seguroDesgravamenPer
+
+
+
+
+  }else if(i===0){
     CostesGastos.value;
   }else{
     console.log("Hay error")
