@@ -226,6 +226,34 @@
             />
           </div>
         </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">PLAZO GRACIAS TOTAL</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="plazosGraciasTotal"
+            />
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">PLAZO GRACIAS PARCIAL</label>
+          <div>
+            <input
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="plazosGraciasParcial"
+            />
+          </div>
+        </div>
+
+
       </div>
     </div>
     <div class="flex justify-center">
@@ -266,9 +294,9 @@ const gastosAdministrativos     = ref(0);
 const seguroDesgravamenMen      = ref(0.049);
 const seguroRiesgoMen           = ref(0.029);
 
-//
-const plazosGraciasTotal        = ref();
-const plazosGraciasParcial      = ref();
+// plazos
+const plazosGraciasTotal        = ref(1);
+const plazosGraciasParcial      = ref(2);
 /*
 const seguroDesgravamenMen = ref(0.049);
 const seguroRiesgoMen = ref(0.029);
@@ -292,6 +320,8 @@ const lista = ref([
   gastosAdministrativos,
   seguroDesgravamenMen,
   seguroRiesgoMen,
+  plazosGraciasTotal,
+  plazosGraciasParcial
 ]);
 </script>
 

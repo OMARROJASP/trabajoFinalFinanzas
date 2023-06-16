@@ -126,6 +126,8 @@ const portes                 = ref(datos.value.at(13));
 const gastosAdministrativos  = ref(datos.value.at(14));
 const seguroDesgravamenPer   = ref(datos.value.at(15));
 const seguroRiesgoPer        = ref(datos.value.at(16));
+const plazosGraciasTotal     = ref(datos.value.at(17));
+const plazosGraciasParcial   = ref(datos.value.at(18));
 
 
 // resultado del financiamiento
@@ -260,6 +262,8 @@ const  calculosIniciales= x=>{
 
 }
 
+
+
 const Limpiar=()=>{
   list1.value.splice(0, list1.value.length);
   //splice(0, lista.length);
@@ -279,7 +283,9 @@ const  Calculo=()=>{
 
    for(let i =0; i <= NTotalPeriodos.value; i++){
 
-     if(i!==0) {
+
+
+     if(i!==0  ) {
 
 
        InteresCrono.value = ValorActualCrono.value * TEP.value;
