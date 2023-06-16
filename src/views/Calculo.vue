@@ -248,24 +248,31 @@ const useCalculo = useCalculosStore();
 
 const { add } = useCalculo;
 
-const precioDeVenta = ref(1800000);
-const cuotaInicial = ref(0.2);
-const nDeanoas = ref(1440000);
-const diasXperiodo = ref(180);
-const diasXanoas = ref(4);
-const bonoMiVivienda = ref(4);
-const TEA = ref(12);
-const costosNotariales = ref(13);
-const costosRegistrales = ref(8);
-const estudioDeTitulos = ref(9);
-const tasacion = ref(9);
-const comisionDeActivacion = ref(10);
-const comisionPeridica = ref(14);
-const portes = ref(14);
-const gastosAdministrativos = ref(14);
-const seguroDesgravamenMen = ref(11);
-const seguroRiesgoMen = ref(9);
+const precioDeVenta = ref(140000);
+const cuotaInicial = ref(20);
+const nDeanoas = ref(3);
+const diasXperiodo = ref(120);
+const diasXanoas = ref(360);
+const bonoMiVivienda = ref(0);
+const TEA = ref(10);
+const costosNotariales = ref(0);
+const costosRegistrales = ref(0);
+const estudioDeTitulos = ref(0);
+const tasacion = ref(0);
+const comisionDeActivacion = ref(0);
+const comisionPeridica = ref(0);
+const portes                    = ref(3.50);
+const gastosAdministrativos     = ref(0);
+const seguroDesgravamenMen      = ref(0.049);
+const seguroRiesgoMen           = ref(0.029);
 
+//
+const plazosGraciasTotal        = ref();
+const plazosGraciasParcial      = ref();
+/*
+const seguroDesgravamenMen = ref(0.049);
+const seguroRiesgoMen = ref(0.029);
+ */
 // falta 1
 const lista = ref([
   precioDeVenta,

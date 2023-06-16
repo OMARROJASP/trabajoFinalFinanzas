@@ -3,14 +3,14 @@
   <main class="px-5">
     <div class="flex justify-between">
       <button
-        @click="calcularConFor()"
+        @click="Calculo()"
         class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-colors"
       >
         Calcular
       </button>
 
       <button
-        @click="cambiarSolesDolares()"
+
         class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-colors"
       >
         Convertir a Dolares
@@ -37,13 +37,19 @@
       </thead>
 
       <tbody>
-        <tr v-for="item in list2">
+        <tr v-for="item in list1">
           <td class="p-1 text-center">{{ item.id }}</td>
-          <td class="p-1 text-center">s/{{ item.saldoI }}</td>
-          <td class="p-1 text-center">s/{{ item.inter }}</td>
-          <td class="p-1 text-center">s/{{ item.cou }}</td>
-          <td class="p-1 text-center">s/{{ item.amort }}</td>
-          <td class="p-1 text-center">s/{{ item.saldoF }}</td>
+          <td class="p-1 text-center">{{ item.nDias }}</td>
+          <td class="p-1 text-center">{{ item.tasaAjustada }}</td>
+          <td class="p-1 text-center">s/{{ item.saldoInicial }}</td>
+          <td class="p-1 text-center">s/{{ item.Interes }}</td>
+          <td class="p-1 text-center">s/{{ item.Couta }}</td>
+          <td class="p-1 text-center">s/{{ item.Amortizacion }}</td>
+          <td class="p-1 text-center">s/{{ item.SeguroDesgravemen }}</td>
+          <td class="p-1 text-center">s/{{ item.SeguroRiesgo }}</td>
+          <td class="p-1 text-center">s/{{ item.CostesRiesgos }}</td>
+          <td class="p-1 text-center">s/{{ item.SaldoFinal }}</td>
+          <td class="p-1 text-center">s/{{ item.Flujo }}</td>
         </tr>
       </tbody>
       <tbody></tbody>
@@ -54,14 +60,16 @@
 <script setup>
 import { useCalculosStore } from "../stores/calculos";
 import { storeToRefs } from "pinia";
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 
 const useCalculo = useCalculosStore();
 
 const { datos } = storeToRefs(useCalculo);
 
-const list1 = ref([]);
+let list1 = ref([]);
 // aqui se realizaron ejemplo previos
+
+/*
 
 const precioDeVenta1 = ref(datos.value.at(0));
 const coutaInicial = ref(datos.value.at(1));
@@ -86,7 +94,19 @@ const InteresClass = ref();
 const CoutaClass = ref();
 const AmortizacionClass = ref();
 const SaldoFinalCLass = ref();
+ */
 
+// variables necesarias
+const  costosNotarialesBool           = ref(false); // cuando es prestamo = false
+const  costosRegistralesBool          = ref(false);
+const  estudioTitulosBool             = ref(false);
+const  TasacionBool                   = ref(false);
+const  comisionActivacionBool         = ref(false);
+const  variableCostesGastosIniciales  = ref(0);
+const  frecuenciaDePago               = ref(30); // es mensual cambiar luego
+const  TEP                            = ref();
+const  arriba                         = ref();
+const  abajo                          = ref();
 // aqui esta las variables q usaremos
 
 const precioDeVenta          = ref(datos.value.at(0));
@@ -108,29 +128,34 @@ const seguroDesgravamenPer   = ref(datos.value.at(15));
 const seguroRiesgoPer        = ref(datos.value.at(16));
 
 
+// resultado del financiamiento
+const CoutaInicial              = ref();
+const SaldoFinanciar            = ref();
+const Credito                   = ref();
+const NPeriodosxAnios           = ref();
+const NTotalPeriodos            = ref();
+const TNPajustadaAlPlazo        = ref();
+const TNAajustadaAlPlazo        = ref();
+const ValorCouta                = ref();
+const ValorActualDelSaldo       =ref();
+const ValorActualExtra          = ref();
 
-const CoutaInicial = ref();
-const SaldoInicial = ref();
-const Credito = ref();
-const NPeriodosxAnios = ref();
-const NTotalPeriodos = ref();
-const TNPajustadaAlPlazo = ref();
-const TNAajustadaAlPlazo = ref();
-const ValorCouta = ref();
-const ValorActualDelSaldo=ref();
-const ValorActualExtra = ref();
+// resultado totales
 
-const Interes = ref();
-const Amortizacion = ref();
-const SeguroDeDesgravamen = ref();
-const SeguroContraTodoRiesgo = ref();
-const CostesGastos = ref();
-const DesembolsoTotal = ref();
+const InteresTotal                  = ref(0);
+const AmortizacionTotal             = ref(0);
+const SeguroDeDesgravamenTotal      = ref(0);
+const SeguroContraTodoRiesgoTotal   = ref(0);
+const CostesGastosTotal             = ref(0);
+const DesembolsoTotal               = ref(0);
 
-const TasaDeDescuentoDiaria = ref();
-const TCEAdeInteresDiaria = ref();
-const TCEAdeLaOperacion = ref();
-const VANoperacion = ref();
+// Ressultado de indicadore de rentabilidad
+
+const TasaDeDescuentoDiaria      = ref();
+const TCEAdeInteresDiaria        = ref();
+const TCEAdeLaOperacion          = ref();
+const VANoperacion               = ref();
+const DiasPorPeriodo             = ref();
 
 // variables del cronograma
 const SaldoInicialCrono   = ref();
@@ -139,176 +164,225 @@ const CoutaCrono          = ref();
 const AmortCrono          = ref();
 const SegDesgravamenCrono = ref();
 const segRiesgoCrono      = ref();
-const CostesRiesgos       = ref();
+const CostesRiesgosCrono  = ref();
 const SaldoFinalCrono     = ref();
 const FlujoCrono          = ref();
 const FlujoTEACrono       = ref();
 const ValorActualCrono    = ref();
 
+onMounted(() => {
+  calculosIniciales();
+})
+
+
 // empezamos con las operaciones
-CoutaInicial.value = (cuotaInicial.value/100)*precioDeVenta.value;
-SaldoInicial.value = precioDeVenta.value - CoutaInicial.value;
-Credito.value = SaldoInicial.value;
-NPeriodosxAnios.value = 360/diasXperiodo.value;
-NTotalPeriodos.value = NPeriodosxAnios.value*nDeanios.value;
-// hacer q lo revisen
-TNAajustadaAlPlazo.value = NPeriodosxAnios.value*(Math.sqrt(1+TEA.value,1/NTotalPeriodos.value) - 1)
-TNPajustadaAlPlazo.value = (TNAajustadaAlPlazo.value/360)*30;
-ValorCouta.value = Credito.value*TNPajustadaAlPlazo.value*
-    ((1+TNPajustadaAlPlazo.value)**NTotalPeriodos.value) /
-    ((1+TNPajustadaAlPlazo.value)**(NTotalPeriodos.value-1));
-// comienza el cronograma
 
-for(var i =0; i <= NTotalPeriodos.value; i++){
-  if(i!==0){
-      SaldoInicialCrono.value = SaldoInicial.value;
-      InteresCrono.value=SaldoInicialCrono.value*TNPajustadaAlPlazo.value;
+// esto tiene q iniciar primero
+const sumaCostosGastosIniciales=()=>{
 
-      arriba.value =TES.value * Math.pow(1 + TNPajustadaAlPlazo.value, NPeriodosxAnios.value - i + 1);
-      abajo.value =Math.pow(1 + TNPajustadaAlPlazo.value, NPeriodosxAnios.value - i + 1) - 1;
+    if(!costosNotarialesBool.value)   {variableCostesGastosIniciales.value=+ costosNotariales.value}
+    if(!costosRegistralesBool.value)  {variableCostesGastosIniciales.value=+ costosRegistrales.value}
+    if(!estudioTitulosBool.value)     {variableCostesGastosIniciales.value=+ estudioDeTitulos.value}
+    if(!TasacionBool.value)           {variableCostesGastosIniciales.value=+ tasacion.value}
+    if(!comisionActivacionBool.value) {variableCostesGastosIniciales.value=+ comisionDeActivacion.value}
 
-      CoutaCrono.value = SaldoInicialCrono.value * (arriba.value / abajo.value);
-      AmortCrono.value = CoutaCrono.value-InteresCrono.value;
-      SegDesgravamenCrono.value = SaldoInicialCrono.value*seguroDesgravamenPer
+}
+
+const  calculosIniciales= x=>{
+  TEA.value = TEA.value/100;
+  console.log( "el TEa esta aqui sera igual" +TEA.value);
+  // transformar TASA ANUAL A TASA EFECTIVA PERIODO
+  TEP.value = (1 + TEA.value)**(diasXperiodo.value/diasXanios.value) -1;
+  console.log( "el TEP esta aqui sera igual" +TEP.value);
 
 
+  sumaCostosGastosIniciales();
+  CoutaInicial.value = (cuotaInicial.value/100)*precioDeVenta.value;
+  console.log( "COUTA INICIAL   " + CoutaInicial.value);
+
+  SaldoFinanciar.value = precioDeVenta.value - CoutaInicial.value - bonoMiVivienda.value;
+  console.log( "SaldoFinanciar   " + SaldoFinanciar.value);
+
+  Credito.value = SaldoFinanciar.value + variableCostesGastosIniciales.value ;
+  console.log( "Credito  " + Credito.value);
+
+  NPeriodosxAnios.value = diasXanios.value/diasXperiodo.value;
+  console.log( "NPeriodosxAnios   " + NPeriodosxAnios.value);
+
+  NTotalPeriodos.value = NPeriodosxAnios.value*nDeanios.value;
+  console.log( "NTotalPeriodos  "  + NTotalPeriodos.value);
+  console.log( "diasXperiodo   " + diasXperiodo.value)
+  const  v1 = ref();
+  const  v2 = ref();
+  v1.value = 1 + TEA.value;
+  v2.value = 1 / 12;
+  TNPajustadaAlPlazo.value = (diasXperiodo.value/30)* (Math.pow(v1.value, v2.value) - 1);
+  console.log( "diasXperiodo******************   " + diasXperiodo.value/30);
+
+  console.log( "TEA******************   " +  + TEA.value);
+  console.log( "diasXperiodo******************   " +  + TEA.value);
+
+  console.log( "TNPajustadaAlPlazo  "  + TNPajustadaAlPlazo.value);
+
+  TNAajustadaAlPlazo.value =  Math.sqrt(1 + TNPajustadaAlPlazo.value, NPeriodosxAnios.value)-1;
+  console.log( "TNAajustadaAlPlazo  "  + TNAajustadaAlPlazo.value);
 
 
-  }else if(i===0){
-    CostesGastos.value;
-  }else{
-    console.log("Hay error")
-  }
+
+  // estamos trabajando con Capitalizacion Mensual
+/*
+  TNPajustadaAlPlazo.value =Math.sqrt(1 + TEA.value, 1 / NTotalPeriodos.value) - 1;
+  console.log( "TNPajustadaAlPlazo  "  + TNPajustadaAlPlazo.value);
+  TNAajustadaAlPlazo.value = Math.sqrt(1 + TNPajustadaAlPlazo.value, NPeriodosxAnios.value)-1;
+  console.log( "TNAajustadaAlPlazo  "  + TNAajustadaAlPlazo.value);
+ */
+
+  console.log(TNPajustadaAlPlazo.value);
+  console.log(TNAajustadaAlPlazo.value);
+
+
+  const arriba = ref();
+  const abajo = ref();
+  arriba.value =TEP.value * Math.pow(1 + TEP.value, NTotalPeriodos.value);
+  abajo.value =Math.pow(1 + TEP.value, NTotalPeriodos.value) - 1;
+
+
+  ValorCouta.value = Credito.value*(arriba.value/abajo.value);
+  console.log( "arriba   " + arriba.value)
+  console.log( "abajo   " + abajo.value)
+  console.log( "ValorCouta   " + ValorCouta.value);
+
+  ValorActualDelSaldo.value =  0.0000;
+  console.log( "ValorActualDelSaldo   " + ValorActualDelSaldo.value);
+
+  ValorActualExtra.value = Credito.value;
+  console.log( "ValorActualExtra   " + ValorActualExtra.value);
+
+}
+
+const Limpiar=()=>{
+  list1.value.splice(0, list1.value.length);
+  //splice(0, lista.length);
+}
+const  Calculo=()=>{
+  // limpiar lista
+  list1.value.splice(0, list1.value.length);
+
+
+  // resultado totales
+
+
+
+
+  // comienza el cronograma
+
+
+   for(let i =0; i <= NTotalPeriodos.value; i++){
+
+     if(i!==0) {
+
+
+       InteresCrono.value = ValorActualCrono.value * TEP.value;
+       console.log("InteresCrono   " + InteresCrono.value);
+
+       CoutaCrono.value = ValorCouta.value;
+       console.log("CoutaCrono   " + CoutaCrono.value);
+
+
+
+       SegDesgravamenCrono.value = ValorActualCrono.value * (seguroDesgravamenPer.value / 100);
+       console.log("SegDesgravamenCrono   " + SegDesgravamenCrono.value);
+
+       segRiesgoCrono.value = ValorActualCrono.value * (seguroRiesgoPer.value / 100);
+       console.log("segRiesgoCrono   " + segRiesgoCrono.value);
+
+       CostesRiesgosCrono.value = comisionPeridica.value + portes.value + gastosAdministrativos.value;
+       console.log("CostesRiesgosCrono   " + CostesRiesgosCrono.value);
+       AmortCrono.value =CoutaCrono.value - InteresCrono.value
+           -  SegDesgravamenCrono.value
+           -  segRiesgoCrono.value
+           -  CostesRiesgosCrono.value;
+       console.log( "AmortCrono    " + AmortCrono.value);
+
+       SaldoFinalCrono.value = ValorActualCrono.value - AmortCrono.value;
+       console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
+
+       FlujoCrono.value = CoutaCrono.value;
+       console.log( "FlujoCrono   " + FlujoCrono.value);
+
+       list1.value.push({
+         id: i,
+         nDias: 30,
+         tasaAjustada:TEP.value.toFixed(7),
+         saldoInicial: SaldoInicialCrono.value.toFixed(2),
+         Interes: InteresCrono.value.toFixed(2),
+         Couta: CoutaCrono.value.toFixed(2),
+         Amortizacion: AmortCrono.value.toFixed(2),
+         SeguroDesgravemen: SegDesgravamenCrono.value.toFixed(2),
+         SeguroRiesgo: segRiesgoCrono.value.toFixed(2),
+         CostesRiesgos: CostesRiesgosCrono.value.toFixed(2),
+         SaldoFinal: SaldoFinalCrono.value.toFixed(2),
+         Flujo: FlujoCrono.value.toFixed(2),
+         //toFixed(2)
+       })
+       ValorActualCrono.value = SaldoFinalCrono.value;
+       ValorActualExtra.value = SaldoFinalCrono.value;
+       ValorActualDelSaldo.value = SaldoFinalCrono.value;
+
+
+     }else if(i===0){
+       FlujoCrono.value = Credito.value;
+       FlujoTEACrono.value = Credito.value;
+       ValorActualCrono.value = Credito.value;
+       SaldoInicialCrono.value = Credito.value;
+       list1.value.push({
+         id: i,
+         nDias: 30,
+         tasaAjustada:TEP.value.toFixed(7),
+         saldoInicial: 0,
+         Interes: 0,
+         Couta: 0,
+         Amortizacion: 0,
+         SeguroDesgravemen: 0,
+         SeguroRiesgo: 0,
+         CostesRiesgos: 0,
+         SaldoFinal: 0,
+         Flujo: SaldoInicialCrono.value.toFixed(2),
+         //toFixed(2)
+       })
+     }else{
+       console.log("Hay error")
+     }
+   }
+
+
+   const ar1= ref();
+   const ab1= ref();
+   const axu = ref()
+   axu.value = 1 + (TNPajustadaAlPlazo.value + seguroDesgravamenPer.value )
+   ar1.value = ((TNPajustadaAlPlazo.value +  seguroDesgravamenPer.value)* ValorActualDelSaldo.value );
+   ab1.value = 1 - Math.pow(axu.value, -NTotalPeriodos.value  )
+   ValorActualExtra.value =ar1.value/ab1.value;
+  console.log( "TNPajustadaAlPlazo" + TNPajustadaAlPlazo.value )
+  console.log( "seguroDesgravamenPer" + seguroDesgravamenPer.value )
+  console.log( "ValorActualDelSaldo" + ValorActualDelSaldo.value )
+  console.log( "NTotalPeriodos" + NTotalPeriodos.value )
+
+  console.log( "axu" + axu.value )
+
+  console.log( "ar1" + ar1.value )
+  console.log( "ab1" + ab1.value )
+
+   ValorCouta.value = ValorCouta.value + ValorActualExtra.value;
+  console.log( "el valor de valor exacto " + ValorActualExtra.value )
+
 }
 
 
+/*
+while (ValorActualExtra.value.toFixed(4)  !== 0.0000);
+ */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////
-const calculosIniciales = () => {
-  CI.value = coutaInicial.value * 100 * precioDeVenta1.value;
-  prestamos.value = precioDeVenta1.value - CI.value;
-
-  NPxA.value = 360 / FrecuenciaDePagos.value;
-  N.value = NPxA.value + numeroAnos.value;
-};
-
-const aux = ref(1);
-const hallosInterest = () => {
-  if (saldoInicialClass.value != 0) {
-    saldoInicialClass.value = SaldoFinalCLass.value;
-
-    //calculo del TEA a TES
-    TES.value =
-      Math.pow(1 + TEA1.value / 100, FrecuenciaDePagos.value / 360) - 1;
-
-    // hallando el Interes
-    InteresClass.value = TES.value * saldoInicialClass.value;
-    // hallando la cuota
-    arriba.value =
-      TES.value * Math.pow(1 + TES.value, NdePeriodos.value - aux.value + 1);
-    abajo.value =
-      Math.pow(1 + TES.value, NdePeriodos.value - aux.value + 1) - 1;
-    CoutaClass.value = saldoInicialClass.value * (arriba.value / abajo.value);
-    // Amotizacion
-    AmortizacionClass.value = CoutaClass.value - InteresClass.value;
-    // saldo final
-    SaldoFinalCLass.value = saldoInicialClass.value - AmortizacionClass.value;
-    aux.value++;
-  } else if (saldoInicialClass.value == 0) {
-    //calculo del TEA a TES
-    TES.value =
-      Math.pow(1 + TEA1.value / 100, FrecuenciaDePagos.value / 360) - 1;
-
-    // hallando el Interes
-    InteresClass.value = TES.value * prestamo.value;
-    // hallando la cuota
-    arriba.value = TES.value * Math.pow(1 + TES.value, 8);
-    abajo.value = Math.pow(1 + TES.value, 8) - 1;
-    CoutaClass.value = prestamo.value * (arriba.value / abajo.value);
-    // Amotizacion
-    AmortizacionClass.value = CoutaClass.value - InteresClass.value;
-    // saldo final
-    SaldoFinalCLass.value = prestamo.value - AmortizacionClass.value;
-    aux.value++;
-    saldoInicialClass.value = SaldoFinalCLass.value;
-  }
-};
-
-const list2 = ref([]);
-const calcularConFor = () => {
-  for (let j = 1; j <= NdePeriodos.value; j++) {
-    hallosInterest();
-    list2.value.push({
-      id: j,
-      saldoI: saldoInicialClass.value.toFixed(2),
-      inter: InteresClass.value.toFixed(2),
-      cou: CoutaClass.value.toFixed(2),
-      amort: AmortizacionClass.value.toFixed(2),
-      saldoF: SaldoFinalCLass.value.toFixed(2),
-    });
-  }
-};
-
-const cambiarSolesDolares = () => {
-  list2.value.splice(0, list2.value.length);
-  console.log(list2.value.length);
-  precioDeVenta.value = datos.value.at(0).value / 3.67;
-  console.log(precioDeVenta.value);
-  coutaInicial.value = datos.value.at(1).value / 3.67;
-  console.log(coutaInicial.value);
-  prestamo.value = datos.value.at(2).value;
-  console.log(prestamo.value);
-  FrecuenciaDePagos.value = datos.value.at(3).value;
-  console.log(FrecuenciaDePagos.value);
-  numeroAnos.value = datos.value.at(4).value;
-  console.log(numeroAnos.value);
-  NdePeriodos.value = datos.value.at(5).value;
-  console.log(NdePeriodos.value);
-  TEA.value = datos.value.at(6).value;
-  console.log(TEA.value);
-  aux.value = 1;
-
-  for (let j = 1; j <= NdePeriodos.value; j++) {
-    hallosInterest();
-    list2.value.push({
-      id: j,
-      saldoI: saldoInicialClass.value.toFixed(2),
-      inter: InteresClass.value.toFixed(2),
-      cou: CoutaClass.value.toFixed(2),
-      amort: AmortizacionClass.value.toFixed(2),
-      saldoF: SaldoFinalCLass.value.toFixed(2),
-    });
-  }
-};
-
-const cambiarDolaresSoles = () => {};
 </script>
 
 <style scoped></style>
