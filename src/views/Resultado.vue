@@ -128,6 +128,7 @@ const seguroDesgravamenPer   = ref(datos.value.at(15));
 const seguroRiesgoPer        = ref(datos.value.at(16));
 const plazosGraciasTotal     = ref(datos.value.at(17));
 const plazosGraciasParcial   = ref(datos.value.at(18));
+const bonoVerde              = ref(datos.value.at(19));
 
 
 // resultado del financiamiento
@@ -191,6 +192,8 @@ const sumaCostosGastosIniciales=()=>{
 }
 
 const  calculosIniciales= x=>{
+
+  console.log( "el valor del periodo " + diasXperiodo.value)
   TEA.value = TEA.value/100;
   console.log( "el TEa esta aqui sera igual" +TEA.value);
   // transformar TASA ANUAL A TASA EFECTIVA PERIODO
