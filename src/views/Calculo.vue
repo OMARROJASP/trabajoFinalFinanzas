@@ -12,13 +12,21 @@
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Precio de Venta</label>
           <div>
-            <input
-                class="w-28"
+            <input v-if="precioDeVenta >= 65200 && precioDeVenta <= 464200"
+                class="w-28 "
               type="number"
               step="0.01"
               min="0"
               id="input"
               v-model="precioDeVenta"
+            />
+            <input v-else
+                   class="w-28 border border-red-500 border-2 text-red-500 "
+                   type="number"
+                   step="0.01"
+                   min="0"
+                   id="input"
+                   v-model="precioDeVenta"
             />
 
           </div>
@@ -63,6 +71,15 @@
               </ul>
             </div>
           </div>
+
+          <div class="relative">
+            <svg @click="mensajeCoutaInicial" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
+            </svg>
+            <div v-if="mostrarCoutaInicial" class="absolute bg-white p-2 rounded shadow-lg">
+              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
+            </div>
+          </div>
         </div>
 
         <div class="flex items-center justify-between my-3">
@@ -75,6 +92,14 @@
               id="input"
               v-model="nDeanoas"
             />
+          </div>
+          <div class="relative">
+            <svg @click="mensajeNanios" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
+            </svg>
+            <div v-if="mostrarNanios" class="absolute bg-white p-2 rounded shadow-lg">
+              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
+            </div>
           </div>
         </div>
 
@@ -95,6 +120,17 @@
                   {{ option.periodo }}
                 </li>
               </ul>
+
+
+            </div>
+
+          </div>
+          <div class="relative">
+            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
+            </svg>
+            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
+              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
             </div>
           </div>
 
@@ -383,9 +419,25 @@ const mensajeBonoVerde = ref(false);
 
 
 const mostrarPrecioVenta = ref(false);
+const mostrarCoutaInicial = ref(false);
+const mostrarNanios= ref(false);
+const mostrarDiasPeriodo = ref(false);
+
 const mensajePrecioVenta = () => {
   mostrarPrecioVenta.value =  !mostrarPrecioVenta.value;
 }
+const mensajeCoutaInicial = () => {
+  mostrarCoutaInicial.value =  !mostrarCoutaInicial.value;
+}
+
+const mensajeNanios = () => {
+  mostrarNanios.value =  !mostrarNanios.value;
+}
+
+const mensajeDiasPeriodo = () => {
+  mostrarDiasPeriodo.value =  !mostrarDiasPeriodo.value;
+}
+
 
 
 const darValorDelBono=()=> {
@@ -433,71 +485,65 @@ const toggleDropdownCoutaInicial =()=>{
 
 }
 
-const  selectOptionCoutaInicial=(option)=>{
+const  selectOptionCoutaInicial=(option)=> {
   selectedOptionCoutaInicial.value = option.periodo;
   isOpenCoutaInicial.value = false;
 
-   if(option.id === 1 ){
-     cuotaInicial.value =  cuotaInicial.value/100;
-
-   }else{
-     cuotaInicial.value =  cuotaInicial.value;
-   }
-
-
+  if (option.id === 1) {
+    cuotaInicial.value = cuotaInicial.value / 100;
+  }
 }
 
+  const isOpenDiasPeriodo = ref(false);
 
-const isOpenDiasPeriodo = ref(false);
+  const selectedOptionDiasPeriodo = ref('');
+  const optionsDiasPeriodo = ref([
+    {id: 1, label: 30, periodo: 'Mes'},
+    {id: 2, label: 60, periodo: 'Bimestral'},
+    {id: 3, label: 120, periodo: 'Trimestral'},
+    {id: 4, label: 150, periodo: 'Cuatrimestral'},
+    {id: 5, label: 180, periodo: 'Semestral'},
+  ])
 
-const selectedOptionDiasPeriodo = ref('');
-const  optionsDiasPeriodo  =  ref([
-  { id: 1, label: 30  , periodo: 'Mes'          },
-  { id: 2, label: 60  , periodo: 'Bimestral'    },
-  { id: 3, label: 120 , periodo: 'Trimestral'   },
-  { id: 4, label: 150 , periodo: 'Cuatrimestral'},
-  { id: 5, label: 180 , periodo: 'Semestral'    },
-])
+  const toggleDropdownDiasPeriodo = () => {
+    isOpenDiasPeriodo.value = !isOpenDiasPeriodo.value;
+  }
 
-const toggleDropdownDiasPeriodo =()=>{
-isOpenDiasPeriodo.value =!isOpenDiasPeriodo.value;
-}
-
-const  selectOptionDiasPeriodo=(option)=>{
-  selectedOptionDiasPeriodo.value = option.periodo;
-  isOpenDiasPeriodo.value = false;
-  diasXperiodo.value = option.label;
-}
-
+  const selectOptionDiasPeriodo = (option) => {
+    selectedOptionDiasPeriodo.value = option.periodo;
+    isOpenDiasPeriodo.value = false;
+    diasXperiodo.value = option.label;
+  }
 
 
-/*
+  /*
 const seguroDesgravamenMen = ref(0.049);
 const seguroRiesgoMen = ref(0.029);
  */
 // falta 1
-const lista = ref([
-  precioDeVenta,
-  cuotaInicial,
-  nDeanoas,
-  diasXperiodo,
-  diasXanoas,
-  bonoMiVivienda,
-  TEA,
-  costosNotariales,
-  costosRegistrales,
-  estudioDeTitulos,
-  tasacion,
-  comisionDeActivacion,
-  comisionPeridica,
-  portes,
-  gastosAdministrativos,
-  seguroDesgravamenMen,
-  seguroRiesgoMen,
-  plazosGraciasTotal,
-  plazosGraciasParcial,
-  bonoVerde,
-]);
+  const lista = ref([
+    precioDeVenta,
+    cuotaInicial,
+    nDeanoas,
+    diasXperiodo,
+    diasXanoas,
+    bonoMiVivienda,
+    TEA,
+    costosNotariales,
+    costosRegistrales,
+    estudioDeTitulos,
+    tasacion,
+    comisionDeActivacion,
+    comisionPeridica,
+    portes,
+    gastosAdministrativos,
+    seguroDesgravamenMen,
+    seguroRiesgoMen,
+    plazosGraciasTotal,
+    plazosGraciasParcial,
+    bonoVerde,
+  ]);
+
 </script>
 
 <style scoped></style>

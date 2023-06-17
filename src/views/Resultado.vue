@@ -202,10 +202,16 @@ const  calculosIniciales= x=>{
 
 
   sumaCostosGastosIniciales();
-  CoutaInicial.value = (cuotaInicial.value/100)*precioDeVenta.value;
-  console.log( "COUTA INICIAL   " + CoutaInicial.value);
 
-  SaldoFinanciar.value = precioDeVenta.value - CoutaInicial.value - bonoMiVivienda.value;
+  if(cuotaInicial.value < 1){
+    CoutaInicial.value = cuotaInicial.value*precioDeVenta.value;
+    console.log( "COUTA INICIAL   " + CoutaInicial.value);
+  }else {
+    CoutaInicial.value = precioDeVenta.value - cuotaInicial.value;
+    console.log( "COUTA INICIAL   " + CoutaInicial.value);
+  }
+
+  SaldoFinanciar.value = precioDeVenta.value - CoutaInicial.value - bonoMiVivienda.value - bonoVerde.value;
   console.log( "SaldoFinanciar   " + SaldoFinanciar.value);
 
   Credito.value = SaldoFinanciar.value + variableCostesGastosIniciales.value ;
