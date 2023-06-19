@@ -67,34 +67,7 @@ const useCalculo = useCalculosStore();
 const { datos } = storeToRefs(useCalculo);
 
 let list1 = ref([]);
-// aqui se realizaron ejemplo previos
 
-/*
-
-const precioDeVenta1 = ref(datos.value.at(0));
-const coutaInicial = ref(datos.value.at(1));
-const prestamo = ref(datos.value.at(2));
-const FrecuenciaDePagos = ref(datos.value.at(3));
-const numeroAnos = ref(datos.value.at(4));
-const NdePeriodos = ref(datos.value.at(5));
-const TEA1 = ref(datos.value.at(6));
-console.log(datos.value.at(0));
-console.log(datos.value.at(0).value);
-const CI = ref();
-const prestamos = ref();
-const NPxA = ref();
-const N = ref();
-const TeaConvertido = ref();
-const arriba = ref();
-const abajo = ref();
-
-const TES = ref();
-const saldoInicialClass = ref(0);
-const InteresClass = ref();
-const CoutaClass = ref();
-const AmortizacionClass = ref();
-const SaldoFinalCLass = ref();
- */
 
 // variables necesarias
 const  costosNotarialesBool           = ref(false); // cuando es prestamo = false
@@ -129,6 +102,8 @@ const seguroRiesgoPer        = ref(datos.value.at(16));
 const plazosGraciasTotal     = ref(datos.value.at(17));
 const plazosGraciasParcial   = ref(datos.value.at(18));
 const bonoVerde              = ref(datos.value.at(19));
+const confirGraciaTotal      = ref(false);
+const confirGraciaParcial    = ref(false);
 
 
 // resultado del financiamiento
@@ -191,8 +166,9 @@ const sumaCostosGastosIniciales=()=>{
 
 }
 
-const  calculosIniciales= x=>{
+const  calculosIniciales= ()=>{
 
+  console.log( "COUTA INICIAL0   " + cuotaInicial.value);
   console.log( "el valor del periodo " + diasXperiodo.value)
   TEA.value = TEA.value/100;
   console.log( "el TEa esta aqui sera igual" +TEA.value);
@@ -203,12 +179,12 @@ const  calculosIniciales= x=>{
 
   sumaCostosGastosIniciales();
 
-  if(cuotaInicial.value < 1){
-    CoutaInicial.value = cuotaInicial.value*precioDeVenta.value;
-    console.log( "COUTA INICIAL   " + CoutaInicial.value);
+  if(cuotaInicial.value < 90){
+    CoutaInicial.value = (cuotaInicial.value/100)*precioDeVenta.value;
+    console.log( "COUTA INICIAL1   " + CoutaInicial.value);
   }else {
-    CoutaInicial.value = precioDeVenta.value - cuotaInicial.value;
-    console.log( "COUTA INICIAL   " + CoutaInicial.value);
+    CoutaInicial.value = cuotaInicial.value;
+    console.log( "COUTA INICIAL2   " + CoutaInicial.value);
   }
 
   SaldoFinanciar.value = precioDeVenta.value - CoutaInicial.value - bonoMiVivienda.value - bonoVerde.value;
@@ -272,12 +248,76 @@ const  calculosIniciales= x=>{
 }
 
 
+const ElegirCalculo=()=> {
 
-const Limpiar=()=>{
-  list1.value.splice(0, list1.value.length);
-  //splice(0, lista.length);
+  if(confirGraciaTotal.value === false && confirGraciaParcial.value === false ){
+    CalculoNormal();
+  }
+
+  else if(confirGraciaTotal.value === true && confirGraciaParcial.value === true ){
+    CalculoGraciaTotalParcial();
+  }
+  else if(confirGraciaTotal.value === true && confirGraciaParcial.value === false ){
+    CalculoGraciaTotal();
+  }
+  else if(confirGraciaTotal.value === false && confirGraciaParcial.value === true ){
+    CalculoGraciasParcial();
+  }
+
 }
-const  Calculo=()=>{
+
+const hallarCoutaGraciaTotal=(i)=>{
+
+}
+
+const  CalculoGraciaTotalParcial = () => {
+
+  for(let i =0; i <= NTotalPeriodos.value; i++) {
+    if(i!==0  ) {
+      InteresCrono.value = ValorActualCrono.value * TEP.value;
+      console.log("InteresCrono   " + InteresCrono.value);
+      if(plazosGraciasTotal.value >= i){
+        hallarCoutaGraciaTotal();
+      }
+    }
+    else if(i===0){
+      FlujoCrono.value = Credito.value;
+      FlujoTEACrono.value = Credito.value;
+      ValorActualCrono.value = Credito.value;
+      SaldoInicialCrono.value = Credito.value;
+      list1.value.push({
+        id: i,
+        nDias: 30,
+        tasaAjustada:TEP.value.toFixed(7),
+        saldoInicial: 0,
+        Interes: 0,
+        Couta: 0,
+        Amortizacion: 0,
+        SeguroDesgravemen: 0,
+        SeguroRiesgo: 0,
+        CostesRiesgos: 0,
+        SaldoFinal: 0,
+        Flujo: SaldoInicialCrono.value.toFixed(2),
+        //toFixed(2)
+      })
+    }else{
+      console.log("Hay error")
+    }
+
+  }
+
+}
+
+const  CalculoGraciaTotal = () => {
+
+}
+
+const  CalculoGraciasParcial = () => {
+
+}
+
+
+const  CalculoNormal=()=>{
   // limpiar lista
   list1.value.splice(0, list1.value.length);
 

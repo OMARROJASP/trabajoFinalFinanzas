@@ -44,16 +44,46 @@
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Couta Inicial </label>
           <div>
-            <input
+            <input v-if="selectedOptionCoutaInicial === ''"
+                   class="w-24"
+                   type="number"
+                   step="0.0000001"
+                   min="0"
+                   id="input"
+                   v-model="cuotaInicial"
+            />
+            <input v-if="selectedOptionCoutaInicial === 'Porcentaje' && (cuotaInicial >= 7.5 && cuotaInicial <= 90)"
               class="w-24"
               type="number"
-              step="0.00000001"
+              step="0.0000001"
               min="0"
               id="input"
               v-model="cuotaInicial"
-
             />
-
+            <input v-if="selectedOptionCoutaInicial === 'Porcentaje' && (cuotaInicial < 7.5 || cuotaInicial > 90)"
+                   class="w-24 border border-red-500 border-2 text-red-500"
+                   type="number"
+                   step="0.0000001"
+                   min="0"
+                   id="input"
+                   v-model="cuotaInicial"
+            />
+            <input v-if="selectedOptionCoutaInicial === 'Efectivo' && (cuotaInicial >= 100 && cuotaInicial <= 464200)"
+                   class="w-24"
+                   type="number"
+                   step="0.0000001"
+                   min="0"
+                   id="input"
+                   v-model="cuotaInicial"
+            />
+            <input v-if="selectedOptionCoutaInicial === 'Efectivo' && (cuotaInicial <100 || cuotaInicial > 464200)"
+                     class="w-24 border border-red-500 border-2 text-red-500"
+                     type="number"
+                     step="0.0000001"
+                     min="0"
+                     id="input"
+                     v-model="cuotaInicial"
+          />
           </div>
           <div class="relative">
             <button @click="toggleDropdownCoutaInicial" class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -82,6 +112,8 @@
           </div>
         </div>
 
+
+
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">N° de Años</label>
           <div>
@@ -105,6 +137,17 @@
 
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Dias Periodo</label>
+          <div>
+            <input
+                class="w-12 h-9 text-center"
+                type="number"
+                step="0.00000001"
+                min="0"
+                id="input"
+                v-model="diasXperiodo"
+            />
+          </div>
+
 
           <div class="relative">
             <button @click="toggleDropdownDiasPeriodo" class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -138,6 +181,8 @@
       </div>
 
       <div class="bg-[#acacac] p-3 rounded-xl">
+
+
         <h2 class="uppercase font-bold">Costes/gastos Iniciales</h2>
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Dias por Año</label>
@@ -165,6 +210,7 @@
           <label for="inputPRECIO">Costes Notariales</label>
           <div>
             <input
+                class="w-12 h-9 text-center"
               type="number"
               step="0.01"
               min="0"
@@ -172,12 +218,41 @@
               v-model="costosNotariales"
             />
           </div>
+          <div class="relative">
+            <button @click="toggleDropdownCostesNotariales" class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              {{ selectedOptionCostesNotariales }}
+              <svg class="w-5 h-5 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 12l-6-6H4v8h12V6h-1l-6 6z" clip-rule="evenodd" />
+              </svg>
+            </button>
+
+            <div v-if="isOpenCostesNotariales" class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
+              <ul>
+                <li v-for="option in optionsCostesNotariales" :key="option.id" @click="selectOptionCostesNotariales(option)" class="py-1 px-4  cursor-pointer hover:bg-gray-100">
+                  {{ option.periodo }}
+                </li>
+              </ul>
+
+
+            </div>
+
+          </div>
+          <div class="relative">
+            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
+            </svg>
+            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
+              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
+            </div>
+          </div>
+
         </div>
 
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Costes Registrales</label>
           <div>
             <input
+                class="w-12 h-9 text-center"
               type="number"
               step="0.01"
               min="0"
@@ -185,12 +260,40 @@
               v-model="costosRegistrales"
             />
           </div>
+          <div class="relative">
+            <button @click="toggleDropdownCostesRegistrales" class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              {{ selectedOptionCostesRegistrales }}
+              <svg class="w-5 h-5 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 12l-6-6H4v8h12V6h-1l-6 6z" clip-rule="evenodd" />
+              </svg>
+            </button>
+
+            <div v-if="isOpenCostesRegistrales" class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
+              <ul>
+                <li v-for="option in optionsCostesRegistrales" :key="option.id" @click="selectOptionCostesRegistrales(option)" class="py-1 px-4  cursor-pointer hover:bg-gray-100">
+                  {{ option.periodo }}
+                </li>
+              </ul>
+
+
+            </div>
+
+          </div>
+          <div class="relative">
+            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
+            </svg>
+            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
+              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
+            </div>
+          </div>
         </div>
 
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Estudio de titulos</label>
           <div>
             <input
+                class="w-12 h-9 text-center"
               type="number"
               step="0.01"
               min="0"
@@ -198,12 +301,43 @@
               v-model="estudioDeTitulos"
             />
           </div>
+          <div class="relative">
+            <button @click="toggleDropdownEstudioTitulos" class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              {{ selectedOptionEstudioTitulos }}
+              <svg class="w-5 h-5 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 12l-6-6H4v8h12V6h-1l-6 6z" clip-rule="evenodd" />
+              </svg>
+            </button>
+
+            <div v-if="isOpenEstudioTitulos" class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
+              <ul>
+                <li v-for="option in optionsEstudioTitulos" :key="option.id" @click="selectOptionEstudioTitulos(option)" class="py-1 px-4  cursor-pointer hover:bg-gray-100">
+                  {{ option.periodo }}
+                </li>
+              </ul>
+
+
+            </div>
+
+          </div>
+          <div class="relative">
+            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
+            </svg>
+            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
+              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
+            </div>
+          </div>
+
         </div>
 
         <div class="flex items-center justify-between my-3">
-          <label for="inputPRECIO">Tasacion</label>
+         <div>
+           <label for="inputPRECIO">Tasacion</label>
+         </div>
           <div>
             <input
+                class="w-12 h-9 text-center"
               type="number"
               step="0.01"
               min="0"
@@ -211,12 +345,43 @@
               v-model="tasacion"
             />
           </div>
+          <div class="relative">
+            <button @click="toggleDropdownTasacion" class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              {{ selectedOptionTasacion }}
+              <svg class="w-5 h-5 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 12l-6-6H4v8h12V6h-1l-6 6z" clip-rule="evenodd" />
+              </svg>
+            </button>
+
+            <div v-if="isOpenTasacion" class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
+              <ul>
+                <li v-for="option in optionsTasacion" :key="option.id" @click="selectOptionTasacion(option)" class="py-1 px-4  cursor-pointer hover:bg-gray-100">
+                  {{ option.periodo }}
+                </li>
+              </ul>
+
+
+            </div>
+
+          </div>
+          <div class="relative">
+            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
+            </svg>
+            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
+              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
+            </div>
+          </div>
+
         </div>
 
         <div class="flex items-center justify-between my-3">
-          <label for="inputPRECIO">Comision de Activacion</label>
+          <div>
+            <label for="inputPRECIO">Comision de Activacion</label>
+          </div>
           <div>
             <input
+                class="w-12 h-9 text-center"
               type="number"
               step="0.01"
               min="0"
@@ -224,17 +389,54 @@
               v-model="comisionDeActivacion"
             />
           </div>
+
+          <div class="relative">
+            <button @click="toggleDropdownComisionAct" class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              {{ selectedOptionComisionAct }}
+              <svg class="w-5 h-5 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 12l-6-6H4v8h12V6h-1l-6 6z" clip-rule="evenodd" />
+              </svg>
+            </button>
+
+            <div v-if="isOpenComisionAct" class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
+              <ul>
+                <li v-for="option in optionsComisionActn" :key="option.id" @click="selectOptionComisionAct(option)" class="py-1 px-4  cursor-pointer hover:bg-gray-100">
+                  {{ option.periodo }}
+                </li>
+              </ul>
+
+
+            </div>
+
+          </div>
+          <div class="relative">
+            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
+            </svg>
+            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
+              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
+            </div>
+          </div>
+
+
         </div>
+
+
+
+
+      </div>
+      <div class="bg-[#acacac] p-3 rounded-xl">
+        <h1>Costes de los costos/ gastos periodicos</h1>
 
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Comision Periodica</label>
           <div>
             <input
-              type="number"
-              step="0.01"
-              min="0"
-              id="input"
-              v-model="comisionPeridica"
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="comisionPeridica"
             />
           </div>
         </div>
@@ -243,11 +445,11 @@
           <label for="inputPRECIO">Portes</label>
           <div>
             <input
-              type="number"
-              step="0.01"
-              min="0"
-              id="input"
-              v-model="portes"
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="portes"
             />
           </div>
         </div>
@@ -256,11 +458,11 @@
           <label for="inputPRECIO">Gastos Administrativos</label>
           <div>
             <input
-              type="number"
-              step="0.01"
-              min="0"
-              id="input"
-              v-model="gastosAdministrativos"
+                type="number"
+                step="0.01"
+                min="0"
+                id="input"
+                v-model="gastosAdministrativos"
             />
           </div>
         </div>
@@ -269,11 +471,11 @@
           <label for="inputPRECIO">%Seguro desgv. mensual</label>
           <div>
             <input
-              type="number"
-              step="0.001"
-              min="0"
-              id="input"
-              v-model="seguroDesgravamenMen"
+                type="number"
+                step="0.001"
+                min="0"
+                id="input"
+                v-model="seguroDesgravamenMen"
             />
           </div>
         </div>
@@ -282,38 +484,89 @@
           <label for="inputPRECIO">%Riesgo desgv. mensual</label>
           <div>
             <input
-              type="number"
-              step="0.001"
-              min="0"
-              id="input"
-              v-model="seguroRiesgoMen"
+                type="number"
+                step="0.001"
+                min="0"
+                id="input"
+                v-model="seguroRiesgoMen"
             />
           </div>
         </div>
 
-        <div class="flex items-center justify-between my-3">
-          <label for="inputPRECIO">PLAZO GRACIAS TOTAL</label>
-          <div>
+
+      </div>
+      <div class="bg-[#acacac] p-3 rounded-xl">
+
+        <div class="grid grid-cols-4 gap-1 flex items-center justify-between">
+          <div class="bg-red-500 ">
+            Plazo de gracias total
+          </div>
+          <div class="bg-green-500">
             <input
+                class="w-16 h-9"
                 type="number"
                 step="0.01"
                 min="0"
+                placeholder="plazos"
                 id="input"
                 v-model="plazosGraciasTotal"
             />
           </div>
+          <div class="bg-teal-400" v-if="confirGraciaTotal === true">
+            <button class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
+                    @click="botonGraciaTotal()"> SI </button>
+          </div>
+          <div class="bg-teal-400  " v-if="confirGraciaTotal === false">
+            <button class="font-bold bg-red-800 text-white px-4 py-2 w-16 rounded-lg"
+                    @click="botonGraciaTotal()"> NO </button>
+          </div>
+
+          <div class="bg-blue-400">
+            <div class="relative">
+              <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
+              </svg>
+              <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
+                <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="flex items-center justify-between my-3">
-          <label for="inputPRECIO">PLAZO GRACIAS PARCIAL</label>
-          <div>
+
+        <div class="grid grid-cols-4 gap-1 flex items-center justify-between">
+          <div class="bg-violet-500 ">
+            Plazo de gracias parcial
+          </div>
+          <div class="bg-green-500">
             <input
+                class="w-16 h-9"
                 type="number"
                 step="0.01"
                 min="0"
                 id="input"
+                placeholder="plazos"
                 v-model="plazosGraciasParcial"
             />
+          </div>
+          <div class="bg-teal-400" v-if="confirGraciaParcial === true">
+            <button class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
+                    @click="botonGraciaParcial()"> SI </button>
+          </div>
+          <div class="bg-teal-400  " v-if="confirGraciaParcial === false">
+            <button class="font-bold bg-red-800 text-white px-4 py-2 w-16 rounded-lg"
+                    @click="botonGraciaParcial()"> NO </button>
+          </div>
+
+          <div class="bg-blue-400">
+            <div class="relative">
+              <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
+              </svg>
+              <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
+                <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -330,11 +583,13 @@
       >
     </div>
 
-    <div v-if="next === false" class="flex justify-center" >
+    <div v-if="next === false " class="flex justify-center" >
       <button
           class="uppercase font-bold bg-red-500 text-white px-4 py-2 rounded-lg"
       >Calcular</button>
     </div>
+
+
 
     <div v-if="precioDeVenta >= 65200 &&  precioDeVenta <= 93100" >
       <p>*Se le aplicara el bono del Buen Pagador(BBP) de s/25,700.00</p>
@@ -384,9 +639,11 @@
 
 <script setup>
 import { useCalculosStore } from "../stores/calculos";
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
 
 const useCalculo = useCalculosStore();
+
+
 
 const next = ref(true);
 
@@ -395,7 +652,7 @@ const { add } = useCalculo;
 const precioDeVenta = ref(140000);
 const cuotaInicial = ref(20);
 const nDeanoas = ref(3);
-const diasXperiodo = ref(120);
+const diasXperiodo = ref();
 const diasXanoas = ref(360);
 const bonoMiVivienda = ref(0);
 const TEA = ref(10);
@@ -414,14 +671,20 @@ const seguroRiesgoMen           = ref(0.029);
 const plazosGraciasTotal        = ref(1);
 const plazosGraciasParcial      = ref(2);
 const bonoVerde                 = ref(0);
+const confirGraciaTotal         = ref(false);
+const confirGraciaParcial       = ref(false);
+
+
+
 // datos adicionales
 const mensajeBonoVerde = ref(false);
 
 
-const mostrarPrecioVenta = ref(false);
+
+const mostrarPrecioVenta  = ref(false);
 const mostrarCoutaInicial = ref(false);
-const mostrarNanios= ref(false);
-const mostrarDiasPeriodo = ref(false);
+const mostrarNanios       = ref(false);
+const mostrarDiasPeriodo  = ref(false);
 
 const mensajePrecioVenta = () => {
   mostrarPrecioVenta.value =  !mostrarPrecioVenta.value;
@@ -469,36 +732,35 @@ const darValorDelBono=()=> {
 }
 
 
-// Dropdown de las variables  v-if="cuotaInicial >= 1"
 
-const  CIp = ref();
-const  CIe = ref();
+
+// Dropdown de las variables
+
+
 const isOpenCoutaInicial = ref(false);
-const selectedOptionCoutaInicial = ref('elija');
+
 const  optionsCoutaInicial  =  ref([
   { id: 1 , periodo: 'Porcentaje', valor: cuotaInicial.value},
   { id: 2 , periodo: 'Efectivo', valor: cuotaInicial.value},
 ])
+const selectedOptionCoutaInicial = ref('');
+
 
 const toggleDropdownCoutaInicial =()=>{
-  isOpenCoutaInicial.value =!isOpenCoutaInicial.value;
-
+  isOpenCoutaInicial.value = !isOpenCoutaInicial.value;
 }
 
 const  selectOptionCoutaInicial=(option)=> {
   selectedOptionCoutaInicial.value = option.periodo;
   isOpenCoutaInicial.value = false;
 
-  if (option.id === 1) {
-    cuotaInicial.value = cuotaInicial.value / 100;
-  }
 }
 
   const isOpenDiasPeriodo = ref(false);
 
   const selectedOptionDiasPeriodo = ref('');
   const optionsDiasPeriodo = ref([
-    {id: 1, label: 30, periodo: 'Mes'},
+    {id: 1, label: 30, periodo: 'Mensual'},
     {id: 2, label: 60, periodo: 'Bimestral'},
     {id: 3, label: 120, periodo: 'Trimestral'},
     {id: 4, label: 150, periodo: 'Cuatrimestral'},
@@ -516,34 +778,146 @@ const  selectOptionCoutaInicial=(option)=> {
   }
 
 
-  /*
-const seguroDesgravamenMen = ref(0.049);
-const seguroRiesgoMen = ref(0.029);
- */
-// falta 1
-  const lista = ref([
-    precioDeVenta,
-    cuotaInicial,
-    nDeanoas,
-    diasXperiodo,
-    diasXanoas,
-    bonoMiVivienda,
-    TEA,
-    costosNotariales,
-    costosRegistrales,
-    estudioDeTitulos,
-    tasacion,
-    comisionDeActivacion,
-    comisionPeridica,
-    portes,
-    gastosAdministrativos,
-    seguroDesgravamenMen,
-    seguroRiesgoMen,
-    plazosGraciasTotal,
-    plazosGraciasParcial,
-    bonoVerde,
-  ]);
+const isOpenCostesNotariales = ref(false);
 
+const  optionsCostesNotariales  =  ref([
+  { id: 1 , periodo: 'Prestamo'},
+  { id: 2 , periodo: 'Efectivo'},
+])
+
+const selectedOptionCostesNotariales = ref('');
+
+
+const toggleDropdownCostesNotariales =()=>{
+  isOpenCostesNotariales.value = !isOpenCostesNotariales.value;
+  isOpenCostesRegistrales.value = false;
+}
+
+const  selectOptionCostesNotariales=(option)=> {
+  selectedOptionCostesNotariales.value = option.periodo;
+  isOpenCostesNotariales.value = false;
+
+}
+  const isOpenCostesRegistrales = ref(false);
+
+  const  optionsCostesRegistrales  =  ref([
+    { id: 1 , periodo: 'Prestamo'},
+    { id: 2 , periodo: 'Efectivo'},
+  ])
+  const selectedOptionCostesRegistrales = ref('');
+
+
+  const toggleDropdownCostesRegistrales =()=>{
+    isOpenCostesRegistrales.value = !isOpenCostesRegistrales.value;
+  }
+
+  const  selectOptionCostesRegistrales=(option)=> {
+    selectedOptionCostesRegistrales.value = option.periodo;
+    isOpenCostesRegistrales.value = false;
+  }
+
+const isOpenEstudioTitulos = ref(false);
+
+const  optionsEstudioTitulos  =  ref([
+  { id: 1 , periodo: 'Prestamo'},
+  { id: 2 , periodo: 'Efectivo'},
+])
+const selectedOptionEstudioTitulos = ref('');
+
+
+const toggleDropdownEstudioTitulos =()=>{
+  isOpenEstudioTitulos.value = !isOpenEstudioTitulos.value;
+}
+
+const  selectOptionEstudioTitulos=(option)=> {
+  selectedOptionEstudioTitulos.value = option.periodo;
+  isOpenEstudioTitulos.value = false;
+}
+
+const isOpenTasacion = ref(false);
+
+const  optionsTasacion  =  ref([
+  { id: 1 , periodo: 'Prestamo'},
+  { id: 2 , periodo: 'Efectivo'},
+])
+const selectedOptionTasacion = ref('');
+
+
+const toggleDropdownTasacion =()=>{
+  isOpenTasacion.value = !isOpenTasacion.value;
+}
+
+const  selectOptionTasacion=(option)=> {
+  selectedOptionTasacion.value = option.periodo;
+  isOpenTasacion.value = false;
+}
+
+
+const isOpenComisionAct = ref(false);
+
+const  optionsComisionActn  =  ref([
+  { id: 1 , periodo: 'Prestamo'},
+  { id: 2 , periodo: 'Efectivo'},
+])
+const selectedOptionComisionAct = ref('');
+
+
+const toggleDropdownComisionAct =()=>{
+  isOpenComisionAct.value = !isOpenComisionAct.value;
+}
+
+const  selectOptionComisionAct=(option)=> {
+  selectedOptionComisionAct.value = option.periodo;
+  isOpenComisionAct.value = false;
+}
+
+
+
+
+const botonGraciaTotal = ()=>{
+  confirGraciaTotal.value= !confirGraciaTotal.value;
+}
+const botonGraciaParcial = ()=>{
+  confirGraciaParcial.value=! confirGraciaParcial.value;
+}
+
+// falta 1
+const lista = ref([
+  precioDeVenta,
+  cuotaInicial,
+  nDeanoas,
+  diasXperiodo,
+  diasXanoas,
+  bonoMiVivienda,
+  TEA,
+  costosNotariales,
+  costosRegistrales,
+  estudioDeTitulos,
+  tasacion,
+  comisionDeActivacion,
+  comisionPeridica,
+  portes,
+  gastosAdministrativos,
+  seguroDesgravamenMen,
+  seguroRiesgoMen,
+  plazosGraciasTotal,
+  plazosGraciasParcial,
+  bonoVerde,
+  confirGraciaTotal,
+  confirGraciaParcial,
+]);
+
+
+onMounted(() => {
+  selectOptionCoutaInicial(optionsCoutaInicial.value.at(0));
+  selectOptionDiasPeriodo(optionsDiasPeriodo.value.at(0));
+  selectOptionCostesNotariales(optionsCostesNotariales.value.at(0));
+  selectOptionCostesRegistrales(optionsCostesRegistrales.value.at(0));
+  selectOptionEstudioTitulos(optionsEstudioTitulos.value.at(0));
+  selectOptionTasacion(optionsTasacion.value.at(0));
+  selectOptionComisionAct(optionsComisionActn.value.at(0));
+})
 </script>
+
 
 <style scoped></style>
