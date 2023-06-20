@@ -12,7 +12,7 @@
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Precio de Venta</label>
           <div>
-            <input v-if="precioDeVenta >= 65200 && precioDeVenta <= 464200"
+            <input v-if="precioDeVenta >= 25000 && precioDeVenta <= 464200"
                 class="w-28 "
               type="number"
               step="0.01"
@@ -649,13 +649,13 @@ const next = ref(true);
 
 const { add } = useCalculo;
 
-const precioDeVenta = ref(140000);
+const precioDeVenta = ref(25000);
 const cuotaInicial = ref(20);
-const nDeanoas = ref(3);
+const nDeanoas = ref(2);
 const diasXperiodo = ref();
 const diasXanoas = ref(360);
 const bonoMiVivienda = ref(0);
-const TEA = ref(10);
+const TEA = ref(9);
 const costosNotariales = ref(0);
 const costosRegistrales = ref(0);
 const estudioDeTitulos = ref(0);
@@ -671,8 +671,8 @@ const seguroRiesgoMen           = ref(0.029);
 const plazosGraciasTotal        = ref(1);
 const plazosGraciasParcial      = ref(2);
 const bonoVerde                 = ref(0);
-const confirGraciaTotal         = ref(false);
-const confirGraciaParcial       = ref(false);
+const confirGraciaTotal         = ref(true);
+const confirGraciaParcial       = ref(true);
 
 
 
@@ -704,6 +704,7 @@ const mensajeDiasPeriodo = () => {
 
 
 const darValorDelBono=()=> {
+
   if (precioDeVenta.value >= 65200 && precioDeVenta.value <= 93100) {
     bonoMiVivienda.value = 25700;
     bonoVerde.value = 5400;
