@@ -282,7 +282,7 @@ const  CalculoGraciaTotalParcial = () => {
 
   for(let i =0; i <= NTotalPeriodos.value; i++) {
     if(i!==0  ) {
-      if(i == 7  ){
+      if(i == 7 && false ){
         TEA.value = 0.10;
         console.log("nueva  TEA" + TEA.value);
         TEP.value = (1 + TEA.value)**(diasXperiodo.value/diasXanios.value) -1;
@@ -291,6 +291,15 @@ const  CalculoGraciaTotalParcial = () => {
       InteresCrono.value = ValorActualCrono.value * TEP.value;
       console.log("InteresCrono   " + InteresCrono.value);
 
+      SegDesgravamenCrono.value = ValorActualCrono.value * (seguroDesgravamenPer.value / 100);
+      console.log("SegDesgravamenCrono   " + SegDesgravamenCrono.value);
+
+      segRiesgoCrono.value = ValorActualCrono.value * (seguroRiesgoPer.value / 100);
+      console.log("segRiesgoCrono   " + segRiesgoCrono.value);
+
+      CostesRiesgosCrono.value = comisionPeridica.value + portes.value + gastosAdministrativos.value;
+      console.log("CostesRiesgosCrono   " + CostesRiesgosCrono.value);
+
 
       if(i <= plazosGraciasTotal.value){
         console.log(i)
@@ -298,7 +307,8 @@ const  CalculoGraciaTotalParcial = () => {
         AmortCrono.value = 0;
        // AmortCrono.value =CoutaCrono.value - InteresCrono.value;
         console.log( "AmortCrono    " + AmortCrono.value);
-        SaldoFinalCrono.value = ValorActualCrono.value + InteresCrono.value;
+        // preguntar al profesor
+        SaldoFinalCrono.value = ValorActualCrono.value + InteresCrono.value + SegDesgravamenCrono.value+segRiesgoCrono.value + CostesRiesgosCrono.value;
         console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
 
 
@@ -324,8 +334,11 @@ const  CalculoGraciaTotalParcial = () => {
         CoutaCrono.value = ValorActualCrono.value*(arribaC.value/abajoC.value);
         console.log("valor actual" +  ValorActualCrono.value)
         console.log("crono value" +  CoutaCrono.value)
-        AmortCrono.value = CoutaCrono.value - InteresCrono.value;
-        console.log("AmortCrono.value " + AmortCrono.value )
+        AmortCrono.value =CoutaCrono.value - InteresCrono.value
+            -  SegDesgravamenCrono.value
+            -  segRiesgoCrono.value
+            -  CostesRiesgosCrono.value;
+        console.log( "AmortCrono    " + AmortCrono.value);
         SaldoFinalCrono.value = ValorActualCrono.value - AmortCrono.value;
         console.log("SaldoFinalCrono.value" + SaldoFinalCrono.value)
 
@@ -345,12 +358,12 @@ const  CalculoGraciaTotalParcial = () => {
         Interes: InteresCrono.value.toFixed(2),
         Couta: CoutaCrono.value.toFixed(2),
         Amortizacion: AmortCrono.value.toFixed(2),
-        SeguroDesgravemen: 0,
-        SeguroRiesgo: 0,
-        CostesRiesgos: 0,
+        SeguroDesgravemen: SegDesgravamenCrono.value.toFixed(2),
+        SeguroRiesgo: segRiesgoCrono.value.toFixed(2),
+        CostesRiesgos: CostesRiesgosCrono.value.toFixed(2),
         SaldoFinal: SaldoFinalCrono.value.toFixed(2),
         Flujo: FlujoCrono.value.toFixed(2),
-        //toFixed(2)
+
       })
       ValorActualCrono.value = SaldoFinalCrono.value;
       ValorActualExtra.value = SaldoFinalCrono.value;
