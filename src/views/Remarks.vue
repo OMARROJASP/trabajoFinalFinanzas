@@ -1,48 +1,46 @@
 <template>
-  <form
-    @submit.prevent="handleSubmit"
-    class="w-11/12 mx-auto flex flex-col h-[85%] justify-between"
-  >
-    <h2 class="font-bold my-3 uppercase text-2xl text-center">
-      Credito Hipotecario
-    </h2>
-    <div class="grid grid-cols-2 gap-4 mb-2">
-      <loanData />
-      <initialCostsExpenses />
-      <costsOfPeriodicExpenses />
-      <gracePeriods />
-    </div>
+  <div v-if="precioDeVenta >= 65200 && precioDeVenta <= 93100">
+    <p>*Se le aplicara el bono del Buen Pagador(BBP) de s/25,700.00</p>
+    <p>**Se le aplicara el bono verde de s/5,400.00</p>
+    {{ darValorDelBono() }}
+  </div>
 
-    <div v-if="next === true" class="flex justify-center">
-      <RouterLink
-        to="/Resultado"
-        type="submit"
-        @click="add(lista)"
-        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
-        >Calcular</RouterLink
-      >
-    </div>
+  <div v-if="precioDeVenta > 93100 && precioDeVenta <= 139400">
+    <p>*Se le aplicara el bono del Buen Pagador(BBP) de s/21,400.00</p>
+    <p>**Se le aplicara el bono verde de s/5,400.00</p>
+    {{ darValorDelBono() }}
+  </div>
 
-    <div v-if="next === false" class="flex justify-center">
-      <button
-        class="uppercase font-bold bg-red-500 text-white px-4 py-2 rounded-lg"
-      >
-        Calcular
-      </button>
-    </div>
+  <div v-if="precioDeVenta > 139400 && precioDeVenta <= 232200">
+    <p>*Se le aplicara el bono del Buen Pagador(BBP) de s/19,600.00</p>
+    <p>**Se le aplicara el bono verde de s/5,400.00</p>
+    {{ darValorDelBono() }}
+    <p>El valor de periodo {{ diasXperiodo }}</p>
+    <p>El valor de couta inicial {{ cuotaInicial }}</p>
+  </div>
 
-    <Remarks />
-  </form>
+  <div v-if="precioDeVenta > 232200 && precioDeVenta <= 343900">
+    <p>*Se le aplicara el bono del Buen Pagador(BBP) de s/10,800.00</p>
+    <p>**Se le aplicara el bono verde de s/5,400.00</p>
+    {{ darValorDelBono() }}
+  </div>
+
+  <div v-if="precioDeVenta > 343900 && precioDeVenta <= 464200">
+    <p>**No se le aplicara el Bono del Buen Pagador(BBP)</p>
+    <p>**No se le aplicara el bono verde</p>
+    {{ darValorDelBono() }}
+  </div>
+
+  <div v-if="precioDeVenta > 464200">
+    {{ darValorDelBono() }}
+    <p>**No procede los Bonos MiVivienda, sobrepasa los s/464,200.00</p>
+    <p>Para continuar cambie de Precio de Venta menor a s/464,200.00</p>
+  </div>
 </template>
 
 <script setup>
 import { useCalculosStore } from "../stores/calculos";
 import { onMounted, ref } from "vue";
-import loanData from "./loanData.vue";
-import initialCostsExpenses from "./initialCostsExpenses.vue";
-import costsOfPeriodicExpenses from "./costsOfPeriodicExpenses.vue";
-import gracePeriods from "./gracePeriods.vue";
-import Remarks from "./Remarks.vue";
 
 const useCalculo = useCalculosStore();
 
@@ -133,10 +131,6 @@ const optionsCoutaInicial = ref([
   { id: 2, periodo: "Efectivo", valor: cuotaInicial.value },
 ]);
 const selectedOptionCoutaInicial = ref("");
-
-// const toggleDropdownCoutaInicial = () => {
-//   isOpenCoutaInicial.value = !isOpenCoutaInicial.value;
-// };
 
 const selectOptionCoutaInicial = (option) => {
   selectedOptionCoutaInicial.value = option.periodo;
@@ -293,5 +287,3 @@ onMounted(() => {
   selectOptionComisionAct(optionsComisionActn.value.at(0));
 });
 </script>
-
-<style scoped></style>

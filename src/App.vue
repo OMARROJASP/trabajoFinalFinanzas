@@ -1,12 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
-import {useUserStore} from "./stores/user.js";
+import { useUserStore } from "./stores/user.js";
 import Header from "./views/Header.vue";
 import Menu from "./views/Menu.vue";
 import Inicio from "./views/Inicio.vue";
 import Calculo from "./views/Calculo.vue";
 //import Inicio from "./views/Inicio.vue";
-const userStore =  useUserStore();
+const userStore = useUserStore();
 </script>
 
 <template>
@@ -14,7 +14,10 @@ const userStore =  useUserStore();
     <router-view></router-view>
   </div>
 
-  <div v-else-if="userStore.loadingSession" class="p-3 gap-3 bg-blue-950 flex h-screen">
+  <div
+    v-else-if="userStore.loadingSession"
+    class="p-3 gap-3 bg-blue-950 flex h-screen"
+  >
     <Menu />
 
     <div class="w-3/4 bg-white">

@@ -1,48 +1,71 @@
 <template>
-  <form
-    @submit.prevent="handleSubmit"
-    class="w-11/12 mx-auto flex flex-col h-[85%] justify-between"
-  >
-    <h2 class="font-bold my-3 uppercase text-2xl text-center">
-      Credito Hipotecario
-    </h2>
-    <div class="grid grid-cols-2 gap-4 mb-2">
-      <loanData />
-      <initialCostsExpenses />
-      <costsOfPeriodicExpenses />
-      <gracePeriods />
+  <div class="bg-[#acacac] p-3 rounded-xl">
+    <h1>Costes de los costos/ gastos periodicos</h1>
+
+    <div class="flex items-center justify-between my-3">
+      <label for="inputPRECIO">Comision Periodica</label>
+      <div>
+        <input
+          type="number"
+          step="0.01"
+          min="0"
+          id="input"
+          v-model="comisionPeridica"
+        />
+      </div>
     </div>
 
-    <div v-if="next === true" class="flex justify-center">
-      <RouterLink
-        to="/Resultado"
-        type="submit"
-        @click="add(lista)"
-        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
-        >Calcular</RouterLink
-      >
+    <div class="flex items-center justify-between my-3">
+      <label for="inputPRECIO">Portes</label>
+      <div>
+        <input type="number" step="0.01" min="0" id="input" v-model="portes" />
+      </div>
     </div>
 
-    <div v-if="next === false" class="flex justify-center">
-      <button
-        class="uppercase font-bold bg-red-500 text-white px-4 py-2 rounded-lg"
-      >
-        Calcular
-      </button>
+    <div class="flex items-center justify-between my-3">
+      <label for="inputPRECIO">Gastos Administrativos</label>
+      <div>
+        <input
+          type="number"
+          step="0.01"
+          min="0"
+          id="input"
+          v-model="gastosAdministrativos"
+        />
+      </div>
     </div>
 
-    <Remarks />
-  </form>
+    <div class="flex items-center justify-between my-3">
+      <label for="inputPRECIO">%Seguro desgv. mensual</label>
+      <div>
+        <input
+          type="number"
+          step="0.001"
+          min="0"
+          id="input"
+          v-model="seguroDesgravamenMen"
+        />
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between my-3">
+      <label for="inputPRECIO">%Riesgo desgv. mensual</label>
+      <div>
+        <input
+          type="number"
+          step="0.001"
+          min="0"
+          id="input"
+          v-model="seguroRiesgoMen"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { useCalculosStore } from "../stores/calculos";
 import { onMounted, ref } from "vue";
-import loanData from "./loanData.vue";
-import initialCostsExpenses from "./initialCostsExpenses.vue";
-import costsOfPeriodicExpenses from "./costsOfPeriodicExpenses.vue";
-import gracePeriods from "./gracePeriods.vue";
-import Remarks from "./Remarks.vue";
 
 const useCalculo = useCalculosStore();
 
@@ -133,10 +156,6 @@ const optionsCoutaInicial = ref([
   { id: 2, periodo: "Efectivo", valor: cuotaInicial.value },
 ]);
 const selectedOptionCoutaInicial = ref("");
-
-// const toggleDropdownCoutaInicial = () => {
-//   isOpenCoutaInicial.value = !isOpenCoutaInicial.value;
-// };
 
 const selectOptionCoutaInicial = (option) => {
   selectedOptionCoutaInicial.value = option.periodo;
@@ -293,5 +312,3 @@ onMounted(() => {
   selectOptionComisionAct(optionsComisionActn.value.at(0));
 });
 </script>
-
-<style scoped></style>

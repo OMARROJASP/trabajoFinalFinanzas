@@ -1,48 +1,228 @@
 <template>
-  <form
-    @submit.prevent="handleSubmit"
-    class="w-11/12 mx-auto flex flex-col h-[85%] justify-between"
-  >
-    <h2 class="font-bold my-3 uppercase text-2xl text-center">
-      Credito Hipotecario
-    </h2>
-    <div class="grid grid-cols-2 gap-4 mb-2">
-      <loanData />
-      <initialCostsExpenses />
-      <costsOfPeriodicExpenses />
-      <gracePeriods />
+  <div class="bg-[#acacac] p-3 rounded-xl">
+    <h2 class="uppercase font-bold">Datos del prestamo</h2>
+    <div class="flex items-center justify-between my-3">
+      <label for="inputPRECIO">Precio de Venta</label>
+      <div>
+        <input
+          v-if="precioDeVenta >= 25000 && precioDeVenta <= 464200"
+          type="number"
+          step="0.01"
+          min="0"
+          id="input"
+          v-model="precioDeVenta"
+        />
+        <input
+          v-else
+          type="number"
+          step="0.01"
+          min="0"
+          id="input"
+          v-model="precioDeVenta"
+        />
+      </div>
     </div>
 
-    <div v-if="next === true" class="flex justify-center">
-      <RouterLink
-        to="/Resultado"
-        type="submit"
-        @click="add(lista)"
-        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
-        >Calcular</RouterLink
-      >
+    <div class="flex items-center justify-between my-3">
+      <label for="inputPRECIO">Cuota Inicial </label>
+      <div>
+        <input
+          v-if="selectedOptionCoutaInicial === ''"
+          class="w-24"
+          type="number"
+          step="0.0000001"
+          min="0"
+          id="input"
+          v-model="cuotaInicial"
+        />
+
+        <input
+          v-if="
+            selectedOptionCoutaInicial === 'Porcentaje' &&
+            cuotaInicial >= 7.5 &&
+            cuotaInicial <= 90
+          "
+          class="w-24"
+          type="number"
+          step="0.0000001"
+          min="0"
+          id="input"
+          v-model="cuotaInicial"
+        />
+
+        <input
+          v-if="
+            selectedOptionCoutaInicial === 'Porcentaje' &&
+            (cuotaInicial < 7.5 || cuotaInicial > 90)
+          "
+          class="w-24 border border-red-500 text-red-500"
+          type="number"
+          step="0.0000001"
+          min="0"
+          id="input"
+          v-model="cuotaInicial"
+        />
+
+        <input
+          v-if="
+            selectedOptionCoutaInicial === 'Efectivo' &&
+            cuotaInicial >= 100 &&
+            cuotaInicial <= 464200
+          "
+          class="w-24"
+          type="number"
+          step="0.0000001"
+          min="0"
+          id="input"
+          v-model="cuotaInicial"
+        />
+        <input
+          v-if="
+            selectedOptionCoutaInicial === 'Efectivo' &&
+            (cuotaInicial < 100 || cuotaInicial > 464200)
+          "
+          class="w-24 border border-red-500 text-red-500"
+          type="number"
+          step="0.0000001"
+          min="0"
+          id="input"
+          v-model="cuotaInicial"
+        />
+      </div>
+
+      <div>
+        <button
+          @click="toggleDropdownCoutaInicial"
+          class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          {{ selectedOptionCoutaInicial }}
+        </button>
+
+        <div
+          v-if="isOpenCoutaInicial"
+          class="mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg"
+        >
+          <ul>
+            <li
+              v-for="option in optionsCoutaInicial"
+              :key="option.id"
+              @click="selectOptionCoutaInicial(option)"
+              class="py-1 px-4 cursor-pointer hover:bg-gray-100"
+            >
+              {{ option.periodo }}
+            </li>
+          </ul>
+        </div>
+
+        <select
+          class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100"
+        >
+          <option hidden>Selecciona</option>
+          <option v-for="option in optionsCoutaInicial" value="">
+            {{ option.periodo }}
+          </option>
+        </select>
+      </div>
+
+      <!-- <div class="relative">
+            <svg
+              @click="mensajeCoutaInicial"
+              class="w-6 h-6 text-blue-500 cursor-pointer"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"
+              ></path>
+            </svg>
+            <div
+              v-if="mostrarCoutaInicial"
+              class="absolute bg-white p-2 rounded shadow-lg"
+            >
+              <span class="text-blue-500 font-bold"
+                >Aqui pondrias informacion para el precio de venta</span
+              >
+            </div>
+          </div> -->
     </div>
 
-    <div v-if="next === false" class="flex justify-center">
-      <button
-        class="uppercase font-bold bg-red-500 text-white px-4 py-2 rounded-lg"
-      >
-        Calcular
-      </button>
+    <div class="flex items-center justify-between my-3">
+      <label for="inputPRECIO">N° de Años</label>
+      <div>
+        <input
+          type="number"
+          step="0.00000001"
+          min="0"
+          id="input"
+          v-model="nDeanoas"
+        />
+      </div>
+      <!-- <div class="relative">
+            <svg
+              @click="mensajeNanios"
+              class="w-6 h-6 text-blue-500 cursor-pointer"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"
+              ></path>
+            </svg>
+            <div
+              v-if="mostrarNanios"
+              class="absolute bg-white p-2 rounded shadow-lg"
+            >
+              <span class="text-blue-500 font-bold"
+                >Aqui pondrias informacion para el precio de venta</span
+              >
+            </div>
+          </div> -->
     </div>
 
-    <Remarks />
-  </form>
+    <div class="flex items-center justify-between my-3">
+      <label for="inputPRECIO">Dias Periodo</label>
+      <div>
+        <input
+          type="number"
+          step="0.00000001"
+          min="0"
+          id="input"
+          v-model="selectedOptionDiasPeriodo"
+        />
+      </div>
+
+      <div>
+        <select
+          v-model="selectedOptionDiasPeriodo"
+          class="block w-48 py-2 px-4 border border-gray-300 rounded-md shadow-sm"
+        >
+          <option
+            v-for="option in optionsDiasPeriodo"
+            :value="option.label"
+            :key="option.id"
+            @click="selectOptionDiasPeriodo(option)"
+          >
+            {{ option.periodo }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { useCalculosStore } from "../stores/calculos";
 import { onMounted, ref } from "vue";
-import loanData from "./loanData.vue";
-import initialCostsExpenses from "./initialCostsExpenses.vue";
-import costsOfPeriodicExpenses from "./costsOfPeriodicExpenses.vue";
-import gracePeriods from "./gracePeriods.vue";
-import Remarks from "./Remarks.vue";
 
 const useCalculo = useCalculosStore();
 
@@ -133,10 +313,6 @@ const optionsCoutaInicial = ref([
   { id: 2, periodo: "Efectivo", valor: cuotaInicial.value },
 ]);
 const selectedOptionCoutaInicial = ref("");
-
-// const toggleDropdownCoutaInicial = () => {
-//   isOpenCoutaInicial.value = !isOpenCoutaInicial.value;
-// };
 
 const selectOptionCoutaInicial = (option) => {
   selectedOptionCoutaInicial.value = option.periodo;

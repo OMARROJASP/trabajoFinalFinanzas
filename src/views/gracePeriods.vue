@@ -1,48 +1,128 @@
 <template>
-  <form
-    @submit.prevent="handleSubmit"
-    class="w-11/12 mx-auto flex flex-col h-[85%] justify-between"
-  >
-    <h2 class="font-bold my-3 uppercase text-2xl text-center">
-      Credito Hipotecario
-    </h2>
-    <div class="grid grid-cols-2 gap-4 mb-2">
-      <loanData />
-      <initialCostsExpenses />
-      <costsOfPeriodicExpenses />
-      <gracePeriods />
+  <div class="bg-[#acacac] p-3 rounded-xl">
+    <div class="gap-1 flex items-center justify-between">
+      <div>Plazo de gracias total</div>
+      <div>
+        <input
+          class="w-16 h-9"
+          type="number"
+          step="0.01"
+          min="0"
+          placeholder="plazos"
+          id="input"
+          v-model="plazosGraciasTotal"
+        />
+      </div>
+      <div v-if="confirGraciaTotal === true">
+        <button
+          class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
+          @click="botonGraciaTotal()"
+        >
+          SI
+        </button>
+      </div>
+      <div v-if="confirGraciaTotal === false">
+        <button
+          class="font-bold text-white px-4 py-2 w-16 rounded-lg"
+          @click="botonGraciaTotal()"
+        >
+          NO
+        </button>
+      </div>
+
+      <!-- <div class="bg-blue-400">
+            <div class="relative">
+              <svg
+                @click="mensajeDiasPeriodo"
+                class="w-6 h-6 text-blue-500 cursor-pointer"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"
+                ></path>
+              </svg>
+              <div
+                v-if="mostrarDiasPeriodo"
+                class="absolute bg-white p-2 rounded shadow-lg"
+              >
+                <span class="text-blue-500 font-bold"
+                  >Aqui pondrias informacion para el precio de venta</span
+                >
+              </div>
+            </div>
+          </div> -->
     </div>
 
-    <div v-if="next === true" class="flex justify-center">
-      <RouterLink
-        to="/Resultado"
-        type="submit"
-        @click="add(lista)"
-        class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-lg"
-        >Calcular</RouterLink
-      >
-    </div>
+    <div class="gap-1 flex items-center justify-between">
+      <div>Plazo de gracias parcial</div>
+      <div>
+        <input
+          class="w-16 h-9"
+          type="number"
+          step="0.01"
+          min="0"
+          id="input"
+          placeholder="plazos"
+          v-model="plazosGraciasParcial"
+        />
+      </div>
+      <div v-if="confirGraciaParcial === true">
+        <button
+          class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
+          @click="botonGraciaParcial()"
+        >
+          SI
+        </button>
+      </div>
+      <div v-if="confirGraciaParcial === false">
+        <button
+          class="font-bold bg-red-800 text-white px-4 py-2 w-16 rounded-lg"
+          @click="botonGraciaParcial()"
+        >
+          NO
+        </button>
+      </div>
 
-    <div v-if="next === false" class="flex justify-center">
-      <button
-        class="uppercase font-bold bg-red-500 text-white px-4 py-2 rounded-lg"
-      >
-        Calcular
-      </button>
+      <!-- <div class="bg-blue-400">
+            <div class="relative">
+              <svg
+                @click="mensajeDiasPeriodo"
+                class="w-6 h-6 text-blue-500 cursor-pointer"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"
+                ></path>
+              </svg>
+              <div
+                v-if="mostrarDiasPeriodo"
+                class="absolute bg-white p-2 rounded shadow-lg"
+              >
+                <span class="text-blue-500 font-bold"
+                  >Aqui pondrias informacion para el precio de venta</span
+                >
+              </div>
+            </div>
+          </div> -->
     </div>
-
-    <Remarks />
-  </form>
+  </div>
 </template>
 
 <script setup>
 import { useCalculosStore } from "../stores/calculos";
 import { onMounted, ref } from "vue";
-import loanData from "./loanData.vue";
-import initialCostsExpenses from "./initialCostsExpenses.vue";
-import costsOfPeriodicExpenses from "./costsOfPeriodicExpenses.vue";
-import gracePeriods from "./gracePeriods.vue";
-import Remarks from "./Remarks.vue";
 
 const useCalculo = useCalculosStore();
 
@@ -133,10 +213,6 @@ const optionsCoutaInicial = ref([
   { id: 2, periodo: "Efectivo", valor: cuotaInicial.value },
 ]);
 const selectedOptionCoutaInicial = ref("");
-
-// const toggleDropdownCoutaInicial = () => {
-//   isOpenCoutaInicial.value = !isOpenCoutaInicial.value;
-// };
 
 const selectOptionCoutaInicial = (option) => {
   selectedOptionCoutaInicial.value = option.periodo;
@@ -293,5 +369,3 @@ onMounted(() => {
   selectOptionComisionAct(optionsComisionActn.value.at(0));
 });
 </script>
-
-<style scoped></style>
