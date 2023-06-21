@@ -1,10 +1,11 @@
 <template>
   <div class="bg-[#acacac] p-3 rounded-xl">
     <h2 class="uppercase font-bold">Costes/gastos Iniciales</h2>
-    <div class="flex items-center justify-between my-3">
-      <label for="inputPRECIO">Dias por Año</label>
-      <div>
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between gap-10">
+        <label for="inputPRECIO" class="w-[130px]">Días por Año</label>
         <input
+          class="py-1 rounded-lg text-center"
           type="number"
           step="0.00000001"
           min="0"
@@ -12,139 +13,74 @@
           v-model="diasXanoas"
         />
       </div>
-    </div>
 
-    <div class="flex items-center justify-between my-3">
-      <label for="inputPRECIO">TEA</label>
-      <div>
-        <input type="number" step="0.01" min="0" id="input" v-model="TEA" />
-      </div>
-    </div>
-
-    <div class="flex items-center justify-between my-3">
-      <label for="inputPRECIO">Costes Notariales</label>
-      <div>
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[130px]">TEA</label>
         <input
-          class="w-12 h-9 text-center"
+          class="py-1 rounded-lg text-center"
           type="number"
           step="0.01"
           min="0"
           id="input"
-          v-model="costosNotariales"
+          v-model="TEA"
         />
       </div>
-      <div class="relative">
-        <button
-          @click="toggleDropdownCostesNotariales"
-          class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          {{ selectedOptionCostesNotariales }}
-          <svg
-            class="w-5 h-5 ml-2 -mr-1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 12l-6-6H4v8h12V6h-1l-6 6z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
 
-        <div
-          v-if="isOpenCostesNotariales"
-          class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg"
-        >
-          <ul>
-            <li
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[130px]">Costes Notariales</label>
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.01"
+            min="0"
+            id="input"
+            v-model="costosNotariales"
+          />
+        </div>
+
+        <div>
+          <select
+            class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-100"
+          >
+            <option
               v-for="option in optionsCostesNotariales"
               :key="option.id"
               @click="selectOptionCostesNotariales(option)"
-              class="py-1 px-4 cursor-pointer hover:bg-gray-100"
             >
               {{ option.periodo }}
-            </li>
-          </ul>
+            </option>
+          </select>
         </div>
       </div>
-      <!-- <div class="relative">
-            <svg
-              @click="mensajeDiasPeriodo"
-              class="w-6 h-6 text-blue-500 cursor-pointer"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"
-              ></path>
-            </svg>
-            <div
-              v-if="mostrarDiasPeriodo"
-              class="absolute bg-white p-2 rounded shadow-lg"
-            >
-              <span class="text-blue-500 font-bold"
-                >Aqui pondrias informacion para el precio de venta</span
-              >
-            </div>
-          </div> -->
-    </div>
 
-    <div class="flex items-center justify-between my-3">
-      <label for="inputPRECIO">Costes Registrales</label>
-      <div>
-        <input
-          class="w-12 h-9 text-center"
-          type="number"
-          step="0.01"
-          min="0"
-          id="input"
-          v-model="costosRegistrales"
-        />
-      </div>
-      <div class="relative">
-        <button
-          @click="toggleDropdownCostesRegistrales"
-          class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          {{ selectedOptionCostesRegistrales }}
-          <svg
-            class="w-5 h-5 ml-2 -mr-1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[130px]">Costes Registrales</label>
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.01"
+            min="0"
+            id="input"
+            v-model="costosRegistrales"
+          />
+        </div>
+
+        <div>
+          <select
+            class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-100"
           >
-            <path
-              fill-rule="evenodd"
-              d="M10 12l-6-6H4v8h12V6h-1l-6 6z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
-
-        <div
-          v-if="isOpenCostesRegistrales"
-          class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg"
-        >
-          <ul>
-            <li
+            <option
               v-for="option in optionsCostesRegistrales"
               :key="option.id"
               @click="selectOptionCostesRegistrales(option)"
-              class="py-1 px-4 cursor-pointer hover:bg-gray-100"
             >
               {{ option.periodo }}
-            </li>
-          </ul>
+            </option>
+          </select>
         </div>
-      </div>
-      <!-- <div class="relative">
+        <!-- <div class="relative">
             <svg
               @click="mensajeDiasPeriodo"
               class="w-6 h-6 text-blue-500 cursor-pointer"
@@ -169,57 +105,35 @@
               >
             </div>
           </div> -->
-    </div>
-
-    <div class="flex items-center justify-between my-3">
-      <label for="inputPRECIO">Estudio de titulos</label>
-      <div>
-        <input
-          class="w-12 h-9 text-center"
-          type="number"
-          step="0.01"
-          min="0"
-          id="input"
-          v-model="estudioDeTitulos"
-        />
       </div>
-      <div class="relative">
-        <button
-          @click="toggleDropdownEstudioTitulos"
-          class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          {{ selectedOptionEstudioTitulos }}
-          <svg
-            class="w-5 h-5 ml-2 -mr-1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M10 12l-6-6H4v8h12V6h-1l-6 6z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
 
-        <div
-          v-if="isOpenEstudioTitulos"
-          class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg"
-        >
-          <ul>
-            <li
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[130px]">Estudio de titulos</label>
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.01"
+            min="0"
+            id="input"
+            v-model="estudioDeTitulos"
+          />
+        </div>
+
+        <div>
+          <select
+            class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-100"
+          >
+            <option
               v-for="option in optionsEstudioTitulos"
               :key="option.id"
               @click="selectOptionEstudioTitulos(option)"
-              class="py-1 px-4 cursor-pointer hover:bg-gray-100"
             >
               {{ option.periodo }}
-            </li>
-          </ul>
+            </option>
+          </select>
         </div>
-      </div>
-      <!-- <div class="relative">
+        <!-- <div class="relative">
             <svg
               @click="mensajeDiasPeriodo"
               class="w-6 h-6 text-blue-500 cursor-pointer"
@@ -244,59 +158,36 @@
               >
             </div>
           </div> -->
-    </div>
+      </div>
 
-    <div class="flex items-center justify-between my-3">
-      <div>
-        <label for="inputPRECIO">Tasacion</label>
-      </div>
-      <div>
-        <input
-          class="w-12 h-9 text-center"
-          type="number"
-          step="0.01"
-          min="0"
-          id="input"
-          v-model="tasacion"
-        />
-      </div>
-      <div class="relative">
-        <button
-          @click="toggleDropdownTasacion"
-          class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          {{ selectedOptionTasacion }}
-          <svg
-            class="w-5 h-5 ml-2 -mr-1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[130px]">Tasacion</label>
+
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.01"
+            min="0"
+            id="input"
+            v-model="tasacion"
+          />
+        </div>
+
+        <div>
+          <select
+            class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-100"
           >
-            <path
-              fill-rule="evenodd"
-              d="M10 12l-6-6H4v8h12V6h-1l-6 6z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
-
-        <div
-          v-if="isOpenTasacion"
-          class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg"
-        >
-          <ul>
-            <li
+            <option
               v-for="option in optionsTasacion"
               :key="option.id"
               @click="selectOptionTasacion(option)"
-              class="py-1 px-4 cursor-pointer hover:bg-gray-100"
             >
               {{ option.periodo }}
-            </li>
-          </ul>
+            </option>
+          </select>
         </div>
-      </div>
-      <!-- <div class="relative">
+        <!-- <div class="relative">
             <svg
               @click="mensajeDiasPeriodo"
               class="w-6 h-6 text-blue-500 cursor-pointer"
@@ -321,60 +212,38 @@
               >
             </div>
           </div> -->
-    </div>
-
-    <div class="flex items-center justify-between my-3">
-      <div>
-        <label for="inputPRECIO">Comision de Activacion</label>
-      </div>
-      <div>
-        <input
-          class="w-12 h-9 text-center"
-          type="number"
-          step="0.01"
-          min="0"
-          id="input"
-          v-model="comisionDeActivacion"
-        />
       </div>
 
-      <div class="relative">
-        <button
-          @click="toggleDropdownComisionAct"
-          class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[130px]"
+          >Comision de Activacion</label
         >
-          {{ selectedOptionComisionAct }}
-          <svg
-            class="w-5 h-5 ml-2 -mr-1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.01"
+            min="0"
+            id="input"
+            v-model="comisionDeActivacion"
+          />
+        </div>
+
+        <div>
+          <select
+            class="flex items-center justify-between px-4 py-2 text-sm font-medium text-gray-700 bg-white rounded-md hover:bg-gray-100"
           >
-            <path
-              fill-rule="evenodd"
-              d="M10 12l-6-6H4v8h12V6h-1l-6 6z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </button>
-
-        <div
-          v-if="isOpenComisionAct"
-          class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg"
-        >
-          <ul>
-            <li
+            <option
               v-for="option in optionsComisionActn"
               :key="option.id"
               @click="selectOptionComisionAct(option)"
-              class="py-1 px-4 cursor-pointer hover:bg-gray-100"
             >
               {{ option.periodo }}
-            </li>
-          </ul>
+            </option>
+          </select>
         </div>
-      </div>
-      <!-- <div class="relative">
+        <!-- <div class="relative">
             <svg
               @click="mensajeDiasPeriodo"
               class="w-6 h-6 text-blue-500 cursor-pointer"
@@ -399,6 +268,7 @@
               >
             </div>
           </div> -->
+      </div>
     </div>
   </div>
 </template>

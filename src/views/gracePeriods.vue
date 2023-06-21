@@ -1,36 +1,70 @@
 <template>
   <div class="bg-[#acacac] p-3 rounded-xl">
-    <div class="gap-1 flex items-center justify-between">
-      <div>Plazo de gracias total</div>
-      <div>
-        <input
-          class="w-16 h-9"
-          type="number"
-          step="0.01"
-          min="0"
-          placeholder="plazos"
-          id="input"
-          v-model="plazosGraciasTotal"
-        />
-      </div>
-      <div v-if="confirGraciaTotal === true">
-        <button
-          class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
-          @click="botonGraciaTotal()"
-        >
-          SI
-        </button>
-      </div>
-      <div v-if="confirGraciaTotal === false">
-        <button
-          class="font-bold text-white px-4 py-2 w-16 rounded-lg"
-          @click="botonGraciaTotal()"
-        >
-          NO
-        </button>
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <h2 class="w-[168px]">Plazo de gracias total</h2>
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.01"
+            min="0"
+            placeholder="plazos"
+            id="input"
+            v-model="plazosGraciasTotal"
+          />
+        </div>
+
+        <div v-if="confirGraciaTotal === true">
+          <button
+            class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
+            @click="botonGraciaTotal()"
+          >
+            SI
+          </button>
+        </div>
+
+        <div v-if="confirGraciaTotal === false">
+          <button
+            class="font-bold text-white px-4 py-2 w-16 rounded-lg"
+            @click="botonGraciaTotal()"
+          >
+            NO
+          </button>
+        </div>
       </div>
 
-      <!-- <div class="bg-blue-400">
+      <div class="flex items-center justify-between">
+        <h2 class="w-[168px]">Plazo de gracias parcial</h2>
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.01"
+            min="0"
+            id="input"
+            placeholder="plazos"
+            v-model="plazosGraciasParcial"
+          />
+        </div>
+        <div v-if="confirGraciaParcial === true">
+          <button
+            class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
+            @click="botonGraciaParcial()"
+          >
+            SI
+          </button>
+        </div>
+        <div v-if="confirGraciaParcial === false">
+          <button
+            class="font-bold bg-red-800 text-white px-4 py-2 w-16 rounded-lg"
+            @click="botonGraciaParcial()"
+          >
+            NO
+          </button>
+        </div>
+
+        <!-- <div class="bg-blue-400">
             <div class="relative">
               <svg
                 @click="mensajeDiasPeriodo"
@@ -57,65 +91,7 @@
               </div>
             </div>
           </div> -->
-    </div>
-
-    <div class="gap-1 flex items-center justify-between">
-      <div>Plazo de gracias parcial</div>
-      <div>
-        <input
-          class="w-16 h-9"
-          type="number"
-          step="0.01"
-          min="0"
-          id="input"
-          placeholder="plazos"
-          v-model="plazosGraciasParcial"
-        />
       </div>
-      <div v-if="confirGraciaParcial === true">
-        <button
-          class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
-          @click="botonGraciaParcial()"
-        >
-          SI
-        </button>
-      </div>
-      <div v-if="confirGraciaParcial === false">
-        <button
-          class="font-bold bg-red-800 text-white px-4 py-2 w-16 rounded-lg"
-          @click="botonGraciaParcial()"
-        >
-          NO
-        </button>
-      </div>
-
-      <!-- <div class="bg-blue-400">
-            <div class="relative">
-              <svg
-                @click="mensajeDiasPeriodo"
-                class="w-6 h-6 text-blue-500 cursor-pointer"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"
-                ></path>
-              </svg>
-              <div
-                v-if="mostrarDiasPeriodo"
-                class="absolute bg-white p-2 rounded shadow-lg"
-              >
-                <span class="text-blue-500 font-bold"
-                  >Aqui pondrias informacion para el precio de venta</span
-                >
-              </div>
-            </div>
-          </div> -->
     </div>
   </div>
 </template>

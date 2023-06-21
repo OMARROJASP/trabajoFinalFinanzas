@@ -1,63 +1,81 @@
 <template>
   <div class="bg-[#acacac] p-3 rounded-xl">
-    <h1>Costes de los costos/ gastos periodicos</h1>
-
-    <div class="flex items-center justify-between my-3">
-      <label for="inputPRECIO">Comision Periodica</label>
-      <div>
-        <input
-          type="number"
-          step="0.01"
-          min="0"
-          id="input"
-          v-model="comisionPeridica"
-        />
+    <h2 class="uppercase font-bold">Costes de los costos/ gastos periodicos</h2>
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[180px]">Comision Periodica</label>
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.01"
+            min="0"
+            id="input"
+            v-model="comisionPeridica"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="flex items-center justify-between my-3">
-      <label for="inputPRECIO">Portes</label>
-      <div>
-        <input type="number" step="0.01" min="0" id="input" v-model="portes" />
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[180px]">Portes</label>
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.01"
+            min="0"
+            id="input"
+            v-model="portes"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="flex items-center justify-between my-3">
-      <label for="inputPRECIO">Gastos Administrativos</label>
-      <div>
-        <input
-          type="number"
-          step="0.01"
-          min="0"
-          id="input"
-          v-model="gastosAdministrativos"
-        />
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[180px]"
+          >Gastos Administrativos</label
+        >
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.01"
+            min="0"
+            id="input"
+            v-model="gastosAdministrativos"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="flex items-center justify-between my-3">
-      <label for="inputPRECIO">%Seguro desgv. mensual</label>
-      <div>
-        <input
-          type="number"
-          step="0.001"
-          min="0"
-          id="input"
-          v-model="seguroDesgravamenMen"
-        />
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[180px]"
+          >%Seguro desgv. mensual</label
+        >
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.001"
+            min="0"
+            id="input"
+            v-model="seguroDesgravamenMen"
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="flex items-center justify-between my-3">
-      <label for="inputPRECIO">%Riesgo desgv. mensual</label>
-      <div>
-        <input
-          type="number"
-          step="0.001"
-          min="0"
-          id="input"
-          v-model="seguroRiesgoMen"
-        />
+      <div class="flex items-center justify-between">
+        <label for="inputPRECIO" class="w-[180px]"
+          >%Riesgo desgv. mensual</label
+        >
+        <div>
+          <input
+            class="py-1 rounded-lg text-center"
+            type="number"
+            step="0.001"
+            min="0"
+            id="input"
+            v-model="seguroRiesgoMen"
+          />
+        </div>
       </div>
     </div>
   </div>

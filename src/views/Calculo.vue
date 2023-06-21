@@ -1,7 +1,7 @@
 <template>
   <form
     @submit.prevent="handleSubmit"
-    class="w-11/12 mx-auto flex flex-col h-[85%] justify-between"
+    class="w-11/12 mx-auto flex flex-col h-[85%] justify-between overflow-y-auto"
   >
     <h2 class="font-bold my-3 uppercase text-2xl text-center">
       Credito Hipotecario
