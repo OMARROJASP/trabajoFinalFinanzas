@@ -20,7 +20,6 @@ const userStore = useUserStore();
     <hr class="border w-1/2" />
 
     <div class="flex flex-col items-center gap-10 uppercase">
-      <router-link to="/Configuracion" type="submit">Configuracion</router-link>
       <router-link to="/Ayuda" type="submit">Ayuda</router-link>
       <button to="/" @click="userStore.signOutUser" type="submit">
         Cerrar Sesion

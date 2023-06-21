@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import {useUserStore} from "../stores/user.js";
+import { useUserStore } from "../stores/user.js";
 
 import HomeView from "../views/HomeView.vue";
 import Header from "../views/Header.vue";
@@ -13,24 +13,19 @@ import Datos from "../views/Datos.vue";
 import Acerca from "../views/Acerca.vue";
 import Perfil from "../views/Perfil.vue";
 import Ayuda from "../views/Ayuda.vue";
-import Configuracion from "../views/Configuracion.vue";
-import Editar from "../views/Editar.vue"
+import Editar from "../views/Editar.vue";
 
-
-
-
-const requireAuth = async (to, from ,next) => {
+const requireAuth = async (to, from, next) => {
   const userStore = useUserStore();
 
   userStore.loadingSession = true;
   const user = await userStore.currentUser();
-  if (user){
-    next()
-  }else{
-    next("/")
+  if (user) {
+    next();
+  } else {
+    next("/");
   }
-}
-
+};
 
 const router = createRouter({
   history: createWebHistory(),
@@ -38,7 +33,8 @@ const router = createRouter({
     {
       path: "/home",
       name: "home",
-      component: HomeView, beforeEnter: requireAuth ,
+      component: HomeView,
+      beforeEnter: requireAuth,
     },
     {
       path: "/header",
@@ -48,7 +44,7 @@ const router = createRouter({
     {
       path: "/menu",
       name: "menu",
-      component: Menu,// beforeEnter: requireAuth
+      component: Menu, // beforeEnter: requireAuth
     },
     {
       path: "/calculo",
@@ -88,13 +84,10 @@ const router = createRouter({
     {
       path: "/perfil",
       name: "perfil",
-      component: Perfil ,beforeEnter: requireAuth ,
+      component: Perfil,
+      beforeEnter: requireAuth,
     },
-    {
-      path: "/configuracion",
-      name: "configuracion",
-      component: Configuracion,
-    },
+
     {
       path: "/ayuda",
       name: "ayuda",
@@ -111,7 +104,6 @@ const router = createRouter({
       component: Editar,
     },
   ],
-
 });
 
 export default router;
