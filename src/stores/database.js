@@ -55,43 +55,91 @@ export const useDatabaseStore = defineStore("database", {
     async addPrestamo(
       _precioDeVenta,
       _coutaInicial,
-      _prestamo,
-      _FrecuenciaDePagos,
-      _numeroAnos,
-      _NdePeriodos,
-      _TEA
+      _nDeanios,
+      _diasXperiodo,
+      _diasXanios,
+      _bonoMiVivienda,
+      _TEA,
+      _costosNotariales,
+      _costosRegistrales,
+      _estudioDeTitulos,
+      _tasacion,
+      _comisionDeActivacion,
+      _comisionPeridica,
+      _portes,
+      _gastosAdministrativos,
+      _seguroDesgravamenPer,
+      _seguroRiesgoPer,
+      _plazosGraciasTotal,
+      _plazosGraciasParcial,
+      _bonoVerde,
+      _confirGraciaTotal,
+      _confirGraciaParcial,
+
     ) {
       this.loadingDoc = true;
+      console.log("1");
       try {
         const docObjeto = {
           precioDeVenta: _precioDeVenta,
           coutaInicial: _coutaInicial,
-          prestamo: _prestamo,
-          FrecuenciaDePagos: _FrecuenciaDePagos,
-          numeroAnos: _numeroAnos,
-          NdePeriodos: _NdePeriodos,
+          nDeanios: _nDeanios,
+          diasXperiodo: _diasXperiodo,
+          diasXanios: _diasXanios,
+          bonoMiVivienda: _bonoMiVivienda,
           TEA: _TEA,
+          costosNotariales: _costosNotariales,
+          costosRegistrales: _costosRegistrales,
+          estudioDeTitulos: _estudioDeTitulos,
+          tasacion: _tasacion,
+          comisionDeActivacion: _comisionDeActivacion,
+          comisionPeridica: _comisionPeridica,
+          portes: _portes,
+          gastosAdministrativos: _gastosAdministrativos,
+          seguroDesgravamenPer: _seguroDesgravamenPer,
+          seguroRiesgoPer: _seguroRiesgoPer,
+          plazosGraciasTotal: _plazosGraciasTotal,
+          plazosGraciasParcial: _plazosGraciasParcial,
+          bonoVerde: _bonoVerde,
+          confirGraciaTotal: _confirGraciaTotal,
+          confirGraciaParcial: _confirGraciaParcial,
           user: auth.currentUser.uid,
         };
 
         // const q = query(collection(db,"urls"))
         const docRef = await addDoc(collection(db, "datos"), docObjeto);
-
+        console.log("2");
         this.documentsUsers.push({
           id: docRef.id,
           precioDeVenta: _precioDeVenta,
           coutaInicial: _coutaInicial,
-          prestamo: _prestamo,
-          FrecuenciaDePagos: _FrecuenciaDePagos,
-          numeroAnos: _numeroAnos,
-          NdePeriodos: _NdePeriodos,
+          nDeanios: _nDeanios,
+          diasXperiodo: _diasXperiodo,
+          diasXanios: _diasXanios,
+          bonoMiVivienda: _bonoMiVivienda,
           TEA: _TEA,
+          costosNotariales: _costosNotariales,
+          costosRegistrales: _costosRegistrales,
+          estudioDeTitulos: _estudioDeTitulos,
+          tasacion: _tasacion,
+          comisionDeActivacion: _comisionDeActivacion,
+          comisionPeridica: _comisionPeridica,
+          portes: _portes,
+          gastosAdministrativos: _gastosAdministrativos,
+          seguroDesgravamenPer:_seguroDesgravamenPer,
+          seguroRiesgoPer: _seguroRiesgoPer,
+          plazosGraciasTotal: _plazosGraciasTotal,
+          plazosGraciasParcial: _plazosGraciasParcial,
+          bonoVerde: _bonoVerde,
+          confirGraciaTotal: _confirGraciaTotal,
+          confirGraciaParcial: _confirGraciaParcial,
           user: auth.currentUser.uid,
         });
       } catch (error) {
         console.log(error);
       } finally {
         this.loadingDoc = false;
+        console.log("3");
         // cone st
       }
     },
