@@ -3,37 +3,43 @@
     <div class="menu2">
       <div class="col border-primary formulario">
         <form @submit.prevent="handleSubmit" class="m-2 p-4 rounded">
-          <div>
+          <h1 class="text-4xl font-bold uppercase">Register</h1>
+
+          <div class="flex items-center">
+            <label class="uppercase font-bold text-xl w-56">Email: </label>
+
             <input
-              class="text-center border-2 py-2 md:px-20 lg:px-32 md:w-full rounded-full my-5"
-              type="email"
-              placeholder="Enter your email"
-              v-model.trim="email"
+                class="text-center border-2 py-2 md:px-20 lg:px-32 md:w-full rounded-full my-5"
+                type="email"
+                placeholder="Enter your email"
+                v-model.trim="email"
             />
           </div>
 
-          <div>
+          <div class="flex items-center">
+            <label class="uppercase font-bold text-xl w-56">Password: </label>
             <input
-              class="text-center border-2 my-5 md:px-20 lg:px-32 md:w-full py-2 rounded-full"
-              type="password"
-              placeholder="Enter your password"
-              v-model.trim="password"
+                class="text-center border-2 my-5 md:px-20 lg:px-32 md:w-full py-2 rounded-full"
+                type="password"
+                placeholder="Enter your password"
+                v-model.trim="password"
             />
           </div>
 
-          <div>
+          <div class="flex items-center">
+            <label class="uppercase font-bold text-xl">Repeat Password: </label>
             <input
-              class="text-center border-2 my-5 md:px-20 lg:px-32 md:w-full py-2 rounded-full"
-              type="password"
-              placeholder="Repeat your password"
-              v-model.trim="rePassword"
+                class="text-center border-2 my-5 md:px-20 lg:px-32 md:w-full py-2 rounded-full"
+                type="password"
+                placeholder="Repeat your password"
+                v-model.trim="rePassword"
             />
           </div>
 
           <div>
             <button
-              class="text-center text-white border rounded-full w-24 btn btn-primary"
-              type="submit"
+                class="text-center bg-blue-500 uppercase font-bold text-white border rounded-full w-24 btn btn-primary"
+                type="submit"
             >
               Log In
             </button>
@@ -72,6 +78,7 @@ const handleSubmit = async () => {
   //await dataBaseStore.addUsers(name.value, email.value);
 };
 </script>
+
 
 <style scoped>
 .contenedor {

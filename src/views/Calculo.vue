@@ -7,7 +7,7 @@
       Credito Hipotecario
     </h2>
     <div class="grid grid-cols-2 gap-4 mb-2">
-      <div class="bg-[#acacac] p-3 rounded-xl">
+      <div class="bg-gray-200 p-3 rounded-xl">
         <h2 class="uppercase font-bold">Datos del prestamo</h2>
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Precio de Venta</label>
@@ -31,14 +31,7 @@
 
           </div>
 
-          <div class="relative">
-            <svg @click="mensajePrecioVenta" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-            </svg>
-            <div v-if="mostrarPrecioVenta" class="absolute bg-white p-2 rounded shadow-lg">
-              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-            </div>
-          </div>
+
         </div>
 
         <div class="flex items-center justify-between my-3">
@@ -102,14 +95,7 @@
             </div>
           </div>
 
-          <div class="relative">
-            <svg @click="mensajeCoutaInicial" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-            </svg>
-            <div v-if="mostrarCoutaInicial" class="absolute bg-white p-2 rounded shadow-lg">
-              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-            </div>
-          </div>
+
         </div>
 
 
@@ -125,14 +111,7 @@
               v-model="nDeanoas"
             />
           </div>
-          <div class="relative">
-            <svg @click="mensajeNanios" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-            </svg>
-            <div v-if="mostrarNanios" class="absolute bg-white p-2 rounded shadow-lg">
-              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-            </div>
-          </div>
+
         </div>
 
         <div class="flex items-center justify-between my-3">
@@ -168,19 +147,12 @@
             </div>
 
           </div>
-          <div class="relative">
-            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-            </svg>
-            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
-              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-            </div>
-          </div>
+
 
         </div>
       </div>
 
-      <div class="bg-[#acacac] p-3 rounded-xl">
+      <div class="bg-gray-200 p-3 rounded-xl">
 
 
         <h2 class="uppercase font-bold">Costes/gastos Iniciales</h2>
@@ -237,14 +209,7 @@
             </div>
 
           </div>
-          <div class="relative">
-            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-            </svg>
-            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
-              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-            </div>
-          </div>
+
 
         </div>
 
@@ -279,14 +244,7 @@
             </div>
 
           </div>
-          <div class="relative">
-            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-            </svg>
-            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
-              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-            </div>
-          </div>
+
         </div>
 
         <div class="flex items-center justify-between my-3">
@@ -320,14 +278,7 @@
             </div>
 
           </div>
-          <div class="relative">
-            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-            </svg>
-            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
-              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-            </div>
-          </div>
+
 
         </div>
 
@@ -364,14 +315,7 @@
             </div>
 
           </div>
-          <div class="relative">
-            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-            </svg>
-            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
-              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-            </div>
-          </div>
+
 
         </div>
 
@@ -409,14 +353,7 @@
             </div>
 
           </div>
-          <div class="relative">
-            <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-            </svg>
-            <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
-              <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-            </div>
-          </div>
+
 
 
         </div>
@@ -425,7 +362,7 @@
 
 
       </div>
-      <div class="bg-[#acacac] p-3 rounded-xl">
+      <div class="bg-gray-200 p-3 rounded-xl">
         <h1>Costes de los costos/ gastos periodicos</h1>
 
         <div class="flex items-center justify-between my-3">
@@ -495,13 +432,13 @@
 
 
       </div>
-      <div class="bg-[#acacac] p-3 rounded-xl">
+      <div class="bg-gray-200 p-3 rounded-xl">
 
-        <div class="grid grid-cols-4 gap-1 flex items-center justify-between">
-          <div class="bg-red-500 ">
+        <div class="grid grid-cols-3 gap-1 flex items-center justify-between">
+          <div>
             Plazo de gracias total
           </div>
-          <div class="bg-green-500">
+          <div >
             <input
                 class="w-16 h-9"
                 type="number"
@@ -512,33 +449,24 @@
                 v-model="plazosGraciasTotal"
             />
           </div>
-          <div class="bg-teal-400" v-if="confirGraciaTotal === true">
+          <div v-if="confirGraciaTotal === true">
             <button class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
                     @click="botonGraciaTotal()"> SI </button>
           </div>
-          <div class="bg-teal-400  " v-if="confirGraciaTotal === false">
+          <div v-if="confirGraciaTotal === false">
             <button class="font-bold bg-red-800 text-white px-4 py-2 w-16 rounded-lg"
                     @click="botonGraciaTotal()"> NO </button>
           </div>
 
-          <div class="bg-blue-400">
-            <div class="relative">
-              <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-              </svg>
-              <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
-                <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-              </div>
-            </div>
-          </div>
+
         </div>
 
 
-        <div class="grid grid-cols-4 gap-1 flex items-center justify-between">
-          <div class="bg-violet-500 ">
+        <div class="grid grid-cols-3 gap-1 flex items-center justify-between">
+          <div >
             Plazo de gracias parcial
           </div>
-          <div class="bg-green-500">
+          <div>
             <input
                 class="w-16 h-9"
                 type="number"
@@ -549,24 +477,17 @@
                 v-model="plazosGraciasParcial"
             />
           </div>
-          <div class="bg-teal-400" v-if="confirGraciaParcial === true">
+          <div  v-if="confirGraciaParcial === true">
             <button class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
                     @click="botonGraciaParcial()"> SI </button>
           </div>
-          <div class="bg-teal-400  " v-if="confirGraciaParcial === false">
+          <div  v-if="confirGraciaParcial === false">
             <button class="font-bold bg-red-800 text-white px-4 py-2 w-16 rounded-lg"
                     @click="botonGraciaParcial()"> NO </button>
           </div>
 
           <div class="bg-blue-400">
-            <div class="relative">
-              <svg @click="mensajeDiasPeriodo" class="w-6 h-6 text-blue-500 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 4h.01m0 4h-.01M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16z"></path>
-              </svg>
-              <div v-if="mostrarDiasPeriodo" class="absolute bg-white p-2 rounded shadow-lg">
-                <span class="text-blue-500 font-bold">Aqui pondrias informacion para el precio de venta</span>
-              </div>
-            </div>
+
           </div>
         </div>
 
@@ -673,6 +594,7 @@ const plazosGraciasParcial      = ref(2);
 const bonoVerde                 = ref(0);
 const confirGraciaTotal         = ref(true);
 const confirGraciaParcial       = ref(true);
+const solesOdolares             = ref(true);
 
 
 
@@ -731,6 +653,7 @@ const darValorDelBono=()=> {
     next.value = false;
   }
 }
+
 
 
 

@@ -8,7 +8,7 @@ const userStore = useUserStore();
     class="flex flex-col bg-blue-600 text-white w-1/4 justify-evenly items-center text-lg"
   >
     <div>
-      <img src="../assets/logo.png" alt="Logo" />
+      <img src="../assets/logo2.png" alt="Logo" />
     </div>
 
     <div class="flex flex-col items-center gap-10">

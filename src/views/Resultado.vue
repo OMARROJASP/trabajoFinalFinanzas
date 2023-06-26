@@ -3,7 +3,7 @@
   <main class="px-5">
     <div class="flex justify-between">
       <button
-        @click="CalculoNormal()"
+        @click="ElegirCalculo()"
         class="uppercase font-bold bg-blue-800 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-colors"
       >
         Calcular
@@ -118,8 +118,8 @@ const seguroRiesgoPer        = ref(datos.value.at(16));
 const plazosGraciasTotal     = ref(datos.value.at(17));
 const plazosGraciasParcial   = ref(datos.value.at(18));
 const bonoVerde              = ref(datos.value.at(19));
-const confirGraciaTotal      = ref(false);
-const confirGraciaParcial    = ref(false);
+const confirGraciaTotal      = ref(datos.value.at(20));
+const confirGraciaParcial    = ref(datos.value.at(21));
 
 
 // resultado del financiamiento
@@ -170,9 +170,8 @@ onMounted(() => {
 
 const guardarDatos = async ()=>{
   TEA.value =TEA.value*100;
-  console.log("el tea es :" + TEA.value)
   try {
-    console.log("vamos ok");
+
     await dataBaseStore.addPrestamo(
         precioDeVenta.value,
         cuotaInicial.value,
@@ -201,7 +200,7 @@ const guardarDatos = async ()=>{
     console.log("hubo un problema al guardar");
   }
   TEA.value =TEA.value/100;
-  console.log("el tea es :" + TEA.value)
+
 }
 
 // empezamos con las operaciones
@@ -218,54 +217,44 @@ const sumaCostosGastosIniciales=()=>{
 }
 
 const  calculosIniciales= ()=>{
-  console.log("dias :" +diasXperiodo.value)
+
   TEAaux.value = TEA.value;
-  console.log( "TEA AUX   " + TEAaux.value);
-  console.log( "COUTA INICIAL0   " + cuotaInicial.value);
-  console.log( "el valor del periodo " + diasXperiodo.value)
+
   TEA.value = TEA.value/100;
-  console.log( "el TEa esta aqui sera igual" +TEA.value);
+
   // transformar TASA ANUAL A TASA EFECTIVA PERIODO
   TEP.value = (1 + TEA.value)**(diasXperiodo.value/diasXanios.value) -1;
-  console.log( "el TEP esta aqui sera igual" +TEP.value);
+
 
 
   sumaCostosGastosIniciales();
 
   if(cuotaInicial.value < 90){
     CoutaInicial.value = (cuotaInicial.value/100)*precioDeVenta.value;
-    console.log( "COUTA INICIAL1   " + CoutaInicial.value);
+
   }else {
     CoutaInicial.value = cuotaInicial.value;
-    console.log( "COUTA INICIAL2   " + CoutaInicial.value);
+
   }
  SaldoFinanciar.value = precioDeVenta.value - CoutaInicial.value - bonoMiVivienda.value - bonoVerde.value;
   //SaldoFinanciar.value = precioDeVenta.value - CoutaInicial.value;
-  console.log( "SaldoFinanciar   " + SaldoFinanciar.value);
+
 
   Credito.value = SaldoFinanciar.value + variableCostesGastosIniciales.value ;
-  console.log( "Credito  " + Credito.value);
 
   NPeriodosxAnios.value = diasXanios.value/diasXperiodo.value;
-  console.log( "NPeriodosxAnios   " + NPeriodosxAnios.value);
+
 
   NTotalPeriodos.value = NPeriodosxAnios.value*nDeanios.value;
-  console.log( "NTotalPeriodos  "  + NTotalPeriodos.value);
-  console.log( "diasXperiodo   " + diasXperiodo.value)
+
   const  v1 = ref();
   const  v2 = ref();
   v1.value = 1 + TEA.value;
   v2.value = 1 / 12;
   TNPajustadaAlPlazo.value = (diasXperiodo.value/30)* (Math.pow(v1.value, v2.value) - 1);
-  console.log( "diasXperiodo******************   " + diasXperiodo.value/30);
-
-  console.log( "TEA******************   " +   TEA.value);
-  console.log( "diasXperiodo******************   " +  + TEA.value);
-
-  console.log( "TNPajustadaAlPlazo  "  + TNPajustadaAlPlazo.value);
 
   TNAajustadaAlPlazo.value =  Math.sqrt(1 + TNPajustadaAlPlazo.value, NPeriodosxAnios.value)-1;
-  console.log( "TNAajustadaAlPlazo  "  + TNAajustadaAlPlazo.value);
+
 
 
 
@@ -277,26 +266,16 @@ const  calculosIniciales= ()=>{
   console.log( "TNAajustadaAlPlazo  "  + TNAajustadaAlPlazo.value);
  */
 
-  console.log(TNPajustadaAlPlazo.value);
-  console.log(TNAajustadaAlPlazo.value);
-
-
-  const arriba = ref();
+   const arriba = ref();
   const abajo = ref();
   arriba.value =TEP.value * Math.pow(1 + TEP.value, NTotalPeriodos.value);
   abajo.value =Math.pow(1 + TEP.value, NTotalPeriodos.value) - 1;
 
 
   ValorCouta.value = Credito.value*(arriba.value/abajo.value);
-  console.log( "arriba   " + arriba.value)
-  console.log( "abajo   " + abajo.value)
-  console.log( "ValorCouta   " + ValorCouta.value);
 
   ValorActualDelSaldo.value =  0.0000;
-  console.log( "ValorActualDelSaldo   " + ValorActualDelSaldo.value);
-
   ValorActualExtra.value = Credito.value;
-  console.log( "ValorActualExtra   " + ValorActualExtra.value);
 
 }
 
@@ -323,101 +302,239 @@ const ElegirCalculo=()=> {
 const  CalculoGraciaTotalParcial = () => {
   list1.value.splice(0, list1.value.length);
   for(let i =0; i <= NTotalPeriodos.value; i++) {
-    if(i!==0  ) {
-      if(i == 7 && false ){
-        TEA.value = 0.10;
-        //   console.log("nueva  TEA" + TEA.value);
-        TEP.value = (1 + TEA.value)**(diasXperiodo.value/diasXanios.value) -1;
-        //    console.log("nueva TEP" + TEP.value);
-      }
-      console.log("valor actual = " + ValorActualCrono.value)
-      InteresCrono.value = ValorActualCrono.value * TEP.value;
-      //  console.log("InteresCrono   " + InteresCrono.value);
+   if(i!== 0){
+     InteresCrono.value = ValorActualCrono.value * TEP.value;
+     console.log("InteresCrono   " + InteresCrono.value);
 
 
+     /*
       SegDesgravamenCrono.value = ValorActualCrono.value * (seguroDesgravamenPer.value / 100);
-      //  console.log("SegDesgravamenCrono   " + SegDesgravamenCrono.value);
+      console.log("SegDesgravamenCrono   " + SegDesgravamenCrono.value);
 
       segRiesgoCrono.value = ValorActualCrono.value * (seguroRiesgoPer.value / 100);
-      // console.log("segRiesgoCrono   " + segRiesgoCrono.value);
+      console.log("segRiesgoCrono   " + segRiesgoCrono.value);
 
       CostesRiesgosCrono.value = comisionPeridica.value + portes.value + gastosAdministrativos.value;
-      // console.log("CostesRiesgosCrono   " + CostesRiesgosCrono.value);
-
-
-
-      if(i <= plazosGraciasTotal.value){
-        //   console.log(i)
-        CoutaCrono.value = 0;
-        AmortCrono.value = 0;
-       // AmortCrono.value =CoutaCrono.value - InteresCrono.value;
-        //  console.log( "AmortCrono    " + AmortCrono.value);
-        // preguntar al profesor
-        SaldoFinalCrono.value = ValorActualCrono.value + InteresCrono.value + SegDesgravamenCrono.value+segRiesgoCrono.value + CostesRiesgosCrono.value;
-        //+ SegDesgravamenCrono.value+segRiesgoCrono.value + CostesRiesgosCrono.value
-        //   console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
-
-
-      }else if (i <= plazosGraciasParcial.value + plazosGraciasTotal.value ){
-        console.log(i)
-        CoutaCrono.value = InteresCrono.value;
-        AmortCrono.value = 0;
-        // AmortCrono.value =CoutaCrono.value - InteresCrono.value;
-        //  console.log( "AmortCrono    " + AmortCrono.value);
-        SaldoFinalCrono.value = ValorActualCrono.value;
-        // console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
-
-
-      }
-     else {
-            console.log(i)
-     /*
-       const arribaC = ref();
-       const abajoC = ref();
-       arribaC.value = TEP.value * (1+TEP.value)**(NTotalPeriodos.value - i + 1);
-        //      console.log( "arriba " + arribaC.value)
-       abajoC.value = ((1 + TEP.value)**(NTotalPeriodos.value - i + 1))-1;
-        //   console.log("abajo "  + abajoC.value)
-
-
-        CoutaCrono.value = aux.value * ValorActualCrono.value *(arribaC.value/abajoC.value);
-        //     console.log("valor actual" +  ValorActualCrono.value)
-
-        //     console.log("crono value" +  CoutaCrono.value)
-        CoutaCrono.value = CoutaCrono.value;
-
+      console.log("CostesRiesgosCrono   " + CostesRiesgosCrono.value);
       */
 
 
+     if(i <= plazosGraciasTotal.value){
+       console.log(i)
+       CoutaCrono.value = 0;
+       AmortCrono.value = 0;
+       // AmortCrono.value =CoutaCrono.value - InteresCrono.value;
+       console.log( "AmortCrono    " + AmortCrono.value);
+       // preguntar al profesor
+       SaldoFinalCrono.value = ValorActualCrono.value + InteresCrono.value ;
+       //+ SegDesgravamenCrono.value+segRiesgoCrono.value + CostesRiesgosCrono.value
+       console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
 
 
-        const arriba = ref();
-        const abajo = ref();
-        arriba.value =TEP.value * Math.pow(1 + TEP.value, NTotalPeriodos.value);
-        abajo.value =Math.pow(1 + TEP.value, NTotalPeriodos.value) - 1;
+     }
+     else if (i <= plazosGraciasParcial.value + plazosGraciasTotal.value ){
+       console.log("1")
+       CoutaCrono.value = InteresCrono.value;
+       AmortCrono.value = 0;
+       // AmortCrono.value =CoutaCrono.value - InteresCrono.value;
+       console.log( "AmortCrono    " + AmortCrono.value);
+       SaldoFinalCrono.value = ValorActualCrono.value;
+       console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
 
 
-        CoutaCrono.value = Credito.value*(arriba.value/abajo.value);
-        ValorCouta.value =  ValorCouta.value+ CoutaCrono.value;
-        CoutaCrono.value =  ValorCouta.value;
+     }
+     else {
+       console.log(i)
+       const arribaC = ref();
+       const abajoC = ref();
+       arribaC.value = TEP.value * (1+TEP.value)**(NTotalPeriodos.value - i + 1);
+       console.log( "arriba " + arribaC.value)
+       abajoC.value = ((1 + TEP.value)**(NTotalPeriodos.value - i + 1))-1;
+       console.log("abajo "  + abajoC.value)
+
+
+       CoutaCrono.value = ValorActualCrono.value*(arribaC.value/abajoC.value);
+       console.log("valor actual" +  ValorActualCrono.value)
+
        console.log("crono value" +  CoutaCrono.value)
-        AmortCrono.value =CoutaCrono.value - InteresCrono.value
+       CoutaCrono.value = CoutaCrono.value + aux.value;
 
-            -  SegDesgravamenCrono.value
-            -  segRiesgoCrono.value
-            -  CostesRiesgosCrono.value;
+       AmortCrono.value =CoutaCrono.value - InteresCrono.value;
+       /*
+        -  SegDesgravamenCrono.value
+        -  segRiesgoCrono.value
+        -  CostesRiesgosCrono.value;
+        */
+       console.log( "AmortCrono    " + AmortCrono.value);
+       SaldoFinalCrono.value = ValorActualCrono.value - AmortCrono.value;
+       console.log("SaldoFinalCrono.value" + SaldoFinalCrono.value)
 
-        //    console.log( "AmortCrono    " + AmortCrono.value);
-        SaldoFinalCrono.value = aux.value * ValorActualCrono.value - AmortCrono.value;
-        //     console.log("SaldoFinalCrono.value" + SaldoFinalCrono.value)
+     }
+
+
+     console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
+
+     FlujoCrono.value = CoutaCrono.value;
+     console.log( "FlujoCrono   " + FlujoCrono.value);
+
+     list1.value.push({
+       id: i,
+       nDias: 30,
+       tasaAjustada:TEP.value.toFixed(7),
+       saldoInicial: ValorActualCrono.value.toFixed(2),
+       Interes: InteresCrono.value.toFixed(2),
+       Couta: CoutaCrono.value.toFixed(2),
+       Amortizacion: AmortCrono.value.toFixed(2),
+       SeguroDesgravemen: 0,
+       SeguroRiesgo: 0,
+       CostesRiesgos: 0,
+       SaldoFinal: SaldoFinalCrono.value.toFixed(2),
+       Flujo: FlujoCrono.value.toFixed(2),
+
+     })
+
+
+     ValorActualCrono.value = SaldoFinalCrono.value;
+     ValorActualExtra.value = SaldoFinalCrono.value;
+     ValorActualDelSaldo.value = SaldoFinalCrono.value;
+
+
+
+     FlujoCrono.value = CoutaCrono.value;
+
+     list1.value.push({
+       id: i,
+       nDias: 30,
+       tasaAjustada:TEP.value.toFixed(7),
+       saldoInicial: ValorActualCrono.value.toFixed(2),
+       Interes: InteresCrono.value.toFixed(2),
+       Couta: CoutaCrono.value.toFixed(2),
+       Amortizacion: AmortCrono.value.toFixed(2),
+       SeguroDesgravemen: 0,
+       SeguroRiesgo: 0,
+       CostesRiesgos: 0,
+       SaldoFinal: SaldoFinalCrono.value.toFixed(2),
+       Flujo: FlujoCrono.value.toFixed(2),
+
+     })
+
+
+
+     ValorActualCrono.value = SaldoFinalCrono.value;
+     console.log("SaldoFinalCrono.value " +SaldoFinalCrono.value)
+
+
+
+
+   }
+    else if(i===0){
+      FlujoCrono.value = Credito.value;
+      FlujoTEACrono.value = Credito.value;
+      ValorActualCrono.value = Credito.value;
+      console.log(ValorActualCrono.value)
+      SaldoInicialCrono.value = Credito.value;
+      list1.value.push({
+        id: i,
+        nDias: 30,
+        tasaAjustada:TEP.value.toFixed(7),
+        saldoInicial: 0,
+        Interes: 0,
+        Couta: 0,
+        Amortizacion: 0,
+        SeguroDesgravemen: 0,
+        SeguroRiesgo: 0,
+        CostesRiesgos: 0,
+        SaldoFinal: 0,
+        Flujo: SaldoInicialCrono.value.toFixed(2),
+        //toFixed(2)
+      })
+    }else{
+      console.log("Hay error")
+    }
+  }
+ /*
+  const ar1 = ref(0);
+  const ab1 = ref(0);
+  const axu = ref(0);
+
+  ValorActualDelSaldo.value = (SaldoFinalCrono.value / ((1+TEA.value)**(nDeanios.value)));
+  console.log( "ValorActualDelSaldo.value" + ValorActualDelSaldo.value )
+  axu.value = 1 + (TNPajustadaAlPlazo.value + seguroDesgravamenPer.value )
+  ar1.value = ((TNPajustadaAlPlazo.value +  seguroDesgravamenPer.value)* ValorActualDelSaldo.value );
+  ab1.value = 1 - Math.pow(axu.value, -NTotalPeriodos.value  );
+  ValorActualExtra.value =ar1.value/ab1.value;
+
+
+  //ValorCouta.value = ValorCouta.value + ValorActualExtra.value;
+  console.log( "el valor de valor exacto " + ValorActualExtra.value )
+  aux.value = ValorActualExtra.value;
+  */
+
+}
+
+const  CalculoGraciaTotal = () => {
+  for(let i =0; i <= NTotalPeriodos.value; i++) {
+    if(i!== 0){
+
+
+      /*
+       SegDesgravamenCrono.value = ValorActualCrono.value * (seguroDesgravamenPer.value / 100);
+       console.log("SegDesgravamenCrono   " + SegDesgravamenCrono.value);
+
+       segRiesgoCrono.value = ValorActualCrono.value * (seguroRiesgoPer.value / 100);
+       console.log("segRiesgoCrono   " + segRiesgoCrono.value);
+
+       CostesRiesgosCrono.value = comisionPeridica.value + portes.value + gastosAdministrativos.value;
+       console.log("CostesRiesgosCrono   " + CostesRiesgosCrono.value);
+       */
+
+
+      if(i <= plazosGraciasTotal.value){
+        console.log(i)
+        CoutaCrono.value = 0;
+        AmortCrono.value = 0;
+        // AmortCrono.value =CoutaCrono.value - InteresCrono.value;
+        console.log( "AmortCrono    " + AmortCrono.value);
+        // preguntar al profesor
+        SaldoFinalCrono.value = ValorActualCrono.value + InteresCrono.value ;
+        //+ SegDesgravamenCrono.value+segRiesgoCrono.value + CostesRiesgosCrono.value
+        console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
+
+
+      }
+      else {
+        console.log(i)
+        const arribaC = ref();
+        const abajoC = ref();
+        arribaC.value = TEP.value * (1+TEP.value)**(NTotalPeriodos.value - i + 1);
+        console.log( "arriba " + arribaC.value)
+        abajoC.value = ((1 + TEP.value)**(NTotalPeriodos.value - i + 1))-1;
+        console.log("abajo "  + abajoC.value)
+
+
+        CoutaCrono.value = ValorActualCrono.value*(arribaC.value/abajoC.value);
+        console.log("valor actual" +  ValorActualCrono.value)
+
+        console.log("crono value" +  CoutaCrono.value)
+        CoutaCrono.value = CoutaCrono.value + aux.value;
+
+        AmortCrono.value =CoutaCrono.value - InteresCrono.value;
+        /*
+         -  SegDesgravamenCrono.value
+         -  segRiesgoCrono.value
+         -  CostesRiesgosCrono.value;
+         */
+        console.log( "AmortCrono    " + AmortCrono.value);
+        SaldoFinalCrono.value = ValorActualCrono.value - AmortCrono.value;
+        console.log("SaldoFinalCrono.value" + SaldoFinalCrono.value)
 
       }
 
 
-      //   console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
+      console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
 
       FlujoCrono.value = CoutaCrono.value;
-    //  console.log( "FlujoCrono   " + FlujoCrono.value);
+      console.log( "FlujoCrono   " + FlujoCrono.value);
 
       list1.value.push({
         id: i,
@@ -427,9 +544,34 @@ const  CalculoGraciaTotalParcial = () => {
         Interes: InteresCrono.value.toFixed(2),
         Couta: CoutaCrono.value.toFixed(2),
         Amortizacion: AmortCrono.value.toFixed(2),
-        SeguroDesgravemen: SegDesgravamenCrono.value.toFixed(2),
-        SeguroRiesgo: segRiesgoCrono.value.toFixed(2),
-        CostesRiesgos: CostesRiesgosCrono.value.toFixed(2),
+        SeguroDesgravemen: 0,
+        SeguroRiesgo: 0,
+        CostesRiesgos: 0,
+        SaldoFinal: SaldoFinalCrono.value.toFixed(2),
+        Flujo: FlujoCrono.value.toFixed(2),
+
+      })
+
+
+      ValorActualCrono.value = SaldoFinalCrono.value;
+      ValorActualExtra.value = SaldoFinalCrono.value;
+      ValorActualDelSaldo.value = SaldoFinalCrono.value;
+
+
+
+      FlujoCrono.value = CoutaCrono.value;
+
+      list1.value.push({
+        id: i,
+        nDias: 30,
+        tasaAjustada:TEP.value.toFixed(7),
+        saldoInicial: ValorActualCrono.value.toFixed(2),
+        Interes: InteresCrono.value.toFixed(2),
+        Couta: CoutaCrono.value.toFixed(2),
+        Amortizacion: AmortCrono.value.toFixed(2),
+        SeguroDesgravemen: 0,
+        SeguroRiesgo: 0,
+        CostesRiesgos: 0,
         SaldoFinal: SaldoFinalCrono.value.toFixed(2),
         Flujo: FlujoCrono.value.toFixed(2),
 
@@ -469,29 +611,160 @@ const  CalculoGraciaTotalParcial = () => {
       console.log("Hay error")
     }
   }
-  const ar1 = ref(0);
-  const ab1 = ref(0);
-  const axu = ref(0);
-
-  ValorActualDelSaldo.value = (SaldoFinalCrono.value / ((1+TEA.value)**(nDeanios.value)));
-  console.log( "ValorActualDelSaldo.value" + ValorActualDelSaldo.value )
-  axu.value = 1 + (TNPajustadaAlPlazo.value + seguroDesgravamenPer.value )
-  ar1.value = ((TNPajustadaAlPlazo.value +  seguroDesgravamenPer.value)* ValorActualDelSaldo.value );
-  ab1.value = 1 - Math.pow(axu.value, -NTotalPeriodos.value  );
-  ValorActualExtra.value =ar1.value/ab1.value;
-
-
-  //ValorCouta.value = ValorCouta.value + ValorActualExtra.value;
-  console.log( "el valor de valor exacto " + ValorActualExtra.value )
-  aux.value = ValorActualExtra.value;
-
-}
-
-const  CalculoGraciaTotal = () => {
-
 }
 
 const  CalculoGraciasParcial = () => {
+  for(let i =0; i <= NTotalPeriodos.value; i++) {
+    if(i!== 0){
+
+      InteresCrono.value = ValorActualCrono.value * TEP.value;
+      console.log("InteresCrono   " + InteresCrono.value);
+
+      /*
+       SegDesgravamenCrono.value = ValorActualCrono.value * (seguroDesgravamenPer.value / 100);
+       console.log("SegDesgravamenCrono   " + SegDesgravamenCrono.value);
+
+       segRiesgoCrono.value = ValorActualCrono.value * (seguroRiesgoPer.value / 100);
+       console.log("segRiesgoCrono   " + segRiesgoCrono.value);
+
+       CostesRiesgosCrono.value = comisionPeridica.value + portes.value + gastosAdministrativos.value;
+       console.log("CostesRiesgosCrono   " + CostesRiesgosCrono.value);
+       */
+
+
+      if(i <= plazosGraciasTotal.value){
+        console.log(i)
+        CoutaCrono.value = 0;
+        AmortCrono.value = 0;
+        // AmortCrono.value =CoutaCrono.value - InteresCrono.value;
+        console.log( "AmortCrono    " + AmortCrono.value);
+        // preguntar al profesor
+        SaldoFinalCrono.value = ValorActualCrono.value + InteresCrono.value ;
+        //+ SegDesgravamenCrono.value+segRiesgoCrono.value + CostesRiesgosCrono.value
+        console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
+
+
+      }
+      else if (i <= plazosGraciasParcial.value + plazosGraciasTotal.value ){
+        console.log("1")
+        CoutaCrono.value = InteresCrono.value;
+        AmortCrono.value = 0;
+        // AmortCrono.value =CoutaCrono.value - InteresCrono.value;
+        console.log( "AmortCrono    " + AmortCrono.value);
+        SaldoFinalCrono.value = ValorActualCrono.value;
+        console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
+
+
+      }
+      else {
+        console.log(i)
+        const arribaC = ref();
+        const abajoC = ref();
+        arribaC.value = TEP.value * (1+TEP.value)**(NTotalPeriodos.value - i + 1);
+        console.log( "arriba " + arribaC.value)
+        abajoC.value = ((1 + TEP.value)**(NTotalPeriodos.value - i + 1))-1;
+        console.log("abajo "  + abajoC.value)
+
+
+        CoutaCrono.value = ValorActualCrono.value*(arribaC.value/abajoC.value);
+        console.log("valor actual" +  ValorActualCrono.value)
+
+        console.log("crono value" +  CoutaCrono.value)
+        CoutaCrono.value = CoutaCrono.value + aux.value;
+
+        AmortCrono.value =CoutaCrono.value - InteresCrono.value;
+        /*
+         -  SegDesgravamenCrono.value
+         -  segRiesgoCrono.value
+         -  CostesRiesgosCrono.value;
+         */
+        console.log( "AmortCrono    " + AmortCrono.value);
+        SaldoFinalCrono.value = ValorActualCrono.value - AmortCrono.value;
+        console.log("SaldoFinalCrono.value" + SaldoFinalCrono.value)
+
+      }
+
+
+      console.log( "SaldoFinalCrono   " + SaldoFinalCrono.value);
+
+      FlujoCrono.value = CoutaCrono.value;
+      console.log( "FlujoCrono   " + FlujoCrono.value);
+
+      list1.value.push({
+        id: i,
+        nDias: 30,
+        tasaAjustada:TEP.value.toFixed(7),
+        saldoInicial: ValorActualCrono.value.toFixed(2),
+        Interes: InteresCrono.value.toFixed(2),
+        Couta: CoutaCrono.value.toFixed(2),
+        Amortizacion: AmortCrono.value.toFixed(2),
+        SeguroDesgravemen: 0,
+        SeguroRiesgo: 0,
+        CostesRiesgos: 0,
+        SaldoFinal: SaldoFinalCrono.value.toFixed(2),
+        Flujo: FlujoCrono.value.toFixed(2),
+
+      })
+
+
+      ValorActualCrono.value = SaldoFinalCrono.value;
+      ValorActualExtra.value = SaldoFinalCrono.value;
+      ValorActualDelSaldo.value = SaldoFinalCrono.value;
+
+
+
+      FlujoCrono.value = CoutaCrono.value;
+
+      list1.value.push({
+        id: i,
+        nDias: 30,
+        tasaAjustada:TEP.value.toFixed(7),
+        saldoInicial: ValorActualCrono.value.toFixed(2),
+        Interes: InteresCrono.value.toFixed(2),
+        Couta: CoutaCrono.value.toFixed(2),
+        Amortizacion: AmortCrono.value.toFixed(2),
+        SeguroDesgravemen: 0,
+        SeguroRiesgo: 0,
+        CostesRiesgos: 0,
+        SaldoFinal: SaldoFinalCrono.value.toFixed(2),
+        Flujo: FlujoCrono.value.toFixed(2),
+
+      })
+
+
+
+      ValorActualCrono.value = SaldoFinalCrono.value;
+      console.log("SaldoFinalCrono.value " +SaldoFinalCrono.value)
+
+
+
+
+    }
+    else if(i===0){
+      FlujoCrono.value = Credito.value;
+      FlujoTEACrono.value = Credito.value;
+      ValorActualCrono.value = Credito.value;
+      console.log(ValorActualCrono.value)
+      SaldoInicialCrono.value = Credito.value;
+      list1.value.push({
+        id: i,
+        nDias: 30,
+        tasaAjustada:TEP.value.toFixed(7),
+        saldoInicial: 0,
+        Interes: 0,
+        Couta: 0,
+        Amortizacion: 0,
+        SeguroDesgravemen: 0,
+        SeguroRiesgo: 0,
+        CostesRiesgos: 0,
+        SaldoFinal: 0,
+        Flujo: SaldoInicialCrono.value.toFixed(2),
+        //toFixed(2)
+      })
+    }else{
+      console.log("Hay error")
+    }
+  }
 
 }
 
@@ -618,8 +891,6 @@ const  CalculoNormal=()=>{
 
 
     ValorCouta.value = ValorCouta.value + ValorActualExtra.value;
-    console.log( "el valor de valor exacto " + ValorActualExtra.value )
-    console.log("Este es mi saldo final " +SaldoFinalCrono.value)
     contador.value= contador.value + 1;
     if (SaldoFinalCrono.value.toFixed(3) === 0.00 ) {
       condicion.value = false;
@@ -638,12 +909,6 @@ const  CalculoNormal=()=>{
   }while(condicion.value);
 
 }
-
-
-/*
-while (ValorActualExtra.value.toFixed(4)  !== 0.0000);
- */
-
 </script>
 
 <style scoped></style>

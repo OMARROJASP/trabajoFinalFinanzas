@@ -1,9 +1,21 @@
-<template></template>
-
 <script>
 export default {
   name: "Ayuda",
 };
 </script>
 
-<style scoped></style>
+
+<template>
+
+  <div>
+    <img src="../assets/ayuda1.png" alt="Logo" />
+  </div>
+
+
+
+
+</template>
+
+
+
+

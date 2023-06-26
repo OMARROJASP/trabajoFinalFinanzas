@@ -16,8 +16,8 @@ const handleSubmit = async () => {
     alert("llena los campos");
   }
   const error = await userStore.updateUser(
-    name.value
-    // aqui se va a agregar una foto
+      name.value
+      // aqui se va a agregar una foto
   );
 
   router.push("/home");
@@ -31,13 +31,16 @@ const handleSubmit = async () => {
 <template>
   <div class="fondo">
     <div class="dentro">
-      <form @submit.prevent="handleSubmit" class="m-2 p-4 rounded">
+      <form
+          @submit.prevent="handleSubmit"
+          class="m-2 p-4 rounded h-screen flex justify-center items-center flex-col"
+      >
         <div>
           <input
-            class="bg-green-400"
-            type="text"
-            placeholder="Ingrese tu nombre y apellido"
-            v-model.trim="name"
+              class="bg-green-400"
+              type="text"
+              placeholder="Ingrese tu nombre y apellido"
+              v-model.trim="name"
           />
         </div>
 
