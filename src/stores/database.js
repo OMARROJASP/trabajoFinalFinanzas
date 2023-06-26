@@ -27,15 +27,18 @@ export const useDatabaseStore = defineStore("database", {
       this.loadingDoc = true;
 
       this.documents = [];
-      const q = query(
-        collection(db, "datos"),
-        where("users", "==", auth.currentUser.uid)
-      );
+
       try {
+        if(this.documents.length !== 0){
+          return;
+        }
+
+        console.log("vamos1")
         const q = query(
           collection(db, "datos"),
-          where("users", "==", auth.currentUser.uid)
+          where("user", "==", auth.currentUser.uid)
         );
+        console.log("vamos")
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           this.documents.push({
@@ -49,6 +52,7 @@ export const useDatabaseStore = defineStore("database", {
         console.log(error);
       } finally {
         this.loadingDoc = false;
+        console.log(this.document)
       }
     },
 
