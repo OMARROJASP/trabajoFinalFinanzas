@@ -45,8 +45,6 @@
           <th scope="col" class="p-2">Costes / Gastos</th>
           <th scope="col" class="p-2">saldo final</th>
           <th scope="col" class="p-2">Flujo</th>
-          <th scope="col" class="p-2">Flujo Actual</th>
-          <th scope="col" class="p-2">Flujo TEA</th>
         </tr>
       </thead>
 
@@ -64,7 +62,6 @@
           <td class="p-1 text-center">{{moneda}} {{ item.CostesRiesgos }}</td>
           <td class="p-1 text-center">{{moneda}}{{ item.SaldoFinal }}</td>
           <td class="p-1 text-center">{{moneda}}{{ item.Flujo }}</td>
-          <td class="p-1 text-center">{{moneda}}{{ item.FlujoActual }}</td>
         </tr>
       </tbody>
       <tbody></tbody>
