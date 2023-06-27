@@ -7,6 +7,7 @@
       <th scope="col" class="p-2">N° de años</th>
       <th scope="col" class="p-2">Bono Mi Vivienda</th>
       <th scope="col" class="p-2">Bono Verde</th>
+      <th scope="col" class="p-2">Opciones</th>
     </tr>
     </thead>
 
@@ -16,7 +17,7 @@
       <td class="p-1 text-center">{{ item.nDeanios }}</td>
       <td class="p-1 text-center">s/{{ item.bonoMiVivienda }}</td>
       <td class="p-1 text-center">s/{{ item.bonoVerde }}</td>
-
+      <button class="bg-blue-600">Ver Mas</button>
     </tr>
     </tbody>
   </table>

@@ -12,7 +12,7 @@
         <div class="flex items-center justify-between my-3">
           <label for="inputPRECIO">Precio de Venta</label>
           <div>
-            <input v-if="precioDeVenta >= 25000 && precioDeVenta <= 464200"
+            <input v-if="precioDeVenta >= 65200 && precioDeVenta <= 464200"
                 class="w-28 "
               type="number"
               step="0.01"
@@ -430,6 +430,19 @@
           </div>
         </div>
 
+        <div class="flex items-center justify-between my-3">
+          <label for="inputPRECIO">Tasa de Descuento</label>
+          <div>
+            <input
+                type="number"
+                step="0.001"
+                min="0"
+                id="input"
+                v-model="tasaDeDescuento"
+            />
+          </div>
+        </div>
+
 
       </div>
       <div class="bg-gray-200 p-3 rounded-xl">
@@ -491,6 +504,28 @@
           </div>
         </div>
 
+
+        <div class="grid grid-cols-3 gap-1 flex items-center justify-between">
+          <div >
+            Moneda
+          </div>
+          <div>
+
+          </div>
+
+          <div  v-if="solesOdolares === 1 ">
+            <button class="font-bold bg-blue-800 text-white px-4 py-2 w-16 rounded-lg"
+                    @click="botonSolesDolar1()"> Soles </button>
+          </div>
+          <div  v-if="solesOdolares === 2">
+            <button class="font-bold bg-green-800 text-white px-4 py-2 w-16 rounded-lg"
+                    @click="botonSolesDolar2()"> Dolar </button>
+          </div>
+
+          <div class="bg-blue-400">
+
+          </div>
+        </div>
 
       </div>
     </div>
@@ -570,7 +605,7 @@ const next = ref(true);
 
 const { add } = useCalculo;
 
-const precioDeVenta = ref(25000);
+const precioDeVenta = ref(250000);
 const cuotaInicial = ref(20);
 const nDeanoas = ref(2);
 const diasXperiodo = ref();
@@ -594,36 +629,20 @@ const plazosGraciasParcial      = ref(2);
 const bonoVerde                 = ref(0);
 const confirGraciaTotal         = ref(true);
 const confirGraciaParcial       = ref(true);
-const solesOdolares             = ref(true);
-
+const solesOdolares             = ref(1);
+const tasaDeDescuento           = ref(50);
 
 
 // datos adicionales
 const mensajeBonoVerde = ref(false);
 
-
-
-const mostrarPrecioVenta  = ref(false);
-const mostrarCoutaInicial = ref(false);
-const mostrarNanios       = ref(false);
-const mostrarDiasPeriodo  = ref(false);
-
-const mensajePrecioVenta = () => {
-  mostrarPrecioVenta.value =  !mostrarPrecioVenta.value;
-}
-const mensajeCoutaInicial = () => {
-  mostrarCoutaInicial.value =  !mostrarCoutaInicial.value;
+const botonSolesDolar1 = ()=>{
+  solesOdolares.value = 2;
 }
 
-const mensajeNanios = () => {
-  mostrarNanios.value =  !mostrarNanios.value;
+const botonSolesDolar2 = ()=>{
+  solesOdolares.value = 1;
 }
-
-const mensajeDiasPeriodo = () => {
-  mostrarDiasPeriodo.value =  !mostrarDiasPeriodo.value;
-}
-
-
 
 const darValorDelBono=()=> {
 
@@ -653,10 +672,6 @@ const darValorDelBono=()=> {
     next.value = false;
   }
 }
-
-
-
-
 
 // Dropdown de las variables
 
@@ -802,8 +817,10 @@ const botonGraciaTotal = ()=>{
   confirGraciaTotal.value= !confirGraciaTotal.value;
 }
 const botonGraciaParcial = ()=>{
-  confirGraciaParcial.value=! confirGraciaParcial.value;
+  confirGraciaParcial.value=  !confirGraciaParcial.value;
 }
+
+
 
 // falta 1
 const lista = ref([
@@ -829,6 +846,7 @@ const lista = ref([
   bonoVerde,
   confirGraciaTotal,
   confirGraciaParcial,
+    solesOdolares,
 ]);
 
 

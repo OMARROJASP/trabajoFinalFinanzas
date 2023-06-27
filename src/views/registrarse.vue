@@ -1,8 +1,13 @@
 <template>
-  <div class="contenedor">
-    <div class="menu2">
-      <div class="col border-primary formulario">
-        <form @submit.prevent="handleSubmit" class="m-2 p-4 rounded">
+  <div>
+    <div class="bg-blue-500">
+      <div
+          class="w-11/12 mx-auto flex flex-col min-h-screen justify-center items-center"
+      >
+        <form
+            @submit.prevent="handleSubmit"
+            class="m-2 p-8 bg-white rounded-lg flex items-center flex-col gap-5"
+        >
           <h1 class="text-4xl font-bold uppercase">Register</h1>
 
           <div class="flex items-center">
@@ -38,7 +43,7 @@
 
           <div>
             <button
-                class="text-center bg-blue-500 uppercase font-bold text-white border rounded-full w-24 btn btn-primary"
+                class="text-center bg-blue-500 uppercase font-bold text-white border rounded-full py-2 px-10"
                 type="submit"
             >
               Log In
