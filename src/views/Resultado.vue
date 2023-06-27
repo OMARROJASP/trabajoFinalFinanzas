@@ -363,6 +363,10 @@ const  CalculoGraciaTotalParcial = () => {
         -  CostesRiesgosCrono.value;
         */
 
+
+       InteresTotal.value += InteresCrono.value;
+       AmortizacionTotal.value +=  AmortCrono.value;
+
        SaldoFinalCrono.value = ValorActualCrono.value - AmortCrono.value;
        FlujoCrono.value = CoutaCrono.value;
 
@@ -430,6 +434,10 @@ const  CalculoGraciaTotalParcial = () => {
     }else{
       console.log("Hay error")
     }
+
+    DesembolsoTotal.value = InteresTotal.value + AmortizacionTotal.value+
+        SeguroDeDesgravamenTotal.value + SeguroContraTodoRiesgoTotal.value+
+        CostesGastosTotal.value;
   }
 }
 
@@ -513,10 +521,12 @@ const  CalculoGraciaTotal = () => {
 
       })
 
+      InteresTotal.value += InteresCrono.value;
+      AmortizacionTotal.value +=  AmortCrono.value;
+
       ValorActualCrono.value = SaldoFinalCrono.value;
 
       FlujoCrono.value = CoutaCrono.value;
-
 
 
       ValorActualCrono.value = SaldoFinalCrono.value;
@@ -557,6 +567,12 @@ const  CalculoGraciaTotal = () => {
 
 
 const  CalculoGraciasParcial = () =>{
+  InteresTotal.value = 0;
+  AmortizacionTotal.value =0;
+  SeguroDeDesgravamenTotal.value=0;
+  SeguroContraTodoRiesgoTotal.value=0;
+  CostesGastosTotal.value = 0;
+  DesembolsoTotal.value =0;
   list1.value.splice(0, list1.value.length);
   for(let i =0; i <= NTotalPeriodos.value; i++) {
     InteresCrono.value = ValorActualCrono.value * TEP.value;
@@ -599,6 +615,9 @@ const  CalculoGraciasParcial = () =>{
         const expo1 =  ref((1+tasaDeDescuento.value/100)**(expo.value));
         FlujoActualCrono.value = FlujoCrono.value/(expo1.value);
         VanCrono.value= VanCrono.value + FlujoActualCrono.value;
+
+        InteresTotal.value += InteresCrono.value;
+        AmortizacionTotal.value +=  AmortCrono.value;
       }
       FlujoCrono.value = CoutaCrono.value;
 
@@ -653,6 +672,9 @@ const  CalculoGraciasParcial = () =>{
     }else{
       console.log("Hay error")
     }
+    DesembolsoTotal.value = InteresTotal.value + AmortizacionTotal.value+
+        SeguroDeDesgravamenTotal.value + SeguroContraTodoRiesgoTotal.value+
+        CostesGastosTotal.value;
   }
 }
 
