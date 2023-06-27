@@ -847,6 +847,7 @@ const lista = ref([
   confirGraciaTotal,
   confirGraciaParcial,
     solesOdolares,
+    tasaDeDescuento,
 ]);
 
 

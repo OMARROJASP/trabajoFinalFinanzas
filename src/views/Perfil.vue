@@ -9,32 +9,34 @@ const userStore = useUserStore();
 const email = ref("");
 const name = ref();
 const costumer = ref();
-const cuadro = ref(false)
+const cuadro = ref(false);
 
-const editarDatos=()=>{
-cuadro.value = true
-}
+const editarDatos = () => {
+  cuadro.value = true;
+};
 //costumer.value = await databaseStore.leerDatos()
 </script>
 <template>
-  <div>
+  <div class="h-[85%] flex justify-center items-center flex-col gap-3">
+    <h2 class="font-bold uppercase text-xl">
+      Email :
+      <span class="font-normal lowercase">{{ userStore.userData.email }}</span>
+    </h2>
 
+    <h2 class="font-bold uppercase text-xl">
+      Nombre :
+      <p class="font-normal lowercase">{{
+          userStore.userData.displayName
+        }}</p>
+    </h2>
 
-    <h2> email : {{userStore.userData.email}}</h2>
-    <div v-if="userStore.userData.displayName == null">
-      nombre : Ingrese Nombre
-    </div>
-    <div v-else>
-      nombre : {{userStore.userData.email}}
-    </div>
-
-    <router-link to="/editar" class="bg-yellow-400"> Editar Perfil</router-link>
-    </div>
-
-
-
+    <router-link
+        to="/editar"
+        class="bg-blue-500 font-bold text-white py-2 px-5 rounded-lg"
+    >
+      Editar Perfil</router-link
+    >
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

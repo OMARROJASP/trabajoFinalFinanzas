@@ -22,10 +22,11 @@
     <div>
       <p>Intereses                : {{InteresTotal.toFixed(2)}}</p>
       <p>Amortizacion del capital : {{AmortizacionTotal.toFixed(2)}} </p>
-      <p>seguro de desgravamen : {{SeguroDeDesgravamenTotal.toFixed(2)}}</p>
-      <p>seguro de todo riesgo : {{SeguroContraTodoRiesgoTotal.toFixed(2)}}</p>
-      <p>Costos / Gatasos  : {{CostesGastosTotal.toFixed(2)}}</p>
-      <p>Desembolso total : {{DesembolsoTotal.toFixed(2)}}</p>
+      <p>seguro de desgravamen    : {{SeguroDeDesgravamenTotal.toFixed(2)}}</p>
+      <p>seguro de todo riesgo    : {{SeguroContraTodoRiesgoTotal.toFixed(2)}}</p>
+      <p>Costos / Gatasos         : {{CostesGastosTotal.toFixed(2)}}</p>
+      <p>Desembolso total         : {{DesembolsoTotal.toFixed(2)}}</p>
+      <p>VAN operaciones          : {{VANoperacion}}</p>
     </div>
     </div>
 
@@ -44,6 +45,7 @@
           <th scope="col" class="p-2">Costes / Gastos</th>
           <th scope="col" class="p-2">saldo final</th>
           <th scope="col" class="p-2">Flujo</th>
+          <th scope="col" class="p-2">Flujo Actual</th>
           <th scope="col" class="p-2">Flujo TEA</th>
         </tr>
       </thead>
@@ -62,6 +64,7 @@
           <td class="p-1 text-center">{{moneda}} {{ item.CostesRiesgos }}</td>
           <td class="p-1 text-center">{{moneda}}{{ item.SaldoFinal }}</td>
           <td class="p-1 text-center">{{moneda}}{{ item.Flujo }}</td>
+          <td class="p-1 text-center">{{moneda}}{{ item.FlujoActual }}</td>
         </tr>
       </tbody>
       <tbody></tbody>
@@ -121,7 +124,7 @@ const bonoVerde              = ref(datos.value.at(19));
 const confirGraciaTotal      = ref(datos.value.at(20));
 const confirGraciaParcial    = ref(datos.value.at(21));
 const solesOdolar            = ref(datos.value.at(22));
-
+const tasaDeDescuento        = ref(datos.value.at(23));
 
 // resultado del financiamiento
 const CoutaInicial              = ref();
@@ -164,6 +167,9 @@ const SaldoFinalCrono     = ref();
 const FlujoCrono          = ref();
 const FlujoTEACrono       = ref();
 const ValorActualCrono    = ref();
+const FlujoActualCrono    = ref();
+const VanCrono            = ref(0);
+
 
 onMounted(() => {
   calculosIniciales();
@@ -320,18 +326,6 @@ const  CalculoGraciaTotalParcial = () => {
      console.log("InteresCrono   " + InteresCrono.value);
 
 
-     /*
-      SegDesgravamenCrono.value = ValorActualCrono.value * (seguroDesgravamenPer.value / 100);
-      console.log("SegDesgravamenCrono   " + SegDesgravamenCrono.value);
-
-      segRiesgoCrono.value = ValorActualCrono.value * (seguroRiesgoPer.value / 100);
-      console.log("segRiesgoCrono   " + segRiesgoCrono.value);
-
-      CostesRiesgosCrono.value = comisionPeridica.value + portes.value + gastosAdministrativos.value;
-      console.log("CostesRiesgosCrono   " + CostesRiesgosCrono.value);
-      */
-
-
      if(i <= plazosGraciasTotal.value){
        console.log(i)
        CoutaCrono.value = 0;
@@ -373,11 +367,17 @@ const  CalculoGraciaTotalParcial = () => {
         */
 
        SaldoFinalCrono.value = ValorActualCrono.value - AmortCrono.value;
+       FlujoCrono.value = CoutaCrono.value;
+
+       const expo =  ref((diasXperiodo.value*i)/360)
+       const expo1 =  ref((1+tasaDeDescuento.value/100)**(expo.value));
+       FlujoActualCrono.value = FlujoCrono.value/(expo1.value);
+       VanCrono.value= VanCrono.value + FlujoActualCrono.value;
 
 
      }
-     FlujoCrono.value = CoutaCrono.value;
 
+     FlujoCrono.value = CoutaCrono.value;
      list1.value.push({
        id: i,
        nDias: 30,
@@ -391,6 +391,7 @@ const  CalculoGraciaTotalParcial = () => {
        CostesRiesgos: 0,
        SaldoFinal: SaldoFinalCrono.value.toFixed(2),
        Flujo: FlujoCrono.value.toFixed(2),
+  //     FlujoActual: FlujoActualCrono.value.toFixed(2),
 
      })
 
@@ -403,7 +404,7 @@ const  CalculoGraciaTotalParcial = () => {
      ValorActualCrono.value = SaldoFinalCrono.value;
      console.log("SaldoFinalCrono.value " +SaldoFinalCrono.value)
 
-
+     VANoperacion.value = VanCrono.value;
 
 
    }
@@ -426,6 +427,7 @@ const  CalculoGraciaTotalParcial = () => {
         CostesRiesgos: 0,
         SaldoFinal: 0,
         Flujo: SaldoInicialCrono.value.toFixed(2),
+        FlujoActual: SaldoInicialCrono.value.toFixed(2),
         //toFixed(2)
       })
     }else{
@@ -488,6 +490,12 @@ const  CalculoGraciaTotal = () => {
 
         SaldoFinalCrono.value = ValorActualCrono.value - AmortCrono.value;
 
+
+        FlujoCrono.value = CoutaCrono.value;
+        const expo =  ref((diasXperiodo.value*i)/360)
+        const expo1 =  ref((1+tasaDeDescuento.value/100)**(expo.value));
+        FlujoActualCrono.value = FlujoCrono.value/(expo1.value);
+        VanCrono.value= VanCrono.value + FlujoActualCrono.value;
 
       }
       FlujoCrono.value = CoutaCrono.value;
@@ -589,7 +597,11 @@ const  CalculoGraciasParcial = () =>{
 
         SaldoFinalCrono.value = ValorActualCrono.value - AmortCrono.value;
 
-
+        FlujoCrono.value = CoutaCrono.value;
+        const expo =  ref((diasXperiodo.value*i)/360)
+        const expo1 =  ref((1+tasaDeDescuento.value/100)**(expo.value));
+        FlujoActualCrono.value = FlujoCrono.value/(expo1.value);
+        VanCrono.value= VanCrono.value + FlujoActualCrono.value;
       }
       FlujoCrono.value = CoutaCrono.value;
 
@@ -649,9 +661,11 @@ const  CalculoGraciasParcial = () =>{
 
 
 const  CalculoNormal=()=>{
+
   const  contador = ref(0);
   const condicion = ref(true);
   do {
+    VanCrono.value = 0;
     // limpiar lista
     list1.value.splice(0, list1.value.length);
 
@@ -727,6 +741,11 @@ const  CalculoNormal=()=>{
         //   ValorActualExtra.value = SaldoFinalCrono.value;
         // ValorActualDelSaldo.value = SaldoFinalCrono.value;
 
+        FlujoCrono.value = CoutaCrono.value;
+        const expo =  ref((diasXperiodo.value*i)/360)
+        const expo1 =  ref((1+tasaDeDescuento.value/100)**(expo.value));
+        FlujoActualCrono.value = FlujoCrono.value/(expo1.value);
+        VanCrono.value= VanCrono.value + FlujoActualCrono.value;
 
       }else if(i===0){
         FlujoCrono.value = Credito.value;
@@ -771,22 +790,21 @@ const  CalculoNormal=()=>{
 
     ValorCouta.value = ValorCouta.value + ValorActualExtra.value;
     contador.value= contador.value + 1;
-    if (SaldoFinalCrono.value.toFixed(3) === 0.00 ) {
+
+    if (SaldoFinalCrono.value.toFixed(3) === 0.000 ) {
       condicion.value = false;
-      console.log( "******************" + SaldoFinalCrono.value.toFixed(4))
-      console.log( "******************$$$$$$$$$$" + contador.value)
 
 
-    } else if(contador.value < 50  ) {
+
+    } else if(contador.value < 100  ) {
       condicion.value = true;
-      console.log( "################" + contador.value)
+      SaldoFinalCrono.value = Math.abs(SaldoFinalCrono.value);
     }
     else {
       condicion.value = false;
-        console.log( "******************" )
     }
   }while(condicion.value);
-
+  //Math.abs
 }
 </script>
 
